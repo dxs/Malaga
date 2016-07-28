@@ -26,6 +26,7 @@ using SQLite.Net.Platform.WinRT;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
+using Windows.UI.Core;
 
 namespace Malaga
 {
@@ -35,7 +36,11 @@ namespace Malaga
 	/// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
 	/// </summary>
 	public sealed partial class MainPage : Page
-    {
+	{
+		MapIcon mapIconME = null;
+		Geolocator myPosition = null;
+		MapPoint SelectedPoint = null;
+		#region Database
 		private static string dbPath = string.Empty;
 		List<MapPoint> ListMapPoint = null;
 		private static string DbPath
@@ -43,19 +48,14 @@ namespace Malaga
 			get
 			{
 				if (string.IsNullOrEmpty(dbPath))
-				{
 					dbPath = System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "MapPoint.sqlite");
-				}
 				return dbPath;
 			}
 		}
 
 		private static SQLiteConnection DbConnection
 		{
-			get
-			{
-				return new SQLiteConnection(new SQLitePlatformWinRT(), DbPath);
-			}
+			get { return new SQLiteConnection(new SQLitePlatformWinRT(), DbPath); }
 		}
 
 		/// <summary>
@@ -104,7 +104,6 @@ namespace Malaga
 		{
 			using (var DB = DbConnection)
 			{
-
 				var c = DB.CreateTable<MapPoint>();
 				var info = DB.GetMapping(typeof(MapPoint));
 				var j = 1;
@@ -154,10 +153,22 @@ namespace Malaga
 		}
 
 		/// <summary>
+		/// Save a point (creating or updating existing point)
+		/// </summary>
+		/// <param name="point"></param>
+		private static void SaveMapPoint(MapPoint point)
+		{
+			using (var DB = DbConnection)
+			{
+				DB.InsertOrReplace(point);
+			}
+		}
+
+		/// <summary>
 		/// Get a MapPoint from an Id
 		/// </summary>
 		/// <param name="_Id"></param>
-		/// <returns></returns>
+		/// <returns>MapPoint</returns>
 		private static MapPoint GetPointById(int _Id)
 		{
 			using (var DB = DbConnection)
@@ -170,17 +181,33 @@ namespace Malaga
 		}
 
 		/// <summary>
-		/// Save a point (creating or updating existing point)
+		/// Get a MapPoint from name
 		/// </summary>
-		/// <param name="point"></param>
-		private static void SaveMapPoint(MapPoint point)
+		/// <param name="Name"></param>
+		/// <returns>MapPoint</returns>
+		private static MapPoint GetPointByName(string Name)
 		{
 			using (var DB = DbConnection)
 			{
-				if (point.Id == 0)
-					DB.Insert(point);
-				else
-					DB.Update(point);
+				MapPoint point = (from m in DB.Table<MapPoint>()
+								  where m.Name == Name
+								  select m).FirstOrDefault();
+				return point;
+			}
+		}
+
+		private static List<MapPoint> GetPointsByType(string Type)
+		{
+			List<MapPoint> list = null;
+			if (Type == "All")
+				return GetAllPoints();
+
+			using (var DB = DbConnection)
+			{
+				list = (from m in DB.Table<MapPoint>()
+						where m.Type == Type
+						select m).ToList();
+				return list;
 			}
 		}
 
@@ -205,20 +232,22 @@ namespace Malaga
 			_point.Description = _Description;
 			return _point;
 		}
+
+		#endregion
+
 		/// <summary>
 		/// 
 		/// </summary>
 		public MainPage()
-        {
-            this.InitializeComponent();
+		{
+			this.InitializeComponent();
 
 			setDB();
 			ListMapPoint = GetAllPoints();
 			setPOI();
 			setGridView();
 			setMap();
-
-        }
+		}
 
 		/// <summary>
 		/// Set up the position of the map
@@ -231,32 +260,57 @@ namespace Malaga
 			switch (accessStatus)
 			{
 				case GeolocationAccessStatus.Allowed:
-
-					// Get the current location.
-					Geolocator geolocator = new Geolocator();
-					Geoposition pos = await geolocator.GetGeopositionAsync();
-					Geopoint myLocation = pos.Coordinate.Point;
-
-					// Set the map location
-					mainMap.LandmarksVisible = true;
-					await mainMap.TrySetViewAsync(myLocation, 13, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
+					myPosition = new Geolocator { ReportInterval = 2000 };
+					myPosition.DesiredAccuracy = PositionAccuracy.High;
+					Geoposition pos = await myPosition.GetGeopositionAsync();
+					Geopoint loc = new Geopoint(new BasicGeoposition()
+					{ Latitude = pos.Coordinate.Point.Position.Latitude, Longitude = pos.Coordinate.Point.Position.Longitude });
+					await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
+					// Subscribe to the PositionChanged event to get location updates.
+					myPosition.PositionChanged += MyPosition_PositionChanged;
 					break;
 
 				case GeolocationAccessStatus.Denied:
-					// Handle the case  if access to location is denied.
+					//_rootPage.NotifyUser("Access to location is denied.", NotifyType.ErrorMessage);
 					break;
 
 				case GeolocationAccessStatus.Unspecified:
-					// Handle the case if  an unspecified error occurs.
+					//_rootPage.NotifyUser("Unspecificed error!", NotifyType.ErrorMessage);
 					break;
 			}
+		}
+
+		private async void MyPosition_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+		{
+			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			{
+				setMyPosition(args.Position);
+			});
+
+		}
+
+		private void setMyPosition(Geoposition position)
+		{
+			if (mapIconME == null)
+				mapIconME = new MapIcon();
+			else
+				mainMap.MapElements.Remove(mapIconME);
+			mapIconME.Location = new Geopoint(new BasicGeoposition()
+			{ Latitude = position.Coordinate.Point.Position.Latitude, Longitude = position.Coordinate.Point.Position.Longitude });
+			mapIconME.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
+			mapIconME.ZIndex = 100;
+			mapIconME.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+			mapIconME.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/loc.png"));
+			mainMap.MapElements.Add(mapIconME);
 		}
 
 		/// <summary>
 		/// Set POI (Point Of Interest) on the map
 		/// </summary>
+		/// <remarks>Use the ZIndex to mark the Id of the point</remarks>
 		private void setPOI()
 		{
+			clearPOI();
 			foreach (MapPoint point in ListMapPoint)
 			{
 				Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
@@ -264,9 +318,10 @@ namespace Malaga
 				mapIcon1.Location = loc;
 				mapIcon1.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
 				mapIcon1.Title = point.Name;
-				mapIcon1.ZIndex = 0;
+				mapIcon1.ZIndex = point.Id;
+				mapIcon1.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
 				Uri picPath = new Uri("ms-appx:///Assets/bar.png");
-				switch(point.Type)
+				switch (point.Type)
 				{
 					case "Club":
 						picPath = new Uri("ms-appx:///Assets/dj.png");
@@ -287,18 +342,54 @@ namespace Malaga
 		}
 
 		/// <summary>
+		/// Clear POI
+		/// </summary>
+		private void clearPOI() { mainMap.MapElements.Clear(); }
+
+		/// <summary>
+		/// Open the editor for a point
+		/// </summary>
+		/// <param name="point"></param>
+		private void EditPointUI(MapPoint point)
+		{
+			HideEditUI(false);
+			/*fill the fields*/
+			boxName.Text = point.Name;
+			boxDesc.Text = point.Description;
+			latBox.Text = point.Latitude.ToString();
+			LonBox.Text = point.Longitude.ToString();
+			switch (point.Type)
+			{
+				case "Bar":
+					typeSelect.SelectedIndex = 0;
+					break;
+				case "Club":
+					typeSelect.SelectedIndex = 1;
+					break;
+				case "Restaurant":
+					typeSelect.SelectedIndex = 2;
+					break;
+				case "Visit":
+					typeSelect.SelectedIndex = 3;
+					break;
+			}
+			typeSelect.SelectionChanged += typeSelect_SelectionChanged;
+			SelectedPoint = point;
+		}
+
+		/// <summary>
 		/// Set the grid view of points
 		/// </summary>
 		private void setGridView()
 		{
+			pointGrid.Children.Clear();
 			var i = 0;
-			foreach(MapPoint point in ListMapPoint)
+			foreach (MapPoint point in ListMapPoint)
 			{
 				var rd = new RowDefinition();
-				rd.MinHeight = 40;
 				pointGrid.RowDefinitions.Add(rd);
 
-				if(i % 2 == 0)
+				if (i % 2 == 0)
 				{
 					Rectangle background = new Rectangle();
 					background.Fill = new SolidColorBrush(Color.FromArgb(Convert.ToByte(90), Convert.ToByte(230), Convert.ToByte(230), Convert.ToByte(230)));
@@ -328,7 +419,7 @@ namespace Malaga
 					VerticalAlignment = VerticalAlignment.Center,
 					TextWrapping = TextWrapping.Wrap,
 					Margin = new Thickness(6)
-		};
+				};
 
 				Grid.SetRow(tbName, i);
 				Grid.SetColumn(tbName, 1);
@@ -414,18 +505,157 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void EditButton_Click(object sender, RoutedEventArgs e)
 		{
-			throw new NotImplementedException();
+			var select = sender as Button;
+			var point = GetPointById(Convert.ToInt32(select.Tag));
+			EditPointUI(point);
 		}
 
 		/// <summary>
-		/// Get the new point to save
+		/// Event called when user click on a map element
 		/// </summary>
 		/// <remarks>not implemented yet</remarks>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mainMap_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
 		{
+			MapPoint point = GetPointById(args.MapElements[0].ZIndex);
+			CenterMap(point);
+			EditPointUI(point);
+		}
 
+		/// <summary>
+		/// Event called when user click on the map
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mainMap_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			//Geopoint geoPt = this.mainMap.Layers[0].ScreenToGeoPoint(e.GetPosition(this.mainMap));
+		}
+
+		#region eventflyout
+		/// <summary>
+		/// Event called when user want to select restaurants
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FlyoutSelectRest(object sender, RoutedEventArgs e)
+		{
+			selectItemInView("Restaurant");
+		}
+
+		/// <summary>
+		/// Event called wen user want to select bar
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FlyoutSelectBar(object sender, RoutedEventArgs e)
+		{
+			selectItemInView("Bar");
+		}
+
+		/// <summary>
+		/// Event called when user want to select club
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FlyoutSelectClub(object sender, RoutedEventArgs e)
+		{
+			selectItemInView("Club");
+		}
+
+		/// <summary>
+		/// Event called when user want to select All
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FlyoutSelectAll(object sender, RoutedEventArgs e)
+		{
+			selectItemInView("All");
+		}
+		#endregion
+
+		/// <summary>
+		/// Given a parameter, updates the List and POI and map
+		/// </summary>
+		/// <param name="type"></param>
+		private void selectItemInView(string type)
+		{
+			ListMapPoint = GetPointsByType(type);
+			setPOI();
+			setGridView();
+		}
+
+		private void typeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var combo = sender as ComboBoxItem;
+			string type = combo.Content.ToString();
+			SelectedPoint.Type = type;
+		}
+
+		private void DeleteButton_Click(object sender, RoutedEventArgs e)
+		{
+			DeleteMapPoint(SelectedPoint);
+			HideEditUI(true);
+		}
+
+		private void UpdateButton_Click(object sender, RoutedEventArgs e)
+		{
+			SelectedPoint.Name = boxName.Text;
+			SelectedPoint.Description = boxDesc.Text;
+			SelectedPoint.Latitude = Convert.ToDouble(latBox.Text);
+			SelectedPoint.Longitude = Convert.ToDouble(LonBox.Text);
+			SaveMapPoint(SelectedPoint);
+			HideEditUI(true);
+		}
+
+		private void HideButton_Click(object sender, RoutedEventArgs e)
+		{
+			HideEditUI(true);
+		}
+
+		private void HideEditUI(bool state)
+		{
+			typeSelect.SelectionChanged -= typeSelect_SelectionChanged;
+			if (state)
+				Grid.SetColumnSpan(scrollview, 2);
+			else
+				Grid.SetColumnSpan(scrollview, 1);
+
+			ListMapPoint = GetAllPoints();
+			setPOI();
+			setGridView();
+		}
+
+
+		#region coordAdressConverter
+		private string getAdressFromPoint(Point point)
+		{
+			string address = String.Empty;
+			/*https://msdn.microsoft.com/windows/uwp/maps-and-location/geocoding */
+
+			return address;
+		}
+
+		private Point getPointFromAddress(string adress)
+		{
+			Point point = new Point(0.00, 0.00);
+			return point;
+		}
+		#endregion
+
+		private void AppBarToggleButton_Checked(object sender, RoutedEventArgs e)
+		{
+			var t = sender as AppBarToggleButton;
+			if (t.IsChecked == true)
+			{
+				if (mainMap.Is3DSupported)
+					mainMap.Style = MapStyle.Aerial3D;
+				else
+					toggle.IsChecked = false;
+			}
+			else
+				mainMap.Style = MapStyle.Road;
 		}
 	}
 }

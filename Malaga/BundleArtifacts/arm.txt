@@ -1,4 +1,4 @@
-MainPackage=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\ARM\Release\Malaga_0.1.4.0_ARM.appx
-SymbolPackage=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\AppPackages\Malaga_0.1.4.0_Test\Malaga_0.1.4.0_ARM.appxsym
-ResourcePack=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\ARM\Release\Malaga_0.1.4.0_language-fr.appx
-ResourcePack=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\ARM\Release\Malaga_0.1.4.0_scale-100.appx
+MainPackage=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\ARM\Release\Malaga_0.1.8.0_ARM.appx
+SymbolPackage=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\AppPackages\Malaga_0.1.8.0_Test\Malaga_0.1.8.0_ARM.appxsym
+ResourcePack=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\ARM\Release\Malaga_0.1.8.0_language-fr.appx
+ResourcePack=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\ARM\Release\Malaga_0.1.8.0_scale-100.appx

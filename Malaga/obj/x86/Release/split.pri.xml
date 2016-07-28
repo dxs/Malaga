@@ -39,6 +39,11 @@
 						<Value>Assets\dj.png</Value>
 					</Candidate>
 				</NamedResource>
+				<NamedResource name="loc.png" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/loc.png">
+					<Candidate type="Path">
+						<Value>Assets\loc.png</Value>
+					</Candidate>
+				</NamedResource>
 				<NamedResource name="LockScreenLogo.png" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/LockScreenLogo.png">
 					<Candidate qualifiers="Scale-200" isDefault="true" type="Path">
 						<Value>Assets\LockScreenLogo.scale-200.png</Value>
@@ -47,6 +52,16 @@
 				<NamedResource name="restaurant.png" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/restaurant.png">
 					<Candidate type="Path">
 						<Value>Assets\restaurant.png</Value>
+					</Candidate>
+				</NamedResource>
+				<NamedResource name="running.gif" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/running.gif">
+					<Candidate type="Path">
+						<Value>Assets\running.gif</Value>
+					</Candidate>
+				</NamedResource>
+				<NamedResource name="skeleton.gif" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/skeleton.gif">
+					<Candidate type="Path">
+						<Value>Assets\skeleton.gif</Value>
 					</Candidate>
 				</NamedResource>
 				<NamedResource name="SplashScreen.png" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/SplashScreen.png">

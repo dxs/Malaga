@@ -27,7 +27,8 @@
 						x:Name="mainMap" 
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						RightTapped="mainMap_RightTapped"
+						Tapped="mainMap_Tapped"
+						MapElementClick="mainMap_MapElementClick"
 					/>
 					<Grid Grid.Row="1">
 						<Grid.ColumnDefinitions>
@@ -35,7 +36,37 @@
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						
-						<ScrollViewer Grid.Column="0" Grid.ColumnSpan="1" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+						<Grid Grid.Column="1" Margin="10">
+							<ScrollViewer>
+								<StackPanel>
+									<TextBox x:Name="boxName" Header="Name" Margin="10" />
+									<TextBox x:Name="boxDesc" Header="Description" Margin="10"/>
+									<TextBox x:Name="latBox" Header="Latitude" Margin="10"/>
+									<TextBox x:Name="LonBox" Header="Longitude" Margin="10"/>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto"/>
+											<ColumnDefinition/>
+											<ColumnDefinition/>
+											<ColumnDefinition />
+										</Grid.ColumnDefinitions>
+										<ComboBox x:Name="typeSelect" Header="Type" Grid.Column="0">
+											<ComboBoxItem Content="Bar" />
+											<ComboBoxItem Content="Club" />
+											<ComboBoxItem Content="Restaurant" />
+											<ComboBoxItem Content="Visit" />
+										</ComboBox>
+										<Button Content="Update" x:Name="UpdateButton" Click="UpdateButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
+
+										<Button Content="Delete" x:Name="DeleteButton" Click="DeleteButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+
+										<Button Content="Hide" x:Name="HideButton" Click="HideButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
+									</Grid>
+								</StackPanel>
+							</ScrollViewer>
+						</Grid>
+						
+						<ScrollViewer Background="White" x:Name="scrollview" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
 							<Grid Margin="10" x:Name="pointGrid" >
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
@@ -52,9 +83,7 @@
 							</Grid>
 						</ScrollViewer>
 
-						<Grid Grid.Column="1" Margin="10">
-							<TextBlock Text="" />
-						</Grid>
+						
 					</Grid>
 				</Grid>
 			</PivotItem>
@@ -68,4 +97,20 @@
 			</PivotItem>
 		</Pivot>
 	</Grid>
+
+	<Page.BottomAppBar>
+		<CommandBar>
+			<AppBarButton Label="Filter by" Icon="Filter" >
+				<AppBarButton.Flyout>
+					<MenuFlyout>
+						<MenuFlyoutItem Click="FlyoutSelectBar" Text="Bar" />
+						<MenuFlyoutItem Click="FlyoutSelectClub" Text="Club" />
+						<MenuFlyoutItem Click="FlyoutSelectRest" Text="Restaurant" />
+						<MenuFlyoutItem Click="FlyoutSelectAll" Text="All" />
+					</MenuFlyout>
+				</AppBarButton.Flyout>
+			</AppBarButton>
+			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
+		</CommandBar>
+	</Page.BottomAppBar>
 </Page>

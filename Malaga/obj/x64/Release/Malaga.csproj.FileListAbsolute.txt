@@ -9,8 +9,11 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Relea
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\AssemblyInfo.g.cs
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\bar.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\dj.png
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\loc.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\LockScreenLogo.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\restaurant.png
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\running.gif
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\skeleton.gif
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\SplashScreen.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\Square150x150Logo.scale-100.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\Square150x150Logo.scale-200.png
@@ -146,6 +149,7 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Relea
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\System.Xml.XDocument.dll
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\System.Xml.XmlDocument.dll
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\System.Xml.XmlSerializer.dll
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\Malaga.csprojResolveAssemblyReference.cache
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\App.g.i.cs
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\App.g.cs
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\MainPage.g.i.cs
@@ -292,6 +296,7 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Relea
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\bar.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\dj.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\restaurant.png
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\loc.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square150x150Logo.scale-100.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square310x310Logo.scale-100.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square310x310Logo.scale-200.png
@@ -304,6 +309,8 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Relea
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square44x44Logo.targetsize-24_altform-unplated.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\StoreLogo.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Wide310x150Logo.scale-200.png
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\running.gif
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\skeleton.gif
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\points.xml
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc.Malaga.rsp
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\intermediate\BuildInfo\BuildInfo.rc
