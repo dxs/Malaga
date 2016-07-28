@@ -98,6 +98,16 @@
             Gets or sets the type
             </summary>
         </member>
+        <member name="P:Malaga.MainPage.MapPoint.Street">
+            <summary>
+            Gets or sets the Street address
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.MapPoint.Town">
+            <summary>
+            Gets or sets the Town
+            </summary>
+        </member>
         <member name="M:Malaga.MainPage.setDB">
             <summary>
             Setup Database and create table if not already exist
@@ -135,9 +145,16 @@
             <param name="Name"></param>
             <returns>MapPoint</returns>
         </member>
+        <member name="M:Malaga.MainPage.GetPointsByType(System.String)">
+            <summary>
+            Retrieve from DB all MapPoint that match a Type
+            </summary>
+            <param name="Type"></param>
+            <returns>List of MapPoint</returns>
+        </member>
         <member name="M:Malaga.MainPage.createMapPoint(System.Int32,System.String,System.String,System.Double,System.Double,System.String)">
             <summary>
-            Cree un MapPoint selon des paramètres et le retourne
+            Cree un MapPoint selon une latitude et une longitude
             </summary>
             <param name="_Id">Identifiant</param>
             <param name="_Name">Nom</param>
@@ -157,6 +174,13 @@
             Set up the position of the map
             </summary>
             <remarks>Actually only set up the position regarding what is the current localisation of the user</remarks>
+        </member>
+        <member name="M:Malaga.MainPage.MyPosition_PositionChanged(Windows.Devices.Geolocation.Geolocator,Windows.Devices.Geolocation.PositionChangedEventArgs)">
+            <summary>
+            Update the position and call CenterMap(Point) if necessary
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
         </member>
         <member name="M:Malaga.MainPage.setPOI">
             <summary>
@@ -182,7 +206,13 @@
         </member>
         <member name="M:Malaga.MainPage.CenterMap(Malaga.MainPage.MapPoint)">
             <summary>
-            Center the map to a givent MapPoint
+            Center the map to a given MapPoint
+            </summary>
+            <param name="point"></param>
+        </member>
+        <member name="M:Malaga.MainPage.CenterMap(Windows.Foundation.Point)">
+            <summary>
+            Center the map to a given Point (Latitude = X Longitude = Y)
             </summary>
             <param name="point"></param>
         </member>

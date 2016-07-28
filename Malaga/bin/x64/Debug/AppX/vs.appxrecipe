@@ -16,25 +16,25 @@
     <PackageRegistrationPath>
     </PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
-    <RegisteredManifestChecksum>1A4C013EA30F35C5BBF3890F43D3C618214F3D36CC11C146DAC9AB294E935A3B</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>62394glaglasven.Malagatrip_0.1.8.0_x64__070hkg4km4tgr</RegisteredPackageMoniker>
+    <RegisteredManifestChecksum>1B99FCFCF40E3EEA1778C5B7FBF9CB5915B1D6B5AC055157FF54F1F151A55097</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>62394glaglasven.Malagatrip_0.1.10.0_x64__070hkg4km4tgr</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>62394glaglasven.Malagatrip_070hkg4km4tgr!App</RegisteredUserModeAppID>
     <RegisteredPackageID>62394glaglasven.Malagatrip</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4</RegisteredPackagePublisher>
-    <RegisteredVersion>0.1.8.0</RegisteredVersion>
+    <RegisteredVersion>0.1.10.0</RegisteredVersion>
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-28T15:48:20.363</Modified>
+      <Modified>2016-07-28T22:24:06.668</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Debug\Malaga.exe">
       <PackagePath>entrypoint\Malaga.exe</PackagePath>
-      <Modified>2016-07-28T15:48:19.346</Modified>
+      <Modified>2016-07-28T22:24:06.031</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\.nuget\packages\Microsoft.CSharp\4.0.0\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -513,6 +513,10 @@
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2016-07-27T13:34:30.627</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\visit.png">
+      <PackagePath>Assets\visit.png</PackagePath>
+      <Modified>2016-07-28T17:51:19.078</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
       <Modified>2015-10-10T20:07:26.000</Modified>
@@ -565,7 +569,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Debug\Malaga.xr.xml">
       <PackagePath>Malaga.xr.xml</PackagePath>
-      <Modified>2016-07-28T15:48:19.040</Modified>
+      <Modified>2016-07-28T22:07:21.497</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -573,11 +577,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2016-07-28T15:48:20.036</Modified>
+      <Modified>2016-07-28T22:13:24.256</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Debug\Core\Malaga.exe">
       <PackagePath>Malaga.exe</PackagePath>
-      <Modified>2016-07-28T15:48:20.359</Modified>
+      <Modified>2016-07-28T22:24:06.663</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

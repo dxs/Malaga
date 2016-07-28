@@ -27,6 +27,8 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.Services.Maps;
 
 namespace Malaga
 {
@@ -37,9 +39,15 @@ namespace Malaga
 	/// </summary>
 	public sealed partial class MainPage : Page
 	{
+		/*Global vars*/
+		#region global
 		MapIcon mapIconME = null;
-		Geolocator myPosition = null;
+
 		MapPoint SelectedPoint = null;
+		bool? follow = false;
+		static int nextId = 0;
+		#endregion
+
 		#region Database
 		private static string dbPath = string.Empty;
 		List<MapPoint> ListMapPoint = null;
@@ -95,37 +103,54 @@ namespace Malaga
 			/// </summary>
 			public string Type { get; set; }
 
+			/// <summary>
+			/// Gets or sets the Street address
+			/// </summary>
+			public string Street { get; set; }
+
+			/// <summary>
+			/// Gets or sets the Town
+			/// </summary>
+			public string Town { get; set; }
+
 		}
 
 		/// <summary>
 		/// Setup Database and create table if not already exist
 		/// </summary>
-		private static void setDB()
+		private async void setDB()
 		{
 			using (var DB = DbConnection)
 			{
 				var c = DB.CreateTable<MapPoint>();
 				var info = DB.GetMapping(typeof(MapPoint));
 				var j = 1;
-
+				var count = DB.Table<MapPoint>().Count();
 				#region MapPointCreation
-				MapPoint point = new MapPoint();//46.532622, 6.590774
-				point = createMapPoint(j++, "Bar fiesta", "Happy hours 22h-22h30", 46.532622, 6.590774, "Bar");
-				var i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "Bar Pong Pong", "Beer pong party", 46.532821, 6.600000, "Bar");
-				i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "Club PicNique", "Pool party tonight", 46.529087, 6.587635, "Club");
-				i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "La fraise", "Chou fractale happy hour", 46.538762, 6.577635, "Restaurant");
-				i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5386756, 6.587528, "Club");
-				i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "Bar chicka", "Braaaaa", 46.5287567, 6.587620, "Bar");
-				i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "Tapas Tacos", "Petage de panse", 46.5387260, 6.5721976, "Restaurant");
-				i = DB.InsertOrReplace(point);
-				point = createMapPoint(j++, "Chinese food", "Chez toi ou Chinois?", 46.539678, 6.597290, "Restaurant");
-				i = DB.InsertOrReplace(point);
+				if (count < 1)
+				{
+					MapPoint point = new MapPoint();//46.532622, 6.590774
+					point = await createMapPoint(j++, "Bar fiesta", "Happy hours 22h-22h30", 46.532622, 6.590774, "Bar");
+					var i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Bar Pong Pong", "Beer pong party", 46.532821, 6.600000, "Bar");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Club PicNique", "Pool party tonight", 46.529087, 6.587635, "Club");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "La fraise", "Chou fractale happy hour", 46.538762, 6.577635, "Restaurant");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5386756, 6.587528, "Club");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Zoo", "Animal crossing 2", 46.5287756, 6.574768, "Visit");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5279756, 6.5862528, "visit");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Bar chicka", "Braaaaa", 46.5287567, 6.587620, "Bar");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Tapas Tacos", "Petage de panse", 46.5387260, 6.5721976, "Restaurant");
+					i = DB.InsertOrReplace(point);
+					point = await createMapPoint(j++, "Chinese food", "Chez toi ou Chinois?", 46.539678, 6.597290, "Restaurant");
+					i = DB.InsertOrReplace(point);
+				}
 				#endregion
 			}
 		}
@@ -149,6 +174,7 @@ namespace Malaga
 			List<MapPoint> pointList;
 			using (var DB = DbConnection)
 				pointList = (from m in DB.Table<MapPoint>() select m).ToList();
+			nextId = pointList[pointList.Count - 1].Id + 1;
 			return pointList;
 		}
 
@@ -196,6 +222,11 @@ namespace Malaga
 			}
 		}
 
+		/// <summary>
+		/// Retrieve from DB all MapPoint that match a Type
+		/// </summary>
+		/// <param name="Type"></param>
+		/// <returns>List of MapPoint</returns>
 		private static List<MapPoint> GetPointsByType(string Type)
 		{
 			List<MapPoint> list = null;
@@ -212,7 +243,7 @@ namespace Malaga
 		}
 
 		/// <summary>
-		/// Cree un MapPoint selon des paramètres et le retourne
+		/// Cree un MapPoint selon une latitude et une longitude
 		/// </summary>
 		/// <param name="_Id">Identifiant</param>
 		/// <param name="_Name">Nom</param>
@@ -221,18 +252,85 @@ namespace Malaga
 		/// <param name="_Longitude">Coordonnée géographique 2</param>
 		/// <param name="_Type">Type d'endroit</param>
 		/// <returns>MapPoint</returns>
-		private static MapPoint createMapPoint(int _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type)
+		private async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type)
 		{
 			MapPoint _point = new MapPoint();
 			_point.Id = _Id;
 			_point.Latitude = _Latitude;
 			_point.Longitude = _Longitude;
+			string address = await GetAdressFromPoint(new Point(_Latitude, _Longitude));
+			string[] parse = address.Split(',');
+			_point.Street = parse[0];
+			_point.Town = parse[1] + "," + parse[2];
 			_point.Name = _Name;
 			_point.Type = _Type;
 			_point.Description = _Description;
 			return _point;
 		}
 
+		private async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, string _Street, string _Town, string _Type)
+		{
+			MapPoint _point = new MapPoint();
+			_point.Id = _Id;
+			_point.Street = _Street;
+			_point.Town = _Town;
+			Point p = await GetPointFromAddress(_Street + ", " + _Town);
+			_point.Latitude = p.X;
+			_point.Longitude = p.Y;
+			_point.Name = _Name;
+			_point.Type = _Type;
+			_point.Description = _Description;
+			return _point;
+		}
+
+		#endregion
+
+		#region coordAdressConverter
+		private async Task<string> GetAdressFromPoint(Point point)
+		{
+			string address = "";
+			// The location to reverse geocode.
+			BasicGeoposition location = new BasicGeoposition();
+			location.Latitude = point.X;
+			location.Longitude = point.Y;
+			Geopoint pointToReverseGeocode = new Geopoint(location);
+
+			// Reverse geocode the specified geographic location.
+			MapLocationFinderResult result =  await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+
+			if (result.Status == MapLocationFinderStatus.Success)
+			{
+				address += result.Locations[0].Address.Street + " ";
+				address += result.Locations[0].Address.StreetNumber + ", ";
+				address += result.Locations[0].Address.PostCode + ", ";
+				address += result.Locations[0].Address.Town;
+			}
+
+			return address;
+		}
+
+		private async Task<Point> GetPointFromAddress(string address)
+		{
+			Point point = new Point(0.00, 0.00);
+
+			// The nearby location to use as a query hint.
+			BasicGeoposition queryHint = new BasicGeoposition();
+			queryHint.Latitude = mapIconME.Location.Position.Latitude;
+			queryHint.Longitude = mapIconME.Location.Position.Longitude;
+			Geopoint hintPoint = new Geopoint(queryHint);
+
+			// Geocode the specified address, using the specified reference point
+			// as a query hint. Return no more than 3 results.
+			MapLocationFinderResult result =
+				  await MapLocationFinder.FindLocationsAsync(address, hintPoint, 3);
+
+			if (result.Status == MapLocationFinderStatus.Success)
+			{
+				point.X = result.Locations[0].Point.Position.Latitude;
+				point.Y = result.Locations[0].Point.Position.Longitude;
+			}
+			return point;
+		}
 		#endregion
 
 		/// <summary>
@@ -260,7 +358,7 @@ namespace Malaga
 			switch (accessStatus)
 			{
 				case GeolocationAccessStatus.Allowed:
-					myPosition = new Geolocator { ReportInterval = 2000 };
+					var myPosition = new Geolocator { ReportInterval = 500 };
 					myPosition.DesiredAccuracy = PositionAccuracy.High;
 					Geoposition pos = await myPosition.GetGeopositionAsync();
 					Geopoint loc = new Geopoint(new BasicGeoposition()
@@ -280,27 +378,31 @@ namespace Malaga
 			}
 		}
 
+		/// <summary>
+		/// Update the position and call CenterMap(Point) if necessary
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
 		private async void MyPosition_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
 		{
-			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-			{
-				setMyPosition(args.Position);
-			});
-
+			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { setMyPosition(args.Position); });
+			Point p = new Point(args.Position.Coordinate.Point.Position.Latitude, args.Position.Coordinate.Point.Position.Longitude);
+			if (follow == true)
+				CenterMap(p);
 		}
 
 		private void setMyPosition(Geoposition position)
 		{
 			if (mapIconME == null)
 				mapIconME = new MapIcon();
-			else
-				mainMap.MapElements.Remove(mapIconME);
+				
 			mapIconME.Location = new Geopoint(new BasicGeoposition()
 			{ Latitude = position.Coordinate.Point.Position.Latitude, Longitude = position.Coordinate.Point.Position.Longitude });
 			mapIconME.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
 			mapIconME.ZIndex = 100;
 			mapIconME.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
 			mapIconME.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/loc.png"));
+			mainMap.MapElements.Remove(mapIconME);
 			mainMap.MapElements.Add(mapIconME);
 		}
 
@@ -332,6 +434,9 @@ namespace Malaga
 					case "Bar":
 						picPath = new Uri("ms-appx:///Assets/bar.png");
 						break;
+					case "Visit":
+						picPath = new Uri("ms-appx:///Assets/visit.png");
+						break;
 					default:
 						break;
 				}
@@ -358,6 +463,8 @@ namespace Malaga
 			boxDesc.Text = point.Description;
 			latBox.Text = point.Latitude.ToString();
 			LonBox.Text = point.Longitude.ToString();
+			streetBox.Text = point.Street;
+			townBox.Text = point.Town;
 			switch (point.Type)
 			{
 				case "Bar":
@@ -477,12 +584,22 @@ namespace Malaga
 		}
 
 		/// <summary>
-		/// Center the map to a givent MapPoint
+		/// Center the map to a given MapPoint
 		/// </summary>
 		/// <param name="point"></param>
 		private async void CenterMap(MapPoint point)
 		{
 			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
+			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
+		}
+
+		/// <summary>
+		/// Center the map to a given Point (Latitude = X Longitude = Y)
+		/// </summary>
+		/// <param name="point"></param>
+		private async void CenterMap(Point point)
+		{
+			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.X, Longitude = point.Y });
 			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
 		}
 
@@ -588,9 +705,23 @@ namespace Malaga
 
 		private void typeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var combo = sender as ComboBoxItem;
-			string type = combo.Content.ToString();
-			SelectedPoint.Type = type;
+			var combo = sender as ComboBox;
+			int a = combo.SelectedIndex;
+			switch(a)
+			{
+				case 0:
+					SelectedPoint.Type = "Bar";
+					break;
+				case 1:
+					SelectedPoint.Type = "Club";
+					break;
+				case 2:
+					SelectedPoint.Type = "Restaurant";
+					break;
+				case 3:
+					SelectedPoint.Type = "Visit";
+					break;
+			}
 		}
 
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -599,14 +730,72 @@ namespace Malaga
 			HideEditUI(true);
 		}
 
-		private void UpdateButton_Click(object sender, RoutedEventArgs e)
+		private async void UpdateButton_Click(object sender, RoutedEventArgs e)
 		{
+			MessageDialog error = null;
+			/*check if user has miss something*/
+			if (boxName.Text == "")
+				error = new MessageDialog("Please enter a Name");
+			if (boxDesc.Text == "" && error == null)
+				error = new MessageDialog("Please enter a Description");
+			if (((latBox.Text == "" || LonBox.Text == "") 
+				&& (streetBox.Text == "" || townBox.Text == "")) 
+				&& error == null)
+				error = new MessageDialog("Please enter a Position");
+			if (error != null)
+			{
+				await error.ShowAsync();
+				return;
+			}
+			Point point = new Point(0,0);
+			string address = "";
+			if (latBox.Text == "")
+				point = await GetPointFromAddress(streetBox.Text + ", " + townBox);
+			else
+				address = await GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
+
+			SelectedPoint = new MapPoint();
 			SelectedPoint.Name = boxName.Text;
 			SelectedPoint.Description = boxDesc.Text;
-			SelectedPoint.Latitude = Convert.ToDouble(latBox.Text);
-			SelectedPoint.Longitude = Convert.ToDouble(LonBox.Text);
+
+			if (point.X == 0 && point.Y == 0)
+			{
+				SelectedPoint.Latitude = Convert.ToDouble(latBox.Text);
+				SelectedPoint.Longitude = Convert.ToDouble(LonBox.Text);
+			}
+			else
+			{
+				SelectedPoint.Latitude = point.X;
+				SelectedPoint.Longitude = point.Y;
+			}
+
+			if(address == "")
+			{
+				SelectedPoint.Street = streetBox.Text;
+				SelectedPoint.Town = townBox.Text;
+			}
+			else
+			{
+				string[] parse = address.Split(',');
+				SelectedPoint.Street = parse[0];
+				SelectedPoint.Town = parse[1] + ',' + parse[2];
+			}
+
+			if (UpdateButton.Content.ToString() == "Create")
+				SelectedPoint.Id = nextId++;
 			SaveMapPoint(SelectedPoint);
 			HideEditUI(true);
+		}
+
+		private void AddButton_Click(object sender, RoutedEventArgs e)
+		{
+			HideEditUI(false);
+			latBox.Text = "";
+			LonBox.Text = "";
+			boxDesc.Text = "";
+			boxName.Text = "";
+			typeSelect.SelectedIndex = 0;
+			UpdateButton.Content = "Create";
 		}
 
 		private void HideButton_Click(object sender, RoutedEventArgs e)
@@ -616,6 +805,8 @@ namespace Malaga
 
 		private void HideEditUI(bool state)
 		{
+			UpdateButton.Content = "Update";
+
 			typeSelect.SelectionChanged -= typeSelect_SelectionChanged;
 			if (state)
 				Grid.SetColumnSpan(scrollview, 2);
@@ -626,23 +817,6 @@ namespace Malaga
 			setPOI();
 			setGridView();
 		}
-
-
-		#region coordAdressConverter
-		private string getAdressFromPoint(Point point)
-		{
-			string address = String.Empty;
-			/*https://msdn.microsoft.com/windows/uwp/maps-and-location/geocoding */
-
-			return address;
-		}
-
-		private Point getPointFromAddress(string adress)
-		{
-			Point point = new Point(0.00, 0.00);
-			return point;
-		}
-		#endregion
 
 		private void AppBarToggleButton_Checked(object sender, RoutedEventArgs e)
 		{
@@ -656,6 +830,21 @@ namespace Malaga
 			}
 			else
 				mainMap.Style = MapStyle.Road;
+		}
+
+		private void followToggle_Click(object sender, RoutedEventArgs e)
+		{
+			var toggle = sender as ToggleButton;
+			follow = toggle.IsChecked;
+		}
+
+		private void trafficToggle_Click(object sender, RoutedEventArgs e)
+		{
+			var toggle = sender as ToggleButton;
+			if (toggle.IsChecked == true)
+				mainMap.TrafficFlowVisible = true;
+			else
+				mainMap.TrafficFlowVisible = false;
 		}
 	}
 }

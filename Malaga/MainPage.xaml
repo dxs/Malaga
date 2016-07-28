@@ -32,55 +32,73 @@
 					/>
 					<Grid Grid.Row="1">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="2*"/>
+							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						
-						<Grid Grid.Column="1" Margin="10">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<Grid Grid.Column="1" Grid.Row="1" Margin="10">
 							<ScrollViewer>
 								<StackPanel>
-									<TextBox x:Name="boxName" Header="Name" Margin="10" />
-									<TextBox x:Name="boxDesc" Header="Description" Margin="10"/>
-									<TextBox x:Name="latBox" Header="Latitude" Margin="10"/>
-									<TextBox x:Name="LonBox" Header="Longitude" Margin="10"/>
+									<TextBox x:Name="boxName" Header="Name" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Name" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth" />
+									<TextBox x:Name="boxDesc" Header="Description" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Description" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth"/>
+									<FlipView MaxHeight="180">
+										<FlipViewItem>
+											<StackPanel>
+												<TextBox x:Name="streetBox" Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
+												<TextBox x:Name="townBox" Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
+											</StackPanel>
+										</FlipViewItem>
+										<FlipViewItem>
+											<StackPanel>
+												<TextBox x:Name="latBox" Header="Latitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+												<TextBox x:Name="LonBox" Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+											</StackPanel>
+										</FlipViewItem>
+									</FlipView>
+									<ComboBox x:Name="typeSelect" Header="Type" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+										<ComboBoxItem Content="Bar" />
+										<ComboBoxItem Content="Club" />
+										<ComboBoxItem Content="Restaurant" />
+										<ComboBoxItem Content="Visit" />
+									</ComboBox>
 									<Grid>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto"/>
 											<ColumnDefinition/>
 											<ColumnDefinition/>
 											<ColumnDefinition />
 										</Grid.ColumnDefinitions>
-										<ComboBox x:Name="typeSelect" Header="Type" Grid.Column="0">
-											<ComboBoxItem Content="Bar" />
-											<ComboBoxItem Content="Club" />
-											<ComboBoxItem Content="Restaurant" />
-											<ComboBoxItem Content="Visit" />
-										</ComboBox>
-										<Button Content="Update" x:Name="UpdateButton" Click="UpdateButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
+										<Button Content="Update" x:Name="UpdateButton" Click="UpdateButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"/>
 
-										<Button Content="Delete" x:Name="DeleteButton" Click="DeleteButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+										<Button Content="Delete" x:Name="DeleteButton" Click="DeleteButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
 
-										<Button Content="Hide" x:Name="HideButton" Click="HideButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
+										<Button Content="Hide" x:Name="HideButton" Click="HideButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
 									</Grid>
 								</StackPanel>
 							</ScrollViewer>
 						</Grid>
 						
-						<ScrollViewer Background="White" x:Name="scrollview" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
-							<Grid Margin="10" x:Name="pointGrid" >
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<!-- ID-->
-									<ColumnDefinition Width="Auto" />
-									<!--Name-->
-									<ColumnDefinition Width="*" />
-									<!--Description-->
-									<ColumnDefinition Width="Auto" />
-									<!--Delete button-->
-									<ColumnDefinition Width="Auto" />
-									<!-- edit button-->
-								</Grid.ColumnDefinitions>
-							</Grid>
+						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+							<StackPanel>
+								<Grid Margin="10" x:Name="pointGrid" >
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<!-- ID-->
+										<ColumnDefinition Width="Auto" />
+										<!--Name-->
+										<ColumnDefinition Width="*" />
+										<!--Description-->
+										<ColumnDefinition Width="Auto" />
+										<!--Delete button-->
+										<ColumnDefinition Width="Auto" />
+										<!-- edit button-->
+									</Grid.ColumnDefinitions>
+								</Grid>
+								<Button Content="Add" HorizontalAlignment="Center" Margin="10" x:Name="AddButton" Click="AddButton_Click" />
+							</StackPanel>
 						</ScrollViewer>
 
 						
@@ -100,6 +118,10 @@
 
 	<Page.BottomAppBar>
 		<CommandBar>
+			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
+			<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets"/>
+			<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False" Icon="TouchPointer"/>
+			<AppBarSeparator/>
 			<AppBarButton Label="Filter by" Icon="Filter" >
 				<AppBarButton.Flyout>
 					<MenuFlyout>
@@ -110,7 +132,6 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 			</AppBarButton>
-			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
 		</CommandBar>
 	</Page.BottomAppBar>
 </Page>

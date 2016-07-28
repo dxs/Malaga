@@ -7,7 +7,7 @@
 
     Pour plus d'informations sur les fichiers manifeste, consultez http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="62394glaglasven.Malagatrip" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.1.9.0" ProcessorArchitecture="x64" />
+  <Identity Name="62394glaglasven.Malagatrip" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.1.10.0" ProcessorArchitecture="x64" />
   <mp:PhoneIdentity PhoneProductId="eb6b42d6-31bd-49a3-b8ca-f90908c34ba7" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Malaga trip</DisplayName>

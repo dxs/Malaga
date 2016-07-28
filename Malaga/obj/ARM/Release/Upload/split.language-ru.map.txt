@@ -1,0 +1,6 @@
+﻿[ResourceMetadata]
+"ResourceId"			"split.language-ru"
+"ResourceDimensions"		"language-ru-ru"
+
+[Files]
+"C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\ARM\Release\Upload\split.language-ru.pri"			"resources.pri"
