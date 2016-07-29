@@ -81,7 +81,7 @@
 							</ScrollViewer>
 						</Grid>
 						
-						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+						<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
 							<StackPanel>
 								<Grid Margin="10" x:Name="pointGrid" >
 									<Grid.ColumnDefinitions>
