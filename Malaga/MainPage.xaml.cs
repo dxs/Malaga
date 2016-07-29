@@ -29,11 +29,14 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.Services.Maps;
+using Windows.Data.Json;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace Malaga
 {
-
-	/*36.718715, -4.421998 la taberna del pinxto larios*/
 	/// <summary>
 	/// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
 	/// </summary>
@@ -42,15 +45,21 @@ namespace Malaga
 		/*Global vars*/
 		#region global
 		MapIcon mapIconME = null;
+		DispatcherTimer timer;
 
 		MapPoint SelectedPoint = null;
 		bool? follow = false;
 		static int nextId = 0;
+		List<MapPoint> ListMapPoint = null;
+		List<Venue> ListVenue = null;
+
+		string CLIENTID = @"OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL";
+		string SECRETID = @"WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W";
+
 		#endregion
 
 		#region Database
 		private static string dbPath = string.Empty;
-		List<MapPoint> ListMapPoint = null;
 		private static string DbPath
 		{
 			get
@@ -153,6 +162,9 @@ namespace Malaga
 				}
 				#endregion
 			}
+			ListMapPoint = GetAllPoints();
+			setPOI();
+			setGridView();
 		}
 
 		/// <summary>
@@ -174,7 +186,8 @@ namespace Malaga
 			List<MapPoint> pointList;
 			using (var DB = DbConnection)
 				pointList = (from m in DB.Table<MapPoint>() select m).ToList();
-			nextId = pointList[pointList.Count - 1].Id + 1;
+			if(pointList.Count > 0)
+				nextId = pointList[pointList.Count - 1].Id + 1;
 			return pointList;
 		}
 
@@ -268,6 +281,16 @@ namespace Malaga
 			return _point;
 		}
 
+		/// <summary>
+		/// Cree un MapPoint selon une adresse
+		/// </summary>
+		/// <param name="_Id"></param>
+		/// <param name="_Name"></param>
+		/// <param name="_Description"></param>
+		/// <param name="_Street"></param>
+		/// <param name="_Town"></param>
+		/// <param name="_Type"></param>
+		/// <returns>MapPoint</returns>
 		private async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, string _Street, string _Town, string _Type)
 		{
 			MapPoint _point = new MapPoint();
@@ -286,6 +309,12 @@ namespace Malaga
 		#endregion
 
 		#region coordAdressConverter
+
+		/// <summary>
+		/// Convert a lat/lon coordinate to an address
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns>string address</returns>
 		private async Task<string> GetAdressFromPoint(Point point)
 		{
 			string address = "";
@@ -309,6 +338,11 @@ namespace Malaga
 			return address;
 		}
 
+		/// <summary>
+		/// Convert an address to a lat/lon coordinate
+		/// </summary>
+		/// <param name="address"></param>
+		/// <returns>Point latitude = X longitude = y</returns>
 		private async Task<Point> GetPointFromAddress(string address)
 		{
 			Point point = new Point(0.00, 0.00);
@@ -339,12 +373,20 @@ namespace Malaga
 		public MainPage()
 		{
 			this.InitializeComponent();
-
+			timer = new DispatcherTimer();
+			timer.Interval = new TimeSpan(0,0,1);
+			timer.Tick += Timer_Tick;
 			setDB();
 			ListMapPoint = GetAllPoints();
-			setPOI();
-			setGridView();
 			setMap();
+			timer.Start();
+		}
+
+		private async void Timer_Tick(object sender, object e)
+		{
+			timer.Stop();
+			if (await LoadFoursquare() == false)
+				timer.Start();
 		}
 
 		/// <summary>
@@ -376,6 +418,7 @@ namespace Malaga
 					//_rootPage.NotifyUser("Unspecificed error!", NotifyType.ErrorMessage);
 					break;
 			}
+			LoadFoursquare();
 		}
 
 		/// <summary>
@@ -391,6 +434,10 @@ namespace Malaga
 				CenterMap(p);
 		}
 
+		/// <summary>
+		/// Set a MapElement on MapControl representing the user position
+		/// </summary>
+		/// <param name="position"></param>
 		private void setMyPosition(Geoposition position)
 		{
 			if (mapIconME == null)
@@ -413,6 +460,9 @@ namespace Malaga
 		private void setPOI()
 		{
 			clearPOI();
+			if (ListMapPoint == null)
+				return;
+
 			foreach (MapPoint point in ListMapPoint)
 			{
 				Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
@@ -444,6 +494,7 @@ namespace Malaga
 				// Add the MapIcon to the map.
 				mainMap.MapElements.Add(mapIcon1);
 			}
+			LoadFoursquare();
 		}
 
 		/// <summary>
@@ -624,6 +675,7 @@ namespace Malaga
 		{
 			var select = sender as Button;
 			var point = GetPointById(Convert.ToInt32(select.Tag));
+			UpdateButton.Content = "Update";
 			EditPointUI(point);
 		}
 
@@ -637,6 +689,7 @@ namespace Malaga
 		{
 			MapPoint point = GetPointById(args.MapElements[0].ZIndex);
 			CenterMap(point);
+			UpdateButton.Content = "Update";
 			EditPointUI(point);
 		}
 
@@ -645,9 +698,20 @@ namespace Malaga
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mainMap_Tapped(object sender, TappedRoutedEventArgs e)
+		private async void mainMap_Tapped(MapControl sender, MapInputEventArgs e)
 		{
-			//Geopoint geoPt = this.mainMap.Layers[0].ScreenToGeoPoint(e.GetPosition(this.mainMap));
+			SelectedPoint = new MapPoint();
+			var tappedGeoPosition = e.Location.Position;
+			SelectedPoint.Latitude = tappedGeoPosition.Latitude;
+			SelectedPoint.Longitude = tappedGeoPosition.Longitude;
+			latBox.Text = tappedGeoPosition.Latitude.ToString();
+			LonBox.Text = tappedGeoPosition.Longitude.ToString();
+			string s = await GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
+			string[] address = s.Split(',');
+			streetBox.Text = SelectedPoint.Street = address[0];
+			townBox.Text = SelectedPoint.Town = address[1] + "," + address[2];
+			UpdateButton.Content = "Create";
+			HideEditUI(false);
 		}
 
 		#region eventflyout
@@ -703,6 +767,11 @@ namespace Malaga
 			setGridView();
 		}
 
+		/// <summary>
+		/// Update a private value when user change the selection
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void typeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var combo = sender as ComboBox;
@@ -724,12 +793,22 @@ namespace Malaga
 			}
 		}
 
+		/// <summary>
+		/// Event called when user presses DeleteButton
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
 			DeleteMapPoint(SelectedPoint);
 			HideEditUI(true);
 		}
 
+		/// <summary>
+		/// Event called when user presses UpdateButton
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void UpdateButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageDialog error = null;
@@ -787,6 +866,11 @@ namespace Malaga
 			HideEditUI(true);
 		}
 
+		/// <summary>
+		/// Event called when user presses Add Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
 			HideEditUI(false);
@@ -798,11 +882,20 @@ namespace Malaga
 			UpdateButton.Content = "Create";
 		}
 
+		/// <summary>
+		/// Event called when user presses Hide Button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void HideButton_Click(object sender, RoutedEventArgs e)
 		{
 			HideEditUI(true);
 		}
 
+		/// <summary>
+		/// Hide the UI that allows user to edit fields
+		/// </summary>
+		/// <param name="state"></param>
 		private void HideEditUI(bool state)
 		{
 			UpdateButton.Content = "Update";
@@ -818,6 +911,11 @@ namespace Malaga
 			setGridView();
 		}
 
+		/// <summary>
+		/// Event called when user want to changes map view
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void AppBarToggleButton_Checked(object sender, RoutedEventArgs e)
 		{
 			var t = sender as AppBarToggleButton;
@@ -832,12 +930,22 @@ namespace Malaga
 				mainMap.Style = MapStyle.Road;
 		}
 
+		/// <summary>
+		/// Event called when user want to be followed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void followToggle_Click(object sender, RoutedEventArgs e)
 		{
 			var toggle = sender as ToggleButton;
 			follow = toggle.IsChecked;
 		}
 
+		/// <summary>
+		/// Event called when user want to display traffic informatiosn
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void trafficToggle_Click(object sender, RoutedEventArgs e)
 		{
 			var toggle = sender as ToggleButton;
@@ -846,5 +954,140 @@ namespace Malaga
 			else
 				mainMap.TrafficFlowVisible = false;
 		}
+
+		#region foursquare
+
+		/*
+		https://api.foursquare.com/v2/venues/search
+		?client_id=CLIENT_ID
+		&client_secret=CLIENT_SECRET
+		&v=20130815
+		&ll=40.7,-74
+		&query=sushi
+		*/
+
+		/// <summary>
+		/// Internal Object repressenting a Venue
+		/// </summary>
+		internal class Venue
+		{
+			/// <summary>
+			/// Gets or sets the identifier.
+			/// </summary>
+			[PrimaryKey, AutoIncrement]
+			public int Id { get; set; }
+
+			/// <summary>
+			/// Gets or sets the name.
+			/// </summary>
+			[MaxLength(128)]
+			public string Name { get; set; }
+
+			/// <summary>
+			/// Gets or sets the description.
+			/// </summary>
+			public string Description { get; set; }
+
+			/// <summary>
+			/// Gets or sets the latitude
+			/// </summary>
+			public double Latitude { get; set; }
+
+			/// <summary>
+			/// Gets or sets the Longitude
+			/// </summary>
+			public double Longitude { get; set; }
+
+			/// <summary>
+			/// Gets or sets the type
+			/// </summary>
+			public string Categorie { get; set; }
+
+			/// <summary>
+			/// Gets or sets the Street address
+			/// </summary>
+			public string Street { get; set; }
+
+			/// <summary>
+			/// Gets or sets the Town
+			/// </summary>
+			public string Town { get; set; }
+		}
+
+		/// <summary>
+		/// Take care to call great functions to load Foursquare
+		/// </summary>
+		private async Task<bool> LoadFoursquare()
+		{
+			JObject json = new JObject();
+			if (mapIconME == null)
+				return false;
+			json = await GetJson(0,"",20,0,"","",false,false,false,0,mapIconME.Location.Position.Latitude,mapIconME.Location.Position.Longitude);
+
+			var categories = json["response"]["groups"]["items"]["venue"];
+			foreach(var i in categories)
+			{
+				listBox.Items.Add(new ListBoxItem() { Content = i.ToString() });
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Get the query of server from different parameters
+		/// </summary>
+		/// <param name="Radius">Radius research zone</param>
+		/// <param name="Section">Type de résultats [food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, nextVenues]</param>
+		/// <param name="NbItem">Number a item requested</param>
+		/// <param name="Offset">Offset for the item requested</param>
+		/// <param name="Time">[Morning, Lunch, Dinner, Night]</param>
+		/// <param name="Day">[Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche]</param>
+		/// <param name="Photo">Retrieve picture too</param>
+		/// <param name="IsOpenNow">Check only if open</param>
+		/// <param name="sortByDistance">Sort things by distance from point</param>
+		/// <param name="Price">Price from low to high [1,2,3,4]</param>
+		/// <param name="Latitude">double representing latitude</param>
+		/// <param name="Longitude">double representing lonitude</param>
+		/// <returns>JsonObject</returns>
+		private async Task<JObject> GetJson(int Radius = 0, string Section = "", int NbItem = 20, int Offset = 0, string Time = "", string Day = "", 
+										bool Photo = false, bool IsOpenNow = false, bool sortByDistance = false, int Price = 0, double Latitude = 0, double Longitude = 0)
+		{
+			string web = @"https://api.foursquare.com/v2/venues/explore?client_id=" + CLIENTID + @"&client_secret=" + SECRETID;
+			web += @"&v=20130815";
+			web += @"&ll=" + Latitude + "," + Longitude;
+			if (Radius > 0)
+				web += @"&radius=" + Radius;
+			if (Section != "")
+				web += @"&section=" + Section;
+			if (NbItem > 0)
+				web += @"&limit=" + NbItem;
+			if (Offset > 0)
+				web += @"&offset=" + Offset;
+			if(Time != "")
+			{
+				//TODO
+				;
+			}
+			if(Day != "")
+			{
+				//TODO
+				;
+			}
+			if (Photo)
+				web += @"&venuePhoto=1";
+			if (IsOpenNow)
+				web += @"&openNow=1";
+			if (sortByDistance)
+				web += @"&sortByDistance=1";
+			if (Price > 1)
+				web += @"&price=" + Price;
+				
+			var uri = new Uri(web);
+
+			var httpClient = new HttpClient();
+			var content = await httpClient.GetStringAsync(@"https://api.foursquare.com/v2/venues/explore?client_id=OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL&client_secret=WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W&v=20130815&ll=46.7638,6.8746");
+			return await Task.Run(() => JObject.Parse(content));
+		}
+
+		#endregion
 	}
 }

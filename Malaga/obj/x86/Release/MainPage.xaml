@@ -27,60 +27,78 @@
 						x:Name="mainMap" 
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						                       
+						                          
 						                                         
 					/>
 					<Grid Grid.Row="1">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="2*"/>
+							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						
-						<Grid Grid.Column="1" Margin="10">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<Grid Grid.Column="1" Grid.Row="1" Margin="10">
 							<ScrollViewer>
 								<StackPanel>
-									<TextBox x:ConnectionId='5' x:Name="boxName" Header="Name" Margin="10" />
-									<TextBox x:ConnectionId='6' x:Name="boxDesc" Header="Description" Margin="10"/>
-									<TextBox x:ConnectionId='7' x:Name="latBox" Header="Latitude" Margin="10"/>
-									<TextBox x:ConnectionId='8' x:Name="LonBox" Header="Longitude" Margin="10"/>
+									<TextBox x:ConnectionId='6' x:Name="boxName" Header="Name" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Name" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth" />
+									<TextBox x:ConnectionId='7' x:Name="boxDesc" Header="Description" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Description" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth"/>
+									<FlipView MaxHeight="180">
+										<FlipViewItem>
+											<StackPanel>
+												<TextBox x:ConnectionId='14' x:Name="streetBox" Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
+												<TextBox x:ConnectionId='15' x:Name="townBox" Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
+											</StackPanel>
+										</FlipViewItem>
+										<FlipViewItem>
+											<StackPanel>
+												<TextBox x:ConnectionId='12' x:Name="latBox" Header="Latitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+												<TextBox x:ConnectionId='13' x:Name="LonBox" Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+											</StackPanel>
+										</FlipViewItem>
+									</FlipView>
+									<ComboBox x:ConnectionId='8' x:Name="typeSelect" Header="Type" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+										<ComboBoxItem Content="Bar" />
+										<ComboBoxItem Content="Club" />
+										<ComboBoxItem Content="Restaurant" />
+										<ComboBoxItem Content="Visit" />
+									</ComboBox>
 									<Grid>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto"/>
 											<ColumnDefinition/>
 											<ColumnDefinition/>
 											<ColumnDefinition />
 										</Grid.ColumnDefinitions>
-										<ComboBox x:ConnectionId='9' x:Name="typeSelect" Header="Type" Grid.Column="0">
-											<ComboBoxItem Content="Bar" />
-											<ComboBoxItem Content="Club" />
-											<ComboBoxItem Content="Restaurant" />
-											<ComboBoxItem Content="Visit" />
-										</ComboBox>
-										<Button x:ConnectionId='10' Content="Update" x:Name="UpdateButton"                            Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
+										<Button x:ConnectionId='9' Content="Update" x:Name="UpdateButton"                            Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"/>
 
-										<Button x:ConnectionId='11' Content="Delete" x:Name="DeleteButton"                            Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+										<Button x:ConnectionId='10' Content="Delete" x:Name="DeleteButton"                            Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
 
-										<Button x:ConnectionId='12' Content="Hide" x:Name="HideButton"                          Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
+										<Button x:ConnectionId='11' Content="Hide" x:Name="HideButton"                          Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
 									</Grid>
 								</StackPanel>
 							</ScrollViewer>
 						</Grid>
 						
-						<ScrollViewer x:ConnectionId='3' Background="White" x:Name="scrollview" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
-							<Grid x:ConnectionId='4' Margin="10" x:Name="pointGrid" >
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<!-- ID-->
-									<ColumnDefinition Width="Auto" />
-									<!--Name-->
-									<ColumnDefinition Width="*" />
-									<!--Description-->
-									<ColumnDefinition Width="Auto" />
-									<!--Delete button-->
-									<ColumnDefinition Width="Auto" />
-									<!-- edit button-->
-								</Grid.ColumnDefinitions>
-							</Grid>
+						<ScrollViewer x:ConnectionId='3' Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+							<StackPanel>
+								<Grid x:ConnectionId='4' Margin="10" x:Name="pointGrid" >
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<!-- ID-->
+										<ColumnDefinition Width="Auto" />
+										<!--Name-->
+										<ColumnDefinition Width="*" />
+										<!--Description-->
+										<ColumnDefinition Width="Auto" />
+										<!--Delete button-->
+										<ColumnDefinition Width="Auto" />
+										<!-- edit button-->
+									</Grid.ColumnDefinitions>
+								</Grid>
+								<Button x:ConnectionId='5' Content="Add" HorizontalAlignment="Center" Margin="10" x:Name="AddButton"                         />
+							</StackPanel>
 						</ScrollViewer>
 
 						
@@ -100,17 +118,20 @@
 
 	<Page.BottomAppBar>
 		<CommandBar>
+			<AppBarToggleButton x:ConnectionId='16' x:Name="toggle" Label="Aerial view" Icon="Globe"                                                                             />
+			<AppBarToggleButton x:ConnectionId='17' x:Name="followToggle" Label="Follow me"                            IsChecked="False" Icon="Bullets"/>
+			<AppBarToggleButton x:ConnectionId='18' x:Name="trafficToggle" Label="Traffic"                             IsChecked="False" Icon="TouchPointer"/>
+			<AppBarSeparator/>
 			<AppBarButton Label="Filter by" Icon="Filter" >
 				<AppBarButton.Flyout>
 					<MenuFlyout>
-						<MenuFlyoutItem x:ConnectionId='14'                         Text="Bar" />
-						<MenuFlyoutItem x:ConnectionId='15'                          Text="Club" />
-						<MenuFlyoutItem x:ConnectionId='16'                          Text="Restaurant" />
-						<MenuFlyoutItem x:ConnectionId='17'                         Text="All" />
+						<MenuFlyoutItem x:ConnectionId='19'                         Text="Bar" />
+						<MenuFlyoutItem x:ConnectionId='20'                          Text="Club" />
+						<MenuFlyoutItem x:ConnectionId='21'                          Text="Restaurant" />
+						<MenuFlyoutItem x:ConnectionId='22'                         Text="All" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 			</AppBarButton>
-			<AppBarToggleButton x:ConnectionId='13' x:Name="toggle" Label="Aerial view" Icon="Globe"                                                                             />
 		</CommandBar>
 	</Page.BottomAppBar>
 </Page>

@@ -1239,6 +1239,18 @@ namespace McgInterop
 		internal static int StdCall__int__(
 					global::System.IntPtr pfn, 
 					void* pthis, 
+					global::System.Runtime.InteropServices.HSTRING arg0, 
+					void* arg1, 
+					uint arg2, 
+					void* arg3)
+		{
+			// This method is implemented elsewhere in the toolchain
+			return 0;
+		}
+
+		internal static int StdCall__int__(
+					global::System.IntPtr pfn, 
+					void* pthis, 
 					void* arg0, 
 					global::System.IntPtr arg1, 
 					uint arg2, 
@@ -1939,83 +1951,83 @@ namespace McgInterop
 
 		public delegate void AddrOfTarget113(
 					global::System.__ComObject a0, 
-					object a1, 
-					global::Windows.UI.Xaml.Controls.TextChangedEventArgs a2);
+					global::Windows.UI.Xaml.Controls.Primitives.FlyoutBase a1, 
+					global::Windows.UI.Xaml.Controls.Primitives.FlyoutBaseClosingEventArgs a2);
 
 		public delegate int AddrOfTarget114(
 					global::System.IntPtr a0, 
-					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
-					global::Windows.UI.Xaml.Controls.ITextChangedEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Xaml.Controls.Primitives.IFlyoutBase__Impl.Vtbl** a1, 
+					global::Windows.UI.Xaml.Controls.Primitives.IFlyoutBaseClosingEventArgs__Impl.Vtbl** a2);
 
 		public delegate void AddrOfTarget115(
 					global::System.__ComObject a0, 
 					object a1, 
-					global::Windows.UI.Xaml.Controls.TextControlPasteEventArgs a2);
+					global::Windows.UI.Xaml.Controls.TextChangedEventArgs a2);
 
 		public delegate int AddrOfTarget116(
 					global::System.IntPtr a0, 
 					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
-					global::Windows.UI.Xaml.Controls.ITextControlPasteEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Xaml.Controls.ITextChangedEventArgs__Impl.Vtbl** a2);
 
 		public delegate void AddrOfTarget117(
 					global::System.__ComObject a0, 
-					global::Windows.UI.Xaml.Controls.TextBox a1, 
-					global::Windows.UI.Xaml.Controls.TextCompositionStartedEventArgs a2);
+					object a1, 
+					global::Windows.UI.Xaml.Controls.TextControlPasteEventArgs a2);
 
-		public delegate void AddrOfTarget118(
-					global::System.__ComObject a0, 
-					global::Windows.UI.Xaml.Controls.TextBox a1, 
-					global::Windows.UI.Xaml.Controls.TextCompositionChangedEventArgs a2);
+		public delegate int AddrOfTarget118(
+					global::System.IntPtr a0, 
+					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
+					global::Windows.UI.Xaml.Controls.ITextControlPasteEventArgs__Impl.Vtbl** a2);
 
 		public delegate void AddrOfTarget119(
 					global::System.__ComObject a0, 
 					global::Windows.UI.Xaml.Controls.TextBox a1, 
-					global::Windows.UI.Xaml.Controls.TextCompositionEndedEventArgs a2);
+					global::Windows.UI.Xaml.Controls.TextCompositionStartedEventArgs a2);
 
 		public delegate void AddrOfTarget120(
 					global::System.__ComObject a0, 
 					global::Windows.UI.Xaml.Controls.TextBox a1, 
-					global::Windows.UI.Xaml.Controls.CandidateWindowBoundsChangedEventArgs a2);
+					global::Windows.UI.Xaml.Controls.TextCompositionChangedEventArgs a2);
 
 		public delegate void AddrOfTarget121(
 					global::System.__ComObject a0, 
 					global::Windows.UI.Xaml.Controls.TextBox a1, 
+					global::Windows.UI.Xaml.Controls.TextCompositionEndedEventArgs a2);
+
+		public delegate void AddrOfTarget122(
+					global::System.__ComObject a0, 
+					global::Windows.UI.Xaml.Controls.TextBox a1, 
+					global::Windows.UI.Xaml.Controls.CandidateWindowBoundsChangedEventArgs a2);
+
+		public delegate void AddrOfTarget123(
+					global::System.__ComObject a0, 
+					global::Windows.UI.Xaml.Controls.TextBox a1, 
 					global::Windows.UI.Xaml.Controls.TextBoxTextChangingEventArgs a2);
-
-		public delegate int AddrOfTarget122(
-					global::System.IntPtr a0, 
-					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
-					global::Windows.UI.Xaml.Controls.ITextCompositionStartedEventArgs__Impl.Vtbl** a2);
-
-		public delegate int AddrOfTarget123(
-					global::System.IntPtr a0, 
-					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
-					global::Windows.UI.Xaml.Controls.ITextCompositionChangedEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget124(
 					global::System.IntPtr a0, 
 					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
-					global::Windows.UI.Xaml.Controls.ITextCompositionEndedEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Xaml.Controls.ITextCompositionStartedEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget125(
 					global::System.IntPtr a0, 
 					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
-					global::Windows.UI.Xaml.Controls.ICandidateWindowBoundsChangedEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Xaml.Controls.ITextCompositionChangedEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget126(
 					global::System.IntPtr a0, 
 					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
-					global::Windows.UI.Xaml.Controls.ITextBoxTextChangingEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Xaml.Controls.ITextCompositionEndedEventArgs__Impl.Vtbl** a2);
 
-		public delegate void AddrOfTarget127(
-					global::System.__ComObject a0, 
-					global::Windows.UI.Xaml.Controls.Primitives.FlyoutBase a1, 
-					global::Windows.UI.Xaml.Controls.Primitives.FlyoutBaseClosingEventArgs a2);
+		public delegate int AddrOfTarget127(
+					global::System.IntPtr a0, 
+					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
+					global::Windows.UI.Xaml.Controls.ICandidateWindowBoundsChangedEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget128(
 					global::System.IntPtr a0, 
-					global::Windows.UI.Xaml.Controls.Primitives.IFlyoutBase__Impl.Vtbl** a1, 
-					global::Windows.UI.Xaml.Controls.Primitives.IFlyoutBaseClosingEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Xaml.Controls.ITextBox__Impl.Vtbl** a1, 
+					global::Windows.UI.Xaml.Controls.ITextBoxTextChangingEventArgs__Impl.Vtbl** a2);
 
 		public delegate void AddrOfTarget129(
 					global::System.__ComObject a0, 
@@ -2303,116 +2315,126 @@ namespace McgInterop
 
 		public delegate void AddrOfTarget187(
 					global::System.__ComObject a0, 
+					global::Windows.Foundation.IAsyncOperation<global::Windows.Services.Maps.MapLocationFinderResult> a1, 
+					global::Windows.Foundation.AsyncStatus a2);
+
+		public delegate void AddrOfTarget188(
+					global::System.__ComObject a0, 
+					global::Windows.Foundation.IAsyncOperation<global::Windows.UI.Popups.IUICommand> a1, 
+					global::Windows.Foundation.AsyncStatus a2);
+
+		public delegate void AddrOfTarget189(
+					global::System.__ComObject a0, 
 					global::Windows.Foundation.IAsyncAction a1);
 
-		public delegate int AddrOfTarget188(
+		public delegate int AddrOfTarget190(
 					global::System.IntPtr a0, 
 					uint* a1);
 
-		public delegate int AddrOfTarget189(
+		public delegate int AddrOfTarget191(
 					global::System.IntPtr a0, 
 					uint a1);
 
-		public delegate void AddrOfTarget190(
+		public delegate void AddrOfTarget192(
 					global::System.__ComObject a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress<global::Windows.Storage.Streams.IBuffer, uint> a1, 
 					uint a2);
 
-		public delegate void AddrOfTarget191(
+		public delegate void AddrOfTarget193(
 					global::System.__ComObject a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress<global::Windows.Storage.Streams.IBuffer, uint> a1, 
 					global::Windows.Foundation.AsyncStatus a2);
 
-		public delegate int AddrOfTarget192(
+		public delegate int AddrOfTarget194(
 					global::System.IntPtr a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress_A_Windows_Storage_Streams_IBuffer_j_uint_V___Impl.Vtbl** a1, 
 					uint a2);
 
-		public delegate int AddrOfTarget193(
+		public delegate int AddrOfTarget195(
 					global::System.IntPtr a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress_A_Windows_Storage_Streams_IBuffer_j_uint_V___Impl.Vtbl** a1, 
 					global::Windows.Foundation.AsyncStatus a2);
 
-		public delegate void AddrOfTarget194(
+		public delegate void AddrOfTarget196(
 					global::System.__ComObject a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress<uint, uint> a1, 
 					uint a2);
 
-		public delegate void AddrOfTarget195(
+		public delegate void AddrOfTarget197(
 					global::System.__ComObject a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress<uint, uint> a1, 
 					global::Windows.Foundation.AsyncStatus a2);
 
-		public delegate int AddrOfTarget196(
+		public delegate int AddrOfTarget198(
 					global::System.IntPtr a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress_A_uint_j_uint_V___Impl.Vtbl** a1, 
 					uint a2);
 
-		public delegate int AddrOfTarget197(
+		public delegate int AddrOfTarget199(
 					global::System.IntPtr a0, 
 					global::Windows.Foundation.IAsyncOperationWithProgress_A_uint_j_uint_V___Impl.Vtbl** a1, 
-					global::Windows.Foundation.AsyncStatus a2);
-
-		public delegate void AddrOfTarget198(
-					global::System.__ComObject a0, 
-					global::Windows.Foundation.IAsyncOperation<global::Windows.Storage.Streams.IRandomAccessStream> a1, 
-					global::Windows.Foundation.AsyncStatus a2);
-
-		public delegate void AddrOfTarget199(
-					global::System.__ComObject a0, 
-					global::Windows.Foundation.IAsyncOperation<global::Windows.Storage.StorageFile> a1, 
 					global::Windows.Foundation.AsyncStatus a2);
 
 		public delegate void AddrOfTarget200(
 					global::System.__ComObject a0, 
-					object a1, 
-					global::Windows.Foundation.Diagnostics.TracingStatusChangedEventArgs a2);
+					global::Windows.Foundation.IAsyncOperation<global::Windows.Storage.Streams.IRandomAccessStream> a1, 
+					global::Windows.Foundation.AsyncStatus a2);
 
 		public delegate void AddrOfTarget201(
 					global::System.__ComObject a0, 
-					object a1, 
-					global::Windows.UI.Core.WindowActivatedEventArgs a2);
+					global::Windows.Foundation.IAsyncOperation<global::Windows.Storage.StorageFile> a1, 
+					global::Windows.Foundation.AsyncStatus a2);
 
 		public delegate void AddrOfTarget202(
 					global::System.__ComObject a0, 
 					object a1, 
-					global::Windows.UI.Core.CoreWindowEventArgs a2);
+					global::Windows.Foundation.Diagnostics.TracingStatusChangedEventArgs a2);
 
 		public delegate void AddrOfTarget203(
 					global::System.__ComObject a0, 
 					object a1, 
-					global::Windows.UI.Core.WindowSizeChangedEventArgs a2);
+					global::Windows.UI.Core.WindowActivatedEventArgs a2);
 
 		public delegate void AddrOfTarget204(
 					global::System.__ComObject a0, 
 					object a1, 
+					global::Windows.UI.Core.CoreWindowEventArgs a2);
+
+		public delegate void AddrOfTarget205(
+					global::System.__ComObject a0, 
+					object a1, 
+					global::Windows.UI.Core.WindowSizeChangedEventArgs a2);
+
+		public delegate void AddrOfTarget206(
+					global::System.__ComObject a0, 
+					object a1, 
 					global::Windows.UI.Core.VisibilityChangedEventArgs a2);
-
-		public delegate int AddrOfTarget205(
-					global::System.IntPtr a0, 
-					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
-					global::Windows.UI.Core.IWindowActivatedEventArgs__Impl.Vtbl** a2);
-
-		public delegate int AddrOfTarget206(
-					global::System.IntPtr a0, 
-					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
-					global::Windows.UI.Core.ICoreWindowEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget207(
 					global::System.IntPtr a0, 
 					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
-					global::Windows.UI.Core.IWindowSizeChangedEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Core.IWindowActivatedEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget208(
 					global::System.IntPtr a0, 
 					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
-					global::Windows.UI.Core.IVisibilityChangedEventArgs__Impl.Vtbl** a2);
+					global::Windows.UI.Core.ICoreWindowEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget209(
 					global::System.IntPtr a0, 
-					global::System.IntPtr* a1);
+					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
+					global::Windows.UI.Core.IWindowSizeChangedEventArgs__Impl.Vtbl** a2);
 
 		public delegate int AddrOfTarget210(
+					global::System.IntPtr a0, 
+					global::System.Runtime.InteropServices.__vtable_IInspectable* a1, 
+					global::Windows.UI.Core.IVisibilityChangedEventArgs__Impl.Vtbl** a2);
+
+		public delegate int AddrOfTarget211(
+					global::System.IntPtr a0, 
+					global::System.IntPtr* a1);
+
+		public delegate int AddrOfTarget212(
 					global::System.IntPtr a0, 
 					global::System.Guid* a1, 
 					global::System.IntPtr a2, 
@@ -2421,7 +2443,7 @@ namespace McgInterop
 					uint a5, 
 					global::System.Guid* a6);
 
-		public delegate int AddrOfTarget211(
+		public delegate int AddrOfTarget213(
 					global::System.IntPtr a0, 
 					global::System.Guid* a1, 
 					global::System.IntPtr a2, 
@@ -2430,7 +2452,7 @@ namespace McgInterop
 					uint a5, 
 					uint* a6);
 
-		public delegate int AddrOfTarget212(
+		public delegate int AddrOfTarget214(
 					global::System.IntPtr a0, 
 					global::System.IntPtr a1, 
 					global::System.Guid* a2, 
@@ -2439,38 +2461,38 @@ namespace McgInterop
 					global::System.IntPtr a5, 
 					uint a6);
 
-		public delegate int AddrOfTarget213(
+		public delegate int AddrOfTarget215(
 					global::System.IntPtr a0, 
 					global::System.IntPtr a1, 
 					global::System.Guid* a2, 
 					global::System.IntPtr* a3);
 
-		public delegate object AddrOfTarget214<T>(global::System.Collections.Generic.IEnumerable<T> a0);
+		public delegate object AddrOfTarget216<T>(global::System.Collections.Generic.IEnumerable<T> a0);
 
-		public delegate int AddrOfTarget215<T>(
+		public delegate int AddrOfTarget217<T>(
 					global::Windows.Foundation.Collections.IIterator<T> a0, 
 					global::System.Runtime.InteropServices.Toolbox.IIterator_Oper a1, 
 					ref object a2, 
 					int a3);
 
-		public delegate int AddrOfTarget216<T>(
+		public delegate int AddrOfTarget218<T>(
 					global::Windows.Foundation.AsyncOperationCompletedHandler<T> a0, 
 					global::Windows.Foundation.IAsyncOperation<T> a1, 
 					global::Windows.Foundation.AsyncStatus a2);
 
-		public delegate object AddrOfTarget217(global::System.__ComObject a0);
+		public delegate object AddrOfTarget219(global::System.__ComObject a0);
 
-		public delegate object AddrOfTarget218(object a0);
+		public delegate object AddrOfTarget220(object a0);
 
-		public delegate int AddrOfTarget219(
+		public delegate int AddrOfTarget221(
 					ref global::Windows.UI.Xaml.Markup.XmlnsDefinition a0, 
 					out global::Windows.UI.Xaml.Markup.XmlnsDefinition__Impl.UnsafeType a1);
 
-		public delegate int AddrOfTarget220(
+		public delegate int AddrOfTarget222(
 					ref global::Windows.UI.Xaml.Markup.XmlnsDefinition__Impl.UnsafeType a0, 
 					out global::Windows.UI.Xaml.Markup.XmlnsDefinition a1);
 
-		public delegate void AddrOfTarget221(ref global::Windows.UI.Xaml.Markup.XmlnsDefinition__Impl.UnsafeType a0);
+		public delegate void AddrOfTarget223(ref global::Windows.UI.Xaml.Markup.XmlnsDefinition__Impl.UnsafeType a0);
 	}
 
 	#region Helpers emitted by MCG

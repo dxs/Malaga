@@ -1,141 +1,160 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='C:\ProgramData\Windows App Certification Kit\results.xsl'?>
-<REPORT xml:lang="fr-CH" OVERALL_RESULT="PASS" VERSION="10.0.14383.0" LATEST_VERSION="TRUE" UPDATE_DOWNLOAD_URL="" TOOLSET_ARCHITECTURE="x64" SecureBoot="FALSE" APP_TYPE="UapApp" PUBLISHER_DISPLAY_NAME="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" APP_NAME="" APP_VERSION="" OSVERSION="10.0.14393.0" OS="Microsoft Windows 10 Professionnel" PER_USER_APPLICATION="" PARTIAL_RUN="FALSE" LCID="4108" VALIDATION_TYPE="UI" ReportGenerationTime="28.07.2016 18:06:51" ID="a91bb894f8b33d1a2f71d5174fb0e2a1">
+<REPORT xml:lang="fr-CH" OVERALL_RESULT="FAIL" VERSION="10.0.14383.0" LATEST_VERSION="TRUE" UPDATE_DOWNLOAD_URL="" TOOLSET_ARCHITECTURE="x64" SecureBoot="FALSE" APP_TYPE="UapApp" PUBLISHER_DISPLAY_NAME="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" APP_NAME="" APP_VERSION="" OSVERSION="10.0.14393.0" OS="Microsoft Windows 10 Professionnel" PER_USER_APPLICATION="" PARTIAL_RUN="FALSE" LCID="4108" VALIDATION_TYPE="UI" ReportGenerationTime="29.07.2016 14:04:22" ID="4cda1847eef3ef84898ce4ce7abc0498">
   <REQUIREMENTS>
     <REQUIREMENT NUMBER="10" TITLE="Tests de déploiement et de lancement" RATIONALE="Les défaillances des applications, telles que les pannes et les blocages, sont pour les utilisateurs des interruptions majeures et entraînent une certaine frustration. L’élimination de ces défaillances améliore la stabilité et la fiabilité des applications et, de façon générale, renforce la satisfaction des utilisateurs.">
-      <TEST INDEX="50" NAME="Génération du code d'octet" DESCRIPTION="La génération du code d'octet doit être complétée pour les packages contenant une application Windows Store HTML5." EXECUTIONTIME="00h:00m:03s.22ms">
+      <TEST INDEX="50" NAME="Génération du code d'octet" DESCRIPTION="La génération du code d'octet doit être complétée pour les packages contenant une application Windows Store HTML5." EXECUTIONTIME="00h:00m:01s.12ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="79" NAME="Gestionnaire d'annulations des tâches en arrière-plan" DESCRIPTION="L'application doit implémenter le gestionnaire d'événements pour gérer la demande d'annulation de tâche en arrière-plan." EXECUTIONTIME="00h:00m:35s.12ms">
-        <MESSAGES />
-        <RESULT><![CDATA[PASS]]></RESULT>
+      <TEST INDEX="79" NAME="Gestionnaire d'annulations des tâches en arrière-plan" DESCRIPTION="L'application doit implémenter le gestionnaire d'événements pour gérer la demande d'annulation de tâche en arrière-plan." EXECUTIONTIME="00h:00m:11s.29ms">
+        <MESSAGES>
+          <MESSAGE TEXT="Impossible de lancer App." />
+        </MESSAGES>
+        <RESULT><![CDATA[FAIL]]></RESULT>
       </TEST>
-      <TEST INDEX="81" NAME="Lancement de la version de la plateforme" DESCRIPTION="L'application ne doit pas utiliser l'API OSVersionInfo de manière incorrecte pour fournir aux utilisateurs des fonctionnalités propres au système d'exploitation." EXECUTIONTIME="00h:00m:26s.52ms">
-        <MESSAGES />
-        <RESULT><![CDATA[PASS]]></RESULT>
+      <TEST INDEX="81" NAME="Lancement de la version de la plateforme" DESCRIPTION="L'application ne doit pas utiliser l'API OSVersionInfo de manière incorrecte pour fournir aux utilisateurs des fonctionnalités propres au système d'exploitation." EXECUTIONTIME="00h:00m:20s.12ms">
+        <MESSAGES>
+          <MESSAGE TEXT="Impossible de lancer App." />
+          <MESSAGE TEXT="Impossible de lancer App." />
+          <MESSAGE TEXT="L'application 62394glaglasven.Malagatrip_0.9.12.0_x64__070hkg4km4tgr n'a pas réussi le test de lancement de la version de plateforme." />
+        </MESSAGES>
+        <RESULT><![CDATA[FAIL]]></RESULT>
       </TEST>
-      <TEST INDEX="47" NAME="Lancement de l'application" DESCRIPTION="Tests de lancement de l’application." EXECUTIONTIME="00h:00m:24s.46ms">
-        <MESSAGES />
-        <RESULT><![CDATA[PASS]]></RESULT>
+      <TEST INDEX="47" NAME="Lancement de l'application" DESCRIPTION="Tests de lancement de l’application." EXECUTIONTIME="00h:00m:19s.80ms">
+        <MESSAGES>
+          <MESSAGE TEXT="Impossible de lancer App." />
+          <MESSAGE TEXT="Impossible de lancer App." />
+        </MESSAGES>
+        <RESULT><![CDATA[FAIL]]></RESULT>
       </TEST>
-      <TEST INDEX="80" NAME="Prélancement d'application" DESCRIPTION="Le prélancement de l'application doit être validé." EXECUTIONTIME="00h:01m:00s.64ms">
-        <MESSAGES />
-        <RESULT><![CDATA[PASS]]></RESULT>
+      <TEST INDEX="80" NAME="Prélancement d'application" DESCRIPTION="Le prélancement de l'application doit être validé." EXECUTIONTIME="00h:00m:23s.91ms">
+        <MESSAGES>
+          <MESSAGE TEXT="L'application n'a pas pu prélancer le test : 62394glaglasven.Malagatrip_0.9.12.0_x64__070hkg4km4tgr." />
+        </MESSAGES>
+        <RESULT><![CDATA[FAIL]]></RESULT>
       </TEST>
-      <TEST INDEX="21" NAME="Blocages et pannes" DESCRIPTION="N’installez pas les exécutables qui s’arrêtent ou se bloquent pendant le processus de test." EXECUTIONTIME="00h:00m:03s.98ms">
-        <MESSAGES />
-        <RESULT><![CDATA[PASS]]></RESULT>
+      <TEST INDEX="21" NAME="Blocages et pannes" DESCRIPTION="N’installez pas les exécutables qui s’arrêtent ou se bloquent pendant le processus de test." EXECUTIONTIME="00h:00m:02s.14ms">
+        <MESSAGES>
+          <MESSAGE TEXT="L’exécutable c:\program files\windowsapps\62394glaglasven.malagatrip_0.9.12.0_x64__070hkg4km4tgr\Malaga.exe a été détecté par le Rapport d’erreurs Windows et s’est arrêté ou bloqué." />
+          <MESSAGE TEXT="L’application 62394glaglasven.Malagatrip_0.9.12.0_x64__070hkg4km4tgr a été détectée par le Rapport d’erreurs Windows et s’est arrêtée ou bloquée." />
+          <MESSAGE TEXT="Le fichier de vidage sur incident C:\Users\glagl\AppData\Local\Microsoft\AppCertKit\Malaga.exe.13632.dmp a été créé par le Rapport d’erreurs Windows et fournit des informations supplémentaires." />
+          <MESSAGE TEXT="Le fichier de vidage sur incident C:\Users\glagl\AppData\Local\Microsoft\AppCertKit\Malaga.exe.3008.dmp a été créé par le Rapport d’erreurs Windows et fournit des informations supplémentaires." />
+          <MESSAGE TEXT="Le fichier de vidage sur incident C:\Users\glagl\AppData\Local\Microsoft\AppCertKit\Malaga.exe.4200.dmp a été créé par le Rapport d’erreurs Windows et fournit des informations supplémentaires." />
+          <MESSAGE TEXT="Le fichier de vidage sur incident C:\Users\glagl\AppData\Local\Microsoft\AppCertKit\Malaga.exe.4652.dmp a été créé par le Rapport d’erreurs Windows et fournit des informations supplémentaires." />
+          <MESSAGE TEXT="Le fichier de vidage sur incident C:\Users\glagl\AppData\Local\Microsoft\AppCertKit\Malaga.exe.9396.dmp a été créé par le Rapport d’erreurs Windows et fournit des informations supplémentaires." />
+        </MESSAGES>
+        <RESULT><![CDATA[FAIL]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="12" TITLE="Test de conformité du package" RATIONALE="Un ou plusieurs attributs requis n’étaient pas présents dans le manifeste du package.">
-      <TEST INDEX="77" NAME="Nombre d'applications" DESCRIPTION="Un package ne doit pas définir plus d'une application dans le manifeste." EXECUTIONTIME="00h:00m:03s.03ms">
+      <TEST INDEX="77" NAME="Nombre d'applications" DESCRIPTION="Un package ne doit pas définir plus d'une application dans le manifeste." EXECUTIONTIME="00h:00m:00s.96ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="31" NAME="Manifeste de l'application" DESCRIPTION="Le manifeste de l’application doit inclure des entrées valides pour tous les champs requis." EXECUTIONTIME="00h:00m:03s.75ms">
+      <TEST INDEX="31" NAME="Manifeste de l'application" DESCRIPTION="Le manifeste de l’application doit inclure des entrées valides pour tous les champs requis." EXECUTIONTIME="00h:00m:01s.10ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="74" NAME="Manifeste de lot" DESCRIPTION="Le manifeste de lot doit inclure des entrées valides pour tous les champs requis." EXECUTIONTIME="00h:00m:05s.98ms">
+      <TEST INDEX="74" NAME="Manifeste de lot" DESCRIPTION="Le manifeste de lot doit inclure des entrées valides pour tous les champs requis." EXECUTIONTIME="00h:00m:01s.13ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="75" NAME="Taille du package" DESCRIPTION="La taille de fichier du package ne doit pas dépasser 4 gigaoctets." EXECUTIONTIME="00h:00m:03s.54ms">
+      <TEST INDEX="75" NAME="Taille du package" DESCRIPTION="La taille de fichier du package ne doit pas dépasser 4 gigaoctets." EXECUTIONTIME="00h:00m:01s.06ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="83" NAME="Espace de noms restreint" DESCRIPTION="Vérifiez si un espace de noms restreint est référencé dans le manifeste appx." EXECUTIONTIME="00h:00m:01s.15ms">
+      <TEST INDEX="83" NAME="Espace de noms restreint" DESCRIPTION="Vérifiez si un espace de noms restreint est référencé dans le manifeste appx." EXECUTIONTIME="00h:00m:00s.92ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="14" TITLE="Test des fonctionnalités de sécurité Windows" RATIONALE="Les applications doivent respecter les fonctionnalités de sécurité de Windows.">
-      <TEST INDEX="33" NAME="Analyseur binaire" DESCRIPTION="Analyse des fonctionnalités de sécurité activées dans les binaires" EXECUTIONTIME="00h:00m:05s.53ms">
+      <TEST INDEX="33" NAME="Analyseur binaire" DESCRIPTION="Analyse des fonctionnalités de sécurité activées dans les binaires" EXECUTIONTIME="00h:00m:01s.53ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="70" NAME="Analyseur de fichiers non autorisés" DESCRIPTION="Analyse de l’application pour détecter des fichiers non sécurisés connus" EXECUTIONTIME="00h:00m:02s.53ms">
+      <TEST INDEX="70" NAME="Analyseur de fichiers non autorisés" DESCRIPTION="Analyse de l’application pour détecter des fichiers non sécurisés connus" EXECUTIONTIME="00h:00m:00s.83ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="62" NAME="Signature de code privé" DESCRIPTION="L'application ne doit pas créer un package contenant des fichiers de clés de signature de code." EXECUTIONTIME="00h:00m:01s.15ms">
+      <TEST INDEX="62" NAME="Signature de code privé" DESCRIPTION="L'application ne doit pas créer un package contenant des fichiers de clés de signature de code." EXECUTIONTIME="00h:00m:00s.92ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="15" TITLE="Test des API prises en charge" RATIONALE="L’application ne doit se référer qu’aux API autorisées par le Kit de développement logiciel (SDK) de Windows pour les applications Windows Store.">
-      <TEST INDEX="38" NAME="API prises en charge" DESCRIPTION="Toute application Windows Store ne doit utiliser que les API prises en charge par la plateforme." EXECUTIONTIME="00h:00m:05s.27ms">
+      <TEST INDEX="38" NAME="API prises en charge" DESCRIPTION="Toute application Windows Store ne doit utiliser que les API prises en charge par la plateforme." EXECUTIONTIME="00h:00m:02s.88ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="19" TITLE="Tests des ressources du manifeste de l'application" RATIONALE="Les ressources valides doivent être définies dans le fichier resources.pri du manifeste du package AppX, selon les Spécifications de la création du package AppX et du Schéma du manifeste AppX.">
-      <TEST INDEX="45" NAME="Ressources de l'application" DESCRIPTION="Les ressources valides doivent être définies dans le fichier resources.pri du package." EXECUTIONTIME="00h:00m:01s.58ms">
+      <TEST INDEX="45" NAME="Ressources de l'application" DESCRIPTION="Les ressources valides doivent être définies dans le fichier resources.pri du package." EXECUTIONTIME="00h:00m:00s.72ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="61" NAME="Personnalisation" DESCRIPTION="L'application ne doit pas utiliser les images par défaut fournies par les échantillons Windows SDK ou Visual Studio." EXECUTIONTIME="00h:00m:05s.80ms">
+      <TEST INDEX="61" NAME="Personnalisation" DESCRIPTION="L'application ne doit pas utiliser les images par défaut fournies par les échantillons Windows SDK ou Visual Studio." EXECUTIONTIME="00h:00m:01s.61ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="20" TITLE="Test de configuration de débogage" RATIONALE="L’application ne doit pas installer de binaires de débogage.">
-      <TEST INDEX="46" NAME="Configuration de débogage" DESCRIPTION="L’application ne doit pas installer de binaires de débogage." EXECUTIONTIME="00h:00m:03s.02ms">
+      <TEST INDEX="46" NAME="Configuration de débogage" DESCRIPTION="L’application ne doit pas installer de binaires de débogage." EXECUTIONTIME="00h:00m:00s.97ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="21" TITLE="Test de codage de fichier" RATIONALE="Les packages contenant une application Windows Store HTML5 doivent avoir un codage de fichier correct.">
-      <TEST INDEX="49" NAME="Codage de fichier UTF-8" DESCRIPTION="Les packages contenant une application Windows Store HTML5 doivent avoir un codage de fichier correct." EXECUTIONTIME="00h:00m:03s.07ms">
+      <TEST INDEX="49" NAME="Codage de fichier UTF-8" DESCRIPTION="Les packages contenant une application Windows Store HTML5 doivent avoir un codage de fichier correct." EXECUTIONTIME="00h:00m:00s.96ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="23" TITLE="Test des capacités des applications" RATIONALE="Les packages déclarant des capacités d'utilisation spéciales devront fournir des justifications au cours du processus d'intégration.">
-      <TEST INDEX="52" NAME="Capacités d'utilisation spéciales" DESCRIPTION="Les packages déclarant des capacités d'utilisation spéciales devront fournir des justifications au cours du processus d'intégration." EXECUTIONTIME="00h:00m:01s.09ms">
+      <TEST INDEX="52" NAME="Capacités d'utilisation spéciales" DESCRIPTION="Les packages déclarant des capacités d'utilisation spéciales devront fournir des justifications au cours du processus d'intégration." EXECUTIONTIME="00h:00m:01s.04ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="24" TITLE="Validation des métadonnées Windows Runtime" RATIONALE="Les métadonnées doivent être conformes et cohérentes dans toutes les sources de génération.">
-      <TEST INDEX="56" NAME="Attribut ExclusiveTo" DESCRIPTION="Une classe ne doit pas implémenter une interface marquée comme ExclusiveTo d'une autre classe." EXECUTIONTIME="00h:01m:09s.46ms">
+      <TEST INDEX="56" NAME="Attribut ExclusiveTo" DESCRIPTION="Une classe ne doit pas implémenter une interface marquée comme ExclusiveTo d'une autre classe." EXECUTIONTIME="00h:00m:14s.57ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="57" NAME="Emplacement du type" DESCRIPTION="Les types doivent être définis dans le fichier de métadonnées ayant l'espace de noms le plus long correspondant." EXECUTIONTIME="00h:00m:02s.85ms">
+      <TEST INDEX="57" NAME="Emplacement du type" DESCRIPTION="Les types doivent être définis dans le fichier de métadonnées ayant l'espace de noms le plus long correspondant." EXECUTIONTIME="00h:00m:00s.95ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="55" NAME="Respect de la casse du nom du type" DESCRIPTION="Les noms du type et de l'espace de noms ne doivent pas varier uniquement au niveau de la casse." EXECUTIONTIME="00h:00m:01s.69ms">
+      <TEST INDEX="55" NAME="Respect de la casse du nom du type" DESCRIPTION="Les noms du type et de l'espace de noms ne doivent pas varier uniquement au niveau de la casse." EXECUTIONTIME="00h:00m:00s.98ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="54" NAME="Exactitude du nom du type" DESCRIPTION="Seuls des types système peuvent être dans l'espace de noms Windows et aucun titre ne peut être dans l'espace de noms global." EXECUTIONTIME="00h:00m:01s.69ms">
+      <TEST INDEX="54" NAME="Exactitude du nom du type" DESCRIPTION="Seuls des types système peuvent être dans l'espace de noms Windows et aucun titre ne peut être dans l'espace de noms global." EXECUTIONTIME="00h:00m:00s.95ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="58" NAME="Exactitude des métadonnées générales" DESCRIPTION="Les fichiers de métadonnées doivent répondre à diverses exigences afin d'être valides et exacts." EXECUTIONTIME="00h:00m:35s.77ms">
+      <TEST INDEX="58" NAME="Exactitude des métadonnées générales" DESCRIPTION="Les fichiers de métadonnées doivent répondre à diverses exigences afin d'être valides et exacts." EXECUTIONTIME="00h:00m:19s.12ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="53" NAME="Propriétés" DESCRIPTION="Impossible d'utiliser des propriétés d'écriture seule et d'indexeur." EXECUTIONTIME="00h:00m:01s.92ms">
+      <TEST INDEX="53" NAME="Propriétés" DESCRIPTION="Impossible d'utiliser des propriétés d'écriture seule et d'indexeur." EXECUTIONTIME="00h:00m:00s.92ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="25" TITLE="Test d’intégrité du package" RATIONALE="Validation du contenu du package d’application visant à garantir son exactitude.">
-      <TEST INDEX="63" NAME="Fichiers appropriés pour la plateforme" DESCRIPTION="L’application ne doit pas installer de fichiers ne correspondant pas à l’architecture du processeur cible." EXECUTIONTIME="00h:00m:02s.64ms">
+      <TEST INDEX="63" NAME="Fichiers appropriés pour la plateforme" DESCRIPTION="L’application ne doit pas installer de fichiers ne correspondant pas à l’architecture du processeur cible." EXECUTIONTIME="00h:00m:00s.95ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
-      <TEST INDEX="66" NAME="Vérification de la structure de répertoire prise en charge" DESCRIPTION="Validez chaque fichier dans le package et assurez-vous que la longueur du nom de fichier est inférieure à MAX_PATH." EXECUTIONTIME="00h:00m:03s.17ms">
+      <TEST INDEX="66" NAME="Vérification de la structure de répertoire prise en charge" DESCRIPTION="Validez chaque fichier dans le package et assurez-vous que la longueur du nom de fichier est inférieure à MAX_PATH." EXECUTIONTIME="00h:00m:00s.96ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
     </REQUIREMENT>
     <REQUIREMENT NUMBER="27" TITLE="Test d’utilisation de ressource" RATIONALE="Les tâches en arrière-plan WinJS doivent appeler close() pour libérer la ressource.">
-      <TEST INDEX="68" NAME="Tâche en arrière-plan WinJS" DESCRIPTION="Les tâches en arrière-plan WinJS doivent appeler close() pour libérer la ressource." EXECUTIONTIME="00h:00m:06s.03ms">
+      <TEST INDEX="68" NAME="Tâche en arrière-plan WinJS" DESCRIPTION="Les tâches en arrière-plan WinJS doivent appeler close() pour libérer la ressource." EXECUTIONTIME="00h:00m:01s.12ms">
         <MESSAGES />
         <RESULT><![CDATA[PASS]]></RESULT>
       </TEST>
@@ -143,12 +162,12 @@
   </REQUIREMENTS>
   <APPLICATIONS>
     <Installed_Programs>
-      <Program Name="62394glaglasven.Malagatrip" Type="Application" Source="AppxPackage" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.1.10.0" Language="1033" InstallDate="07/28/2016 16:01:18" OSVersionAtInstallTime="10.0.0.14393" RootDirPath="c:\program files\windowsapps\62394glaglasven.malagatrip_0.1.10.0_x64__070hkg4km4tgr" Id="0000c3508b1809f1d6e4205296ff79874bf100000904">
+      <Program Name="62394glaglasven.Malagatrip" Type="Application" Source="AppxPackage" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.9.12.0" Language="1033" InstallDate="07/29/2016 12:02:09" OSVersionAtInstallTime="10.0.0.14393" RootDirPath="c:\program files\windowsapps\62394glaglasven.malagatrip_0.9.12.0_x64__070hkg4km4tgr" Id="0000f1f7c65cd0f1b7bdf15f3d708784193600000904">
         <Indicators>
           <WindowsStoreAppManifestIndicators>
-            <PackageManifest PackageFullName="62394glaglasven.Malagatrip_0.1.10.0_x64__070hkg4km4tgr">
+            <PackageManifest PackageFullName="62394glaglasven.Malagatrip_0.9.12.0_x64__070hkg4km4tgr">
               <Package>
-                <Identity Name="62394glaglasven.Malagatrip" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.1.10.0" ProcessorArchitecture="x64" />
+                <Identity Name="62394glaglasven.Malagatrip" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.9.12.0" ProcessorArchitecture="x64" />
                 <PhoneIdentity PhoneProductId="eb6b42d6-31bd-49a3-b8ca-f90908c34ba7" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
                 <Properties>
                   <DisplayName>Malaga trip</DisplayName>
@@ -182,32 +201,32 @@
             </PackageManifest>
             <BundleManifest PackageFamilyName="62394glaglasven.Malagatrip_070hkg4km4tgr">
               <Bundle SchemaVersion="2.0">
-                <Identity Name="62394glaglasven.Malagatrip" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.1.10.0" />
+                <Identity Name="62394glaglasven.Malagatrip" Publisher="CN=A4CDA1AE-2891-435C-B73F-FCA7B39485F4" Version="0.9.12.0" />
                 <Packages>
-                  <Package Type="application" Version="0.1.10.0" Architecture="x86" FileName="Malaga_0.1.10.0_x86.appx" Offset="2612628" Size="1170830">
+                  <Package Type="application" Version="0.9.12.0" Architecture="x86" FileName="Malaga_0.9.12.0_x86.appx" Offset="2656386" Size="1194526">
                     <Resources>
                       <Resource Language="FR-FR" />
                       <Resource Scale="200" />
                     </Resources>
                   </Package>
-                  <Package Type="application" Version="0.1.10.0" Architecture="x64" FileName="Malaga_0.1.10.0_x64.appx" Offset="1237799" Size="1374751">
+                  <Package Type="application" Version="0.9.12.0" Architecture="x64" FileName="Malaga_0.9.12.0_x64.appx" Offset="1260721" Size="1395587">
                     <Resources>
                       <Resource Language="FR-FR" />
                       <Resource Scale="200" />
                     </Resources>
                   </Package>
-                  <Package Type="application" Version="0.1.10.0" Architecture="arm" FileName="Malaga_0.1.10.0_ARM.appx" Offset="54" Size="1222698">
+                  <Package Type="application" Version="0.9.12.0" Architecture="arm" FileName="Malaga_0.9.12.0_ARM.appx" Offset="54" Size="1245620">
                     <Resources>
                       <Resource Language="FR-FR" />
                       <Resource Scale="200" />
                     </Resources>
                   </Package>
-                  <Package Type="resource" Version="0.1.10.0" ResourceId="split.language-fr" FileName="Malaga_0.1.10.0_language-fr.appx" Offset="1222838" Size="4058">
+                  <Package Type="resource" Version="0.9.12.0" ResourceId="split.language-fr" FileName="Malaga_0.9.12.0_language-fr.appx" Offset="1245760" Size="4060">
                     <Resources>
                       <Resource Language="fr-fr" />
                     </Resources>
                   </Package>
-                  <Package Type="resource" Version="0.1.10.0" ResourceId="split.scale-100" FileName="Malaga_0.1.10.0_scale-100.appx" Offset="1226980" Size="10741">
+                  <Package Type="resource" Version="0.9.12.0" ResourceId="split.scale-100" FileName="Malaga_0.9.12.0_scale-100.appx" Offset="1249904" Size="10739">
                     <Resources>
                       <Resource Scale="100" />
                     </Resources>
@@ -224,21 +243,10 @@
     </Installed_Programs>
   </APPLICATIONS>
   <DEPENDENCY_INFORMATION>
-    <AitStaticAnalysis ProgramId="0000c3508b1809f1d6e4205296ff79874bf100000904" AnalysisVersion="1.60" DictionaryVersion="3.1" Type="Package" Id="62394glaglasven.Malagatrip_0.1.10.0_x64__070hkg4km4tgr">
-      <AitFile ErrorCode="0" Name="Malaga.exe" Id="00002433a3c2967fec704f8147ff18b13ca48d2161d8" />
-      <AitFile ErrorCode="0" Name="ClrCompression.dll" Id="00003e0ead7458e4ad4ec0ca220a18be2728eae6ea20">
-        <AitCategory Id="ApiStatic">
-          <AitFeature Name="api-ms-win-core-profile-l1-1-0.dll!QueryPerformanceCounter" />
-          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemAlloc" />
-          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemFree" />
-          <AitFeature Name="api-ms-win-core-sysinfo-l1-1-0.dll!GetSystemTimeAsFileTime" />
-          <AitFeature Name="api-ms-win-core-sysinfo-l1-1-0.dll!GetTickCount64" />
-          <AitFeature Name="api-ms-win-core-libraryloader-l1-1-0.dll!DisableThreadLibraryCalls" />
-          <AitFeature Name="api-ms-win-core-processthreads-l1-1-0.dll!GetCurrentThreadId" />
-        </AitCategory>
-      </AitFile>
-      <AitFile ErrorCode="0" Name="Malaga.dll" Id="0000b91b08ff66fb2b8ecdbfc07407ea6e9b9596180d">
+    <AitStaticAnalysis ProgramId="0000f1f7c65cd0f1b7bdf15f3d708784193600000904" AnalysisVersion="1.60" DictionaryVersion="3.1" Type="Package" Id="62394glaglasven.Malagatrip_0.9.12.0_x64__070hkg4km4tgr">
+      <AitFile ErrorCode="0" Name="Malaga.dll" Id="000012b9f7c3c5fd3f8bd23dc1104af601ebddd52bda">
         <AitCategory Id="Com">
+          <AitFeature Name="{00000000-0000-0000-0000-000000000001}" />
           <AitFeature Name="{00000003-0000-0000-c000-000000000046}" />
           <AitFeature Name="{00020401-0000-0000-c000-000000000046}" />
           <AitFeature Name="{00020402-0000-0000-c000-000000000046}" />
@@ -291,6 +299,7 @@
           <AitFeature Name="{1a6f7254-1ed5-4bc5-a060-655530bca6ba}" />
           <AitFeature Name="{1a8a9d02-e482-461b-b8c7-8efad1cce590}" />
           <AitFeature Name="{1b02d57a-9634-4f14-91b2-133e42fdb3cd}" />
+          <AitFeature Name="{1b0795a1-1bc1-4d53-95ea-fb0a2cccc905}" />
           <AitFeature Name="{1b0a818e-2529-4762-ba44-9abc68c3ceca}" />
           <AitFeature Name="{1b536ae0-08b0-5c54-bb30-679e6a875d61}" />
           <AitFeature Name="{1b5d1336-e61b-4d51-be41-fd8ddc55c58c}" />
@@ -319,27 +328,32 @@
           <AitFeature Name="{264ebc1f-ed90-528e-bf80-e9f7e02c0ee4}" />
           <AitFeature Name="{2655d45d-38c6-53f0-8719-f3c3a739c1f9}" />
           <AitFeature Name="{2671c2dd-e212-5e43-80e2-ab6ff3f3086c}" />
+          <AitFeature Name="{26ceeb11-1221-5c2b-bbf9-cfea3663c2ed}" />
           <AitFeature Name="{272b1ef3-c633-4da5-a26c-c6d0f56b29da}" />
           <AitFeature Name="{272cf26f-18da-599e-896f-3bfbf6fb1326}" />
           <AitFeature Name="{27b5c835-b5ac-5f58-a770-c739f9e6665c}" />
           <AitFeature Name="{280335ae-5570-46c7-8e0b-602be71229a2}" />
           <AitFeature Name="{29f8d454-905d-587e-b9d8-bfd418805a65}" />
           <AitFeature Name="{29fed85d-3d22-43a1-add0-17027c08b212}" />
+          <AitFeature Name="{2a704d9a-3997-5f1e-8641-883eba408726}" />
           <AitFeature Name="{2a8a81ef-f351-50a7-bcdc-8368df215280}" />
           <AitFeature Name="{2ab1a205-1e73-4bcf-aabc-57b97e21961d}" />
           <AitFeature Name="{2bf27008-2eb4-5675-b1cd-e9906cc5ce64}" />
           <AitFeature Name="{2c3893cc-f81a-4e7a-b857-76a80887e185}" />
+          <AitFeature Name="{2d161777-a66f-4ea5-bb87-793ffa4941f2}" />
           <AitFeature Name="{2d162925-5966-4bfa-8638-4d345689f6cf}" />
           <AitFeature Name="{2d60f06b-d25f-4d25-8653-e1c5e1108309}" />
           <AitFeature Name="{2e914438-fd53-4b8d-858b-3644269f8e4d}" />
           <AitFeature Name="{2fa22f4b-707e-4b27-ad0d-d0d8cd468fd2}" />
           <AitFeature Name="{300e5d8a-1ff3-4d2c-95ec-27f81debacb8}" />
           <AitFeature Name="{3124d025-04a7-4d45-825e-8204a624dbf4}" />
+          <AitFeature Name="{318adb5d-1c5d-4f35-a2df-aaca94959517}" />
           <AitFeature Name="{31b71470-feff-4654-af48-9b398ab5772b}" />
           <AitFeature Name="{320b7e22-3cb0-4cdf-8663-1d28910065eb}" />
           <AitFeature Name="{3276167d-c9f6-462d-9de2-ae4c1fd8c2e5}" />
           <AitFeature Name="{33ee3134-1dd6-4e3a-8067-d1c162e8642b}" />
           <AitFeature Name="{33f288a6-5c2c-4d27-bac7-7536088f1219}" />
+          <AitFeature Name="{33f59b01-5325-43ab-9ab3-bdae440e4121}" />
           <AitFeature Name="{34f96fcb-0406-48b3-9e82-f333ec4c6910}" />
           <AitFeature Name="{354c0f34-e691-502a-a444-d5f07aee310e}" />
           <AitFeature Name="{35aac87a-62ee-4d3e-a24c-2bc8432d68b7}" />
@@ -352,6 +366,7 @@
           <AitFeature Name="{398c4183-793d-5b00-819b-4aef92485e94}" />
           <AitFeature Name="{3aaeab4c-14cb-4434-becc-88a8585c2f89}" />
           <AitFeature Name="{3b415733-48f2-58b0-9884-6f0d0e35dc1a}" />
+          <AitFeature Name="{3c073f57-0da4-42e8-9ee2-a96fcf2371dc}" />
           <AitFeature Name="{3d0813ba-6890-4537-bfe5-796d9458edd6}" />
           <AitFeature Name="{3df6d14e-e18a-4a75-9395-627c5f3cd489}" />
           <AitFeature Name="{3f367f87-9f5a-4b04-b818-b554c069597a}" />
@@ -368,6 +383,7 @@
           <AitFeature Name="{433ba1a4-e1e2-48fd-b7fc-b5d6eee65033}" />
           <AitFeature Name="{43929d18-5ec9-4b5a-919c-4205b0c804b6}" />
           <AitFeature Name="{43e0fe10-14ec-427e-8c57-dee60df60aa8}" />
+          <AitFeature Name="{43f1f179-e8cc-45f6-bed2-54ccbf965d9a}" />
           <AitFeature Name="{4459a451-69e8-440c-9896-4bb4f5f642d1}" />
           <AitFeature Name="{44a9796f-723e-4fdf-a218-033e75b0c084}" />
           <AitFeature Name="{45206a4c-0a4e-4fbf-aee9-335d5a205f6e}" />
@@ -393,6 +409,7 @@
           <AitFeature Name="{4e6a4b75-43dd-4e33-acbe-2d8796a17927}" />
           <AitFeature Name="{4f016541-bcfe-4a22-8932-c914981c2240}" />
           <AitFeature Name="{4f5971d1-bae9-56f4-acd6-0a8246a6f255}" />
+          <AitFeature Name="{4ff93a75-4145-47ff-ac7f-dff1c1fa5b0f}" />
           <AitFeature Name="{502b7489-aee4-4de3-a2ab-195ac20c4212}" />
           <AitFeature Name="{507c7bad-d9d1-4c05-9d4b-cda8de9ab242}" />
           <AitFeature Name="{50850b26-267e-451b-a890-ab6a370245ee}" />
@@ -404,16 +421,19 @@
           <AitFeature Name="{5407b704-8147-4343-838f-dd1ee908c137}" />
           <AitFeature Name="{541c8d6c-0283-4581-b945-2a64c28a0646}" />
           <AitFeature Name="{5612147b-e843-45e3-94d8-06169e3c8e17}" />
+          <AitFeature Name="{56196565-ce2b-4bda-a36b-82a2b8b0d4c0}" />
           <AitFeature Name="{575933df-34fe-4480-af15-07691f3d5d9b}" />
           <AitFeature Name="{57662f58-5b32-475d-be64-4ca36e7b97d4}" />
           <AitFeature Name="{586328f8-8cdd-40ae-9338-af2a7be845e5}" />
           <AitFeature Name="{586d1c88-e27e-58ad-8e2f-7e6e83d81e40}" />
           <AitFeature Name="{589877fb-0fc7-4036-9d8b-127dfa75c16d}" />
+          <AitFeature Name="{58d33d10-e2ef-59f1-b85e-a8819ff0d926}" />
           <AitFeature Name="{58d3573b-f52c-45be-988b-a5869564873c}" />
           <AitFeature Name="{59140509-8bc9-4eb4-b636-dabdc4f46f66}" />
           <AitFeature Name="{594ebe78-55ea-4a88-a50d-3402ae1f9cf2}" />
           <AitFeature Name="{5a200ec7-0426-47dc-b86c-6f475915e451}" />
           <AitFeature Name="{5a9f8a25-d142-44a4-8231-fd676724f29b}" />
+          <AitFeature Name="{5c0f85f3-f9d8-4220-b666-045d074d9bfa}" />
           <AitFeature Name="{5c21c742-2ced-4fd9-ba38-7118d40e966b}" />
           <AitFeature Name="{5c526665-f60e-4912-af59-5fe0680f089d}" />
           <AitFeature Name="{5c985ac6-d802-4b38-a223-bf070c43fedf}" />
@@ -485,10 +505,12 @@
           <AitFeature Name="{74e9be21-5de2-595e-bc08-dbd3c577492c}" />
           <AitFeature Name="{751b792e-5772-4488-8b87-f547faa64474}" />
           <AitFeature Name="{754c3266-0529-45e3-8748-bf747d158357}" />
+          <AitFeature Name="{75cd6df1-e5ad-45a9-bf40-6cf256c1dd13}" />
           <AitFeature Name="{75d6a78f-a302-4489-9898-24ea49182910}" />
           <AitFeature Name="{761ce752-73c1-4f44-be75-43c49ec0d4d5}" />
           <AitFeature Name="{7668a704-244e-5e12-8dcb-92a3299eba26}" />
           <AitFeature Name="{771b857e-ab5c-5db8-a021-397c92cdc44c}" />
+          <AitFeature Name="{77da6151-0763-508a-9041-3310baace575}" />
           <AitFeature Name="{786f2b75-9aa0-454d-ae06-a2466e37c832}" />
           <AitFeature Name="{78bfb71b-2d80-50e1-a2e9-e5667ff89ef2}" />
           <AitFeature Name="{7920eab1-a2e5-479a-bd50-6cef3c0b4970}" />
@@ -572,6 +594,7 @@
           <AitFeature Name="{9ffdf7f5-b8c9-4ef0-b7d2-1de626561fc8}" />
           <AitFeature Name="{a09691df-9824-41fe-b530-b0d8990e64c1}" />
           <AitFeature Name="{a099e6be-e624-459a-bb1d-e05c73e2cc66}" />
+          <AitFeature Name="{a1582f68-3d7d-4d3b-b71d-488eed1e3493}" />
           <AitFeature Name="{a19f7ba8-d8cd-5df2-ab44-fefd26644484}" />
           <AitFeature Name="{a1e254d8-a446-4a27-9a9d-a0f59e1258a5}" />
           <AitFeature Name="{a26dd1dc-cd44-435c-be94-01d6241c231c}" />
@@ -627,6 +650,7 @@
           <AitFeature Name="{b6b53bf8-1ac8-51c4-bafc-95f8e01637b0}" />
           <AitFeature Name="{b6bf67dd-84bd-44f8-ac1c-93ebcb9dba91}" />
           <AitFeature Name="{b6f0c4ad-4d39-49e6-bb91-d924eefd8538}" />
+          <AitFeature Name="{b8770535-6a4b-52b1-b578-f3cdc5007a1f}" />
           <AitFeature Name="{b8ae8fe2-d641-4fd7-80b4-7439207d2798}" />
           <AitFeature Name="{b92f6816-4d0a-52c2-9868-94b5c942007e}" />
           <AitFeature Name="{b9a8d05c-ac97-47f1-a5f4-3f9f4d4b116c}" />
@@ -657,6 +681,7 @@
           <AitFeature Name="{c3da6fb7-b744-4b45-b0b8-223a0938d0dc}" />
           <AitFeature Name="{c4a9f225-9db7-4a7d-b6d1-f74edb9293c2}" />
           <AitFeature Name="{c4b27075-e641-453e-824d-012fc7cf95cf}" />
+          <AitFeature Name="{c4fea4fd-7af3-4952-9fd9-9e0987fc4f29}" />
           <AitFeature Name="{c541f58c-43a9-4216-b718-e0b11b14e93e}" />
           <AitFeature Name="{c5aa39e2-44f3-455e-9c5b-62bb6afce3ad}" />
           <AitFeature Name="{c602b59e-0a8e-5e99-b478-2b564585278d}" />
@@ -672,6 +697,7 @@
           <AitFeature Name="{cddb0380-e9d7-5264-ab5c-d72b642874c9}" />
           <AitFeature Name="{cec120d8-ea73-5aa3-914a-37dd2554f686}" />
           <AitFeature Name="{cf651713-cd08-4fd8-b697-a281b6544e2e}" />
+          <AitFeature Name="{cfa7a973-a3b4-4494-b3ff-cba94db69699}" />
           <AitFeature Name="{cff52e04-cca6-4614-a17e-754910c84a99}" />
           <AitFeature Name="{d01fb083-5e61-5c12-a18f-62947158faa8}" />
           <AitFeature Name="{d06eb1c7-3805-4ecb-b757-6cf15e26fef3}" />
@@ -707,6 +733,7 @@
           <AitFeature Name="{dc222cf4-2772-4c1d-aa2c-c9f743ade8d1}" />
           <AitFeature Name="{dc8f368b-eccc-498e-b139-91142254d7ae}" />
           <AitFeature Name="{dd28ff94-d11e-5ae7-b819-6177c1599313}" />
+          <AitFeature Name="{dd33fd5b-a24d-5a44-91fe-dd6441770103}" />
           <AitFeature Name="{dd9ff16a-4b62-4a6c-a49d-0671ef6136be}" />
           <AitFeature Name="{de2b24d0-b726-57b1-a7c5-e5a13932b7de}" />
           <AitFeature Name="{deaee126-03ca-4966-b576-604cce93b5e8}" />
@@ -724,6 +751,7 @@
           <AitFeature Name="{e48f5a8b-1dff-4352-a1f4-e516514ec882}" />
           <AitFeature Name="{e4f9d9a4-e028-44de-9b15-4929ae0a26c2}" />
           <AitFeature Name="{e521c894-2c26-5946-9e61-2b5e188d01ed}" />
+          <AitFeature Name="{e5e5ee33-abd8-5695-9fe5-ac95850d7198}" />
           <AitFeature Name="{e609698d-6aab-5adc-8b3f-a852f9e56fd0}" />
           <AitFeature Name="{e6d5bbd5-e029-43a6-b36d-84a81042d774}" />
           <AitFeature Name="{e6f2fef0-0712-487f-b313-f300b8d79aa1}" />
@@ -746,6 +774,8 @@
           <AitFeature Name="{f0117ddb-12fa-4d8d-8b26-b383d09c2b3c}" />
           <AitFeature Name="{f06fc999-61e1-5d3f-b0ac-69f2ee9e4d64}" />
           <AitFeature Name="{f19104be-422a-4904-a52f-ee72010429e5}" />
+          <AitFeature Name="{f1dea9be-9ae8-4d4b-ab43-16d31e05f4f3}" />
+          <AitFeature Name="{f21d91fe-22a0-4412-a853-9d6a6e8f2aaf}" />
           <AitFeature Name="{f250dd93-e636-51ef-bc93-ee78d431a6bd}" />
           <AitFeature Name="{f2867897-40ac-4e8a-a927-510f3846a47e}" />
           <AitFeature Name="{f3524c93-e5c7-5b88-bedb-d3e637cff271}" />
@@ -843,6 +873,7 @@
           <AitFeature Name="Windows.Globalization.Language" />
           <AitFeature Name="Windows.UI.Xaml.Shapes.Rectangle" />
           <AitFeature Name="Windows.UI.Xaml.Controls.Frame" />
+          <AitFeature Name="Windows.UI.Popups.MessageDialog" />
           <AitFeature Name="Windows.UI.Xaml.Media.SolidColorBrush" />
           <AitFeature Name="Windows.UI.Xaml.PropertyPath" />
           <AitFeature Name="Windows.Foundation.Uri" />
@@ -861,6 +892,7 @@
           <AitFeature Name="Windows.UI.Xaml.Markup.XamlReader" />
           <AitFeature Name="Windows.ApplicationModel.Resources.ResourceLoader" />
           <AitFeature Name="Windows.Security.Cryptography.Core.HashAlgorithmProvider" />
+          <AitFeature Name="Windows.Services.Maps.MapLocationFinder" />
           <AitFeature Name="Windows.Security.Cryptography.CryptographicBuffer" />
           <AitFeature Name="Windows.ApplicationModel.Resources.Core.ResourceManager" />
           <AitFeature Name="Windows.UI.Xaml.VisualStateManager" />
@@ -882,6 +914,18 @@
           <AitFeature Name="Windows.UI.Xaml.DependencyProperty" />
         </AitCategory>
       </AitFile>
+      <AitFile ErrorCode="0" Name="ClrCompression.dll" Id="00003e0ead7458e4ad4ec0ca220a18be2728eae6ea20">
+        <AitCategory Id="ApiStatic">
+          <AitFeature Name="api-ms-win-core-profile-l1-1-0.dll!QueryPerformanceCounter" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemAlloc" />
+          <AitFeature Name="api-ms-win-core-com-l1-1-0.dll!CoTaskMemFree" />
+          <AitFeature Name="api-ms-win-core-sysinfo-l1-1-0.dll!GetSystemTimeAsFileTime" />
+          <AitFeature Name="api-ms-win-core-sysinfo-l1-1-0.dll!GetTickCount64" />
+          <AitFeature Name="api-ms-win-core-libraryloader-l1-1-0.dll!DisableThreadLibraryCalls" />
+          <AitFeature Name="api-ms-win-core-processthreads-l1-1-0.dll!GetCurrentThreadId" />
+        </AitCategory>
+      </AitFile>
+      <AitFile ErrorCode="0" Name="Malaga.exe" Id="0000a673305034bff28fe4047cecad2dc6d6db38f102" />
       <AitFile ErrorCode="0" Name="sqlite3.dll" Id="0000e4c8221b458c9a3534b4c94aa55bd2332c76f0fa">
         <AitCategory Id="Com">
           <AitFeature Name="{00000000-0000-0000-0000-000000000001}" />

@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>Malaga_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>5A7D5E828F3AEAD80B5109C9501F521E629001A0</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Always</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">

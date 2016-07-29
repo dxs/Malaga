@@ -24,6 +24,7 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Relea
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\Square71x71Logo.scale-100.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\Square71x71Logo.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\StoreLogo.png
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\visit.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\Wide310x150Logo.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\ClrCompression.dll
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Data.g.cs
@@ -302,6 +303,7 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Relea
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square310x310Logo.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square71x71Logo.scale-100.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square71x71Logo.scale-200.png
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\visit.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\LockScreenLogo.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\SplashScreen.scale-200.png
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\ilc\in\Assets\Square150x150Logo.scale-200.png

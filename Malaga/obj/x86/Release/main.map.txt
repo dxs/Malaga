@@ -11,6 +11,7 @@
 "C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\Malaga.dll"			"Malaga.dll"
 "C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\ClrCompression.dll"			"ClrCompression.dll"
 "C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\Assets\Wide310x150Logo.scale-200.png"			"Assets\Wide310x150Logo.scale-200.png"
+"C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\Assets\visit.png"			"Assets\visit.png"
 "C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\Assets\StoreLogo.png"			"Assets\StoreLogo.png"
 "C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\Assets\Square71x71Logo.scale-200.png"			"Assets\Square71x71Logo.scale-200.png"
 "C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Release\PackageLayout\Assets\Square44x44Logo.targetsize-24_altform-unplated.png"			"Assets\Square44x44Logo.targetsize-24_altform-unplated.png"

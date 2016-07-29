@@ -97,6 +97,11 @@
 						<Value>Assets\StoreLogo.png</Value>
 					</Candidate>
 				</NamedResource>
+				<NamedResource name="visit.png" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/visit.png">
+					<Candidate type="Path">
+						<Value>Assets\visit.png</Value>
+					</Candidate>
+				</NamedResource>
 				<NamedResource name="Wide310x150Logo.png" uri="ms-resource://62394glaglasven.Malagatrip/Files/Assets/Wide310x150Logo.png">
 					<Candidate qualifiers="Scale-200" isDefault="true" type="Path">
 						<Value>Assets\Wide310x150Logo.scale-200.png</Value>

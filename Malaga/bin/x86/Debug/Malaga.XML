@@ -98,6 +98,16 @@
             Gets or sets the type
             </summary>
         </member>
+        <member name="P:Malaga.MainPage.MapPoint.Street">
+            <summary>
+            Gets or sets the Street address
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.MapPoint.Town">
+            <summary>
+            Gets or sets the Town
+            </summary>
+        </member>
         <member name="M:Malaga.MainPage.setDB">
             <summary>
             Setup Database and create table if not already exist
@@ -115,22 +125,36 @@
             </summary>
             <returns>List of MapPoint</returns>
         </member>
-        <member name="M:Malaga.MainPage.GetPointById(System.Int32)">
-            <summary>
-            Get a MapPoint from an Id
-            </summary>
-            <param name="_Id"></param>
-            <returns></returns>
-        </member>
         <member name="M:Malaga.MainPage.SaveMapPoint(Malaga.MainPage.MapPoint)">
             <summary>
             Save a point (creating or updating existing point)
             </summary>
             <param name="point"></param>
         </member>
+        <member name="M:Malaga.MainPage.GetPointById(System.Int32)">
+            <summary>
+            Get a MapPoint from an Id
+            </summary>
+            <param name="_Id"></param>
+            <returns>MapPoint</returns>
+        </member>
+        <member name="M:Malaga.MainPage.GetPointByName(System.String)">
+            <summary>
+            Get a MapPoint from name
+            </summary>
+            <param name="Name"></param>
+            <returns>MapPoint</returns>
+        </member>
+        <member name="M:Malaga.MainPage.GetPointsByType(System.String)">
+            <summary>
+            Retrieve from DB all MapPoint that match a Type
+            </summary>
+            <param name="Type"></param>
+            <returns>List of MapPoint</returns>
+        </member>
         <member name="M:Malaga.MainPage.createMapPoint(System.Int32,System.String,System.String,System.Double,System.Double,System.String)">
             <summary>
-            Cree un MapPoint selon des paramètres et le retourne
+            Cree un MapPoint selon une latitude et une longitude
             </summary>
             <param name="_Id">Identifiant</param>
             <param name="_Name">Nom</param>
@@ -139,6 +163,32 @@
             <param name="_Longitude">Coordonnée géographique 2</param>
             <param name="_Type">Type d'endroit</param>
             <returns>MapPoint</returns>
+        </member>
+        <member name="M:Malaga.MainPage.createMapPoint(System.Int32,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Cree un MapPoint selon une adresse
+            </summary>
+            <param name="_Id"></param>
+            <param name="_Name"></param>
+            <param name="_Description"></param>
+            <param name="_Street"></param>
+            <param name="_Town"></param>
+            <param name="_Type"></param>
+            <returns>MapPoint</returns>
+        </member>
+        <member name="M:Malaga.MainPage.GetAdressFromPoint(Windows.Foundation.Point)">
+            <summary>
+            Convert a lat/lon coordinate to an address
+            </summary>
+            <param name="point"></param>
+            <returns>string address</returns>
+        </member>
+        <member name="M:Malaga.MainPage.GetPointFromAddress(System.String)">
+            <summary>
+            Convert an address to a lat/lon coordinate
+            </summary>
+            <param name="address"></param>
+            <returns>Point latitude = X longitude = y</returns>
         </member>
         <member name="M:Malaga.MainPage.#ctor">
             <summary>
@@ -151,23 +201,245 @@
             </summary>
             <remarks>Actually only set up the position regarding what is the current localisation of the user</remarks>
         </member>
+        <member name="M:Malaga.MainPage.MyPosition_PositionChanged(Windows.Devices.Geolocation.Geolocator,Windows.Devices.Geolocation.PositionChangedEventArgs)">
+            <summary>
+            Update the position and call CenterMap(Point) if necessary
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Malaga.MainPage.setMyPosition(Windows.Devices.Geolocation.Geoposition)">
+            <summary>
+            Set a MapElement on MapControl representing the user position
+            </summary>
+            <param name="position"></param>
+        </member>
         <member name="M:Malaga.MainPage.setPOI">
             <summary>
             Set POI (Point Of Interest) on the map
             </summary>
+            <remarks>Use the ZIndex to mark the Id of the point</remarks>
+        </member>
+        <member name="M:Malaga.MainPage.clearPOI">
+            <summary>
+            Clear POI
+            </summary>
+        </member>
+        <member name="M:Malaga.MainPage.EditPointUI(Malaga.MainPage.MapPoint)">
+            <summary>
+            Open the editor for a point
+            </summary>
+            <param name="point"></param>
         </member>
         <member name="M:Malaga.MainPage.setGridView">
             <summary>
             Set the grid view of points
             </summary>
         </member>
-        <member name="M:Malaga.MainPage.mainMap_RightTapped(System.Object,Windows.UI.Xaml.Input.RightTappedRoutedEventArgs)">
+        <member name="M:Malaga.MainPage.CenterMap(Malaga.MainPage.MapPoint)">
             <summary>
-            Get the new point to save
+            Center the map to a given MapPoint
+            </summary>
+            <param name="point"></param>
+        </member>
+        <member name="M:Malaga.MainPage.CenterMap(Windows.Foundation.Point)">
+            <summary>
+            Center the map to a given Point (Latitude = X Longitude = Y)
+            </summary>
+            <param name="point"></param>
+        </member>
+        <member name="M:Malaga.MainPage.SelectButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user press select button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.EditButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user press edit button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.mainMap_MapElementClick(Windows.UI.Xaml.Controls.Maps.MapControl,Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs)">
+            <summary>
+            Event called when user click on a map element
             </summary>
             <remarks>not implemented yet</remarks>
             <param name="sender"></param>
             <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.mainMap_Tapped(Windows.UI.Xaml.Controls.Maps.MapControl,Windows.UI.Xaml.Controls.Maps.MapInputEventArgs)">
+            <summary>
+            Event called when user click on the map
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.FlyoutSelectRest(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to select restaurants
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.FlyoutSelectBar(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called wen user want to select bar
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.FlyoutSelectClub(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to select club
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.FlyoutSelectAll(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to select All
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.selectItemInView(System.String)">
+            <summary>
+            Given a parameter, updates the List and POI and map
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Malaga.MainPage.typeSelect_SelectionChanged(System.Object,Windows.UI.Xaml.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Update a private value when user change the selection
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.DeleteButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses DeleteButton
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.UpdateButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses UpdateButton
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.AddButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses Add Button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.HideButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses Hide Button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.HideEditUI(System.Boolean)">
+            <summary>
+            Hide the UI that allows user to edit fields
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="M:Malaga.MainPage.AppBarToggleButton_Checked(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to changes map view
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.followToggle_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to be followed
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.trafficToggle_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to display traffic informatiosn
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:Malaga.MainPage.Venue">
+            <summary>
+            Internal Object repressenting a Venue
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Description">
+            <summary>
+            Gets or sets the description.
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Latitude">
+            <summary>
+            Gets or sets the latitude
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Longitude">
+            <summary>
+            Gets or sets the Longitude
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Categorie">
+            <summary>
+            Gets or sets the type
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Street">
+            <summary>
+            Gets or sets the Street address
+            </summary>
+        </member>
+        <member name="P:Malaga.MainPage.Venue.Town">
+            <summary>
+            Gets or sets the Town
+            </summary>
+        </member>
+        <member name="M:Malaga.MainPage.LoadFoursquare">
+            <summary>
+            Take care to call great functions to load Foursquare
+            </summary>
+        </member>
+        <member name="M:Malaga.MainPage.GetJson(System.Int32,System.String,System.Int32,System.Int32,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,System.Int32,System.Double,System.Double)">
+            <summary>
+            Get the query of server from different parameters
+            </summary>
+            <param name="Radius">Radius research zone</param>
+            <param name="Section">Type de résultats [food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, nextVenues]</param>
+            <param name="NbItem">Number a item requested</param>
+            <param name="Offset">Offset for the item requested</param>
+            <param name="Time">[Morning, Lunch, Dinner, Night]</param>
+            <param name="Day">[Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche]</param>
+            <param name="Photo">Retrieve picture too</param>
+            <param name="IsOpenNow">Check only if open</param>
+            <param name="sortByDistance">Sort things by distance from point</param>
+            <param name="Price">Price from low to high [1,2,3,4]</param>
+            <param name="Latitude">double representing latitude</param>
+            <param name="Longitude">double representing lonitude</param>
+            <returns>JsonObject</returns>
         </member>
         <member name="M:Malaga.MainPage.InitializeComponent">
             <summary>

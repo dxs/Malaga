@@ -83,6 +83,9 @@
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\visit.png">
+      <PackagePath>Assets\visit.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x64\Release\ilc\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>

@@ -6,6 +6,11 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
+      <Class Name="Malaga.MainPage.Venue">
+        <TypeIdentifier>
+          <NewMemberFileName>MainPage.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
       <Class Name="Malaga.MainPage.MapPoint">
         <TypeIdentifier>
           <NewMemberFileName>MainPage.xaml.cs</NewMemberFileName>
@@ -13,10 +18,9 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAACAAA6AAAoEAACABIAgAAJABAECBAkAAABAAAoA=</HashCode>
+      <HashCode>AAIIgiAAA6AECoEAgHABIQgEAJAhgmGBBkgAARAAAsE=</HashCode>
       <FileName>MainPage.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

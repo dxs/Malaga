@@ -27,7 +27,7 @@
 						x:Name="mainMap" 
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						Tapped="mainMap_Tapped"
+						MapTapped="mainMap_Tapped"
 						MapElementClick="mainMap_MapElementClick"
 					/>
 					<Grid Grid.Row="1">
@@ -105,11 +105,18 @@
 					</Grid>
 				</Grid>
 			</PivotItem>
-			<PivotItem Header="Todo, Tobuy">
+			<PivotItem Header="Point of Interest">
 				<!--Pivot content goes here-->
-				<TextBlock Text="Todo, Tobuy"/>
+				<Grid>
+					<ProgressRing x:Name="ring" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="300" Width="300"/>
+					<GridView>
+						<ListBox x:Name="listBox">
+							
+						</ListBox>
+					</GridView>
+				</Grid>
 			</PivotItem>
-			<PivotItem Header="List of drink">
+			<PivotItem Header="To buy">
 				<!--Pivot content goes here-->
 				<TextBlock Text="Content of pivot item 3."/>
 			</PivotItem>

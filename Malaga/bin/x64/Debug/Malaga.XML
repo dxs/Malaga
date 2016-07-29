@@ -164,6 +164,32 @@
             <param name="_Type">Type d'endroit</param>
             <returns>MapPoint</returns>
         </member>
+        <member name="M:Malaga.MainPage.createMapPoint(System.Int32,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Cree un MapPoint selon une adresse
+            </summary>
+            <param name="_Id"></param>
+            <param name="_Name"></param>
+            <param name="_Description"></param>
+            <param name="_Street"></param>
+            <param name="_Town"></param>
+            <param name="_Type"></param>
+            <returns>MapPoint</returns>
+        </member>
+        <member name="M:Malaga.MainPage.GetAdressFromPoint(Windows.Foundation.Point)">
+            <summary>
+            Convert a lat/lon coordinate to an address
+            </summary>
+            <param name="point"></param>
+            <returns>string address</returns>
+        </member>
+        <member name="M:Malaga.MainPage.GetPointFromAddress(System.String)">
+            <summary>
+            Convert an address to a lat/lon coordinate
+            </summary>
+            <param name="address"></param>
+            <returns>Point latitude = X longitude = y</returns>
+        </member>
         <member name="M:Malaga.MainPage.#ctor">
             <summary>
             
@@ -181,6 +207,12 @@
             </summary>
             <param name="sender"></param>
             <param name="args"></param>
+        </member>
+        <member name="M:Malaga.MainPage.setMyPosition(Windows.Devices.Geolocation.Geoposition)">
+            <summary>
+            Set a MapElement on MapControl representing the user position
+            </summary>
+            <param name="position"></param>
         </member>
         <member name="M:Malaga.MainPage.setPOI">
             <summary>
@@ -238,7 +270,7 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="M:Malaga.MainPage.mainMap_Tapped(System.Object,Windows.UI.Xaml.Input.TappedRoutedEventArgs)">
+        <member name="M:Malaga.MainPage.mainMap_Tapped(Windows.UI.Xaml.Controls.Maps.MapControl,Windows.UI.Xaml.Controls.Maps.MapInputEventArgs)">
             <summary>
             Event called when user click on the map
             </summary>
@@ -278,6 +310,68 @@
             Given a parameter, updates the List and POI and map
             </summary>
             <param name="type"></param>
+        </member>
+        <member name="M:Malaga.MainPage.typeSelect_SelectionChanged(System.Object,Windows.UI.Xaml.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Update a private value when user change the selection
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.DeleteButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses DeleteButton
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.UpdateButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses UpdateButton
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.AddButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses Add Button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.HideButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user presses Hide Button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.HideEditUI(System.Boolean)">
+            <summary>
+            Hide the UI that allows user to edit fields
+            </summary>
+            <param name="state"></param>
+        </member>
+        <member name="M:Malaga.MainPage.AppBarToggleButton_Checked(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to changes map view
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.followToggle_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to be followed
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.trafficToggle_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user want to display traffic informatiosn
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
         </member>
         <member name="M:Malaga.MainPage.InitializeComponent">
             <summary>
