@@ -105,15 +105,31 @@
 					</Grid>
 				</Grid>
 			</PivotItem>
-			<PivotItem Header="Point of Interest">
+			<PivotItem Header="Points of Interest">
 				<!--Pivot content goes here-->
 				<Grid>
-					<ProgressRing x:Name="ring" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="300" Width="300"/>
-					<GridView>
-						<ListBox x:Name="listBox">
-							
-						</ListBox>
-					</GridView>
+					<ProgressRing x:Name="ring" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="100" Width="100"/>
+					<StackPanel>
+						<ScrollViewer x:Name="foursquare_scrollviewer" IsEnabled="True">
+							<StackPanel>
+								<Grid Margin="10" x:Name="foursquareGrid" >
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<!-- ID-->
+										<ColumnDefinition Width="Auto" />
+										<!--Name-->
+										<ColumnDefinition Width="*" />
+										<!--Description-->
+										<ColumnDefinition Width="Auto" />
+										<!--Address-->
+										<ColumnDefinition Width="Auto" />
+										<!--add togglebutton-->
+									</Grid.ColumnDefinitions>
+								</Grid>
+							</StackPanel>
+						</ScrollViewer>
+						<ProgressBar x:Name="progressBar" Visibility="Collapsed" Minimum="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10" Height="50" />
+					</StackPanel>
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="To buy">

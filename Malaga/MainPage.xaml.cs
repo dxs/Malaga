@@ -552,7 +552,7 @@ namespace Malaga
 					Rectangle background = new Rectangle();
 					background.Fill = new SolidColorBrush(Color.FromArgb(Convert.ToByte(90), Convert.ToByte(230), Convert.ToByte(230), Convert.ToByte(230)));
 					Grid.SetRow(background, i);
-					Grid.SetColumn(background, 1);
+					Grid.SetColumn(background, 0);
 					Grid.SetColumnSpan(background, 5);
 					pointGrid.Children.Add(background);
 				}
@@ -974,8 +974,8 @@ namespace Malaga
 			/// <summary>
 			/// Gets or sets the identifier.
 			/// </summary>
-			[PrimaryKey, AutoIncrement]
-			public int Id { get; set; }
+			[PrimaryKey]
+			public string Id { get; set; }
 
 			/// <summary>
 			/// Gets or sets the name.
@@ -1017,19 +1017,148 @@ namespace Malaga
 		/// <summary>
 		/// Take care to call great functions to load Foursquare
 		/// </summary>
+		/// <remarks>Need to be done more elegant</remarks>
+		/// <returns>True if it performed correct</returns>
 		private async Task<bool> LoadFoursquare()
 		{
 			JObject json = new JObject();
 			if (mapIconME == null)
 				return false;
-			json = await GetJson(0,"",20,0,"","",false,false,false,0,mapIconME.Location.Position.Latitude,mapIconME.Location.Position.Longitude);
+			json = await GetJson(1000,"",50,0,"","",false,false,false,0,mapIconME.Location.Position.Latitude,mapIconME.Location.Position.Longitude);
+			ring.Visibility = Visibility.Collapsed;
 
-			var categories = json["response"]["groups"]["items"]["venue"];
-			foreach(var i in categories)
-			{
-				listBox.Items.Add(new ListBoxItem() { Content = i.ToString() });
-			}
+			UpdateFoursquareList(json);
+			DisplayFoursquareList();
 			return true;
+		}
+
+		private void DisplayFoursquareList()
+		{
+			foursquareGrid.Children.Clear();
+			var i = 0;
+			foreach (Venue venue in ListVenue)
+			{
+				var rd = new RowDefinition();
+				foursquareGrid.RowDefinitions.Add(rd);
+
+				if (i % 2 == 0)
+				{
+					Rectangle background = new Rectangle();
+					background.Fill = new SolidColorBrush(Color.FromArgb(Convert.ToByte(90), Convert.ToByte(230), Convert.ToByte(230), Convert.ToByte(230)));
+					Grid.SetRow(background, i);
+					Grid.SetColumn(background, 0);
+					Grid.SetColumnSpan(background, 5);
+					foursquareGrid.Children.Add(background);
+				}
+
+				TextBlock tbId = new TextBlock()
+				{
+					Text = venue.Id.ToString(),
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(6)
+				};
+
+				Grid.SetRow(tbId, i);
+				Grid.SetColumn(tbId, 0);
+				foursquareGrid.Children.Add(tbId);
+
+				TextBlock tbName = new TextBlock()
+				{
+					Text = venue.Name,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(6)
+				};
+
+				Grid.SetRow(tbName, i);
+				Grid.SetColumn(tbName, 1);
+				foursquareGrid.Children.Add(tbName);
+
+				TextBlock tbDescr = new TextBlock()
+				{
+					Text = venue.Description,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(6)
+				};
+
+				Grid.SetRow(tbDescr, i);
+				Grid.SetColumn(tbDescr, 2);
+				foursquareGrid.Children.Add(tbDescr);
+
+				TextBlock tbStreet = new TextBlock()
+				{
+					Text = venue.Street + "\n" + venue.Town,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(6)
+				};
+
+				Grid.SetRow(tbStreet, i);
+				Grid.SetColumn(tbStreet, 3);
+				foursquareGrid.Children.Add(tbStreet);
+
+				ToggleButton toggleButton = new ToggleButton()
+				{
+					Content = new FontIcon()
+					{
+						FontFamily = new FontFamily("Segoe MDL2 Assets"),
+						Glyph = "\uE1D2"
+					},
+					IsChecked = false,
+					Padding = new Thickness(6),
+					Background = new SolidColorBrush(Colors.Transparent),
+					Tag = venue.Id
+				};
+				
+
+				Grid.SetRow(toggleButton, i);
+				Grid.SetColumn(toggleButton, 4);
+				foursquareGrid.Children.Add(toggleButton);
+
+				i++;
+			}
+		}
+
+		/// <summary>
+		/// Update the List of foursquare point
+		/// </summary>
+		/// <param name="json"></param>
+		private async void UpdateFoursquareList(JObject json)
+		{
+			var item = json["response"]["groups"][0]["items"];
+			int itemCount = item.Count();
+
+			for (int i = 0; i < itemCount; i++)
+			{
+				try
+				{
+					Venue v = new Venue();
+					var venue = json["response"]["groups"][0]["items"][i];
+					v.Id = venue["venue"]["id"].ToString();
+					v.Name = venue["venue"]["name"].ToString();
+					string tmp = venue["venue"]["location"]["lat"].ToString();
+					v.Latitude = Convert.ToDouble(tmp);
+					tmp = venue["venue"]["location"]["lng"].ToString();
+					v.Longitude = Convert.ToDouble(tmp);
+					v.Description = venue["venue"]["categories"][0]["name"].ToString();
+					string address = await GetAdressFromPoint(new Point(v.Latitude, v.Longitude));
+					string[] add = address.Split(',');
+					v.Street = add[0];
+					v.Town = add[1] + ", " + add[2];
+					ListVenue.Add(v);
+					
+				}
+				catch (Exception e)
+				{
+
+				}
+			}
 		}
 
 		/// <summary>
@@ -1048,7 +1177,7 @@ namespace Malaga
 		/// <param name="Latitude">double representing latitude</param>
 		/// <param name="Longitude">double representing lonitude</param>
 		/// <returns>JsonObject</returns>
-		private async Task<JObject> GetJson(int Radius = 0, string Section = "", int NbItem = 20, int Offset = 0, string Time = "", string Day = "", 
+		private async Task<JObject> GetJson(int Radius = 0, string Section = "trending", int NbItem = 20, int Offset = 0, string Time = "", string Day = "", 
 										bool Photo = false, bool IsOpenNow = false, bool sortByDistance = false, int Price = 0, double Latitude = 0, double Longitude = 0)
 		{
 			string web = @"https://api.foursquare.com/v2/venues/explore?client_id=" + CLIENTID + @"&client_secret=" + SECRETID;
@@ -1084,7 +1213,7 @@ namespace Malaga
 			var uri = new Uri(web);
 
 			var httpClient = new HttpClient();
-			var content = await httpClient.GetStringAsync(@"https://api.foursquare.com/v2/venues/explore?client_id=OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL&client_secret=WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W&v=20130815&ll=46.7638,6.8746");
+			var content = await httpClient.GetStringAsync(uri);
 			return await Task.Run(() => JObject.Parse(content));
 		}
 

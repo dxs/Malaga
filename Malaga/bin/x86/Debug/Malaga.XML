@@ -422,6 +422,14 @@
             <summary>
             Take care to call great functions to load Foursquare
             </summary>
+            <remarks>Need to be done more elegant</remarks>
+            <returns>True if it performed correct</returns>
+        </member>
+        <member name="M:Malaga.MainPage.UpdateFoursquareList(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Update the List of foursquare point
+            </summary>
+            <param name="json"></param>
         </member>
         <member name="M:Malaga.MainPage.GetJson(System.Int32,System.String,System.Int32,System.Int32,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,System.Int32,System.Double,System.Double)">
             <summary>
