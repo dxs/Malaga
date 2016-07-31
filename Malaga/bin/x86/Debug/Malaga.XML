@@ -268,7 +268,7 @@
             </summary>
             <remarks>not implemented yet</remarks>
             <param name="sender"></param>
-            <param name="e"></param>
+            <param name="args"></param>
         </member>
         <member name="M:Malaga.MainPage.mainMap_Tapped(Windows.UI.Xaml.Controls.Maps.MapControl,Windows.UI.Xaml.Controls.Maps.MapInputEventArgs)">
             <summary>
@@ -311,12 +311,11 @@
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:Malaga.MainPage.typeSelect_SelectionChanged(System.Object,Windows.UI.Xaml.Controls.SelectionChangedEventArgs)">
+        <member name="M:Malaga.MainPage.HideEditUI(System.Boolean)">
             <summary>
-            Update a private value when user change the selection
+            Hide the UI that allows user to edit fields
             </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
+            <param name="state"></param>
         </member>
         <member name="M:Malaga.MainPage.DeleteButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
             <summary>
@@ -346,12 +345,6 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="M:Malaga.MainPage.HideEditUI(System.Boolean)">
-            <summary>
-            Hide the UI that allows user to edit fields
-            </summary>
-            <param name="state"></param>
-        </member>
         <member name="M:Malaga.MainPage.AppBarToggleButton_Checked(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
             <summary>
             Event called when user want to changes map view
@@ -369,6 +362,27 @@
         <member name="M:Malaga.MainPage.trafficToggle_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
             <summary>
             Event called when user want to display traffic informatiosn
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.OnScrollViewerViewChanged(System.Object,Windows.UI.Xaml.Controls.ScrollViewerViewChangedEventArgs)">
+            <summary>
+            Called when user scroll to detect if bottom is reached
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.streetBox_TextChanged(System.Object,Windows.UI.Xaml.Controls.TextChangedEventArgs)">
+            <summary>
+            Reset latitude and longitude box 
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.latBox_TextChanged(System.Object,Windows.UI.Xaml.Controls.TextChangedEventArgs)">
+            <summary>
+            Reset street and town box
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
@@ -417,6 +431,12 @@
             <summary>
             Gets or sets the Town
             </summary>
+        </member>
+        <member name="M:Malaga.MainPage.IsInternet">
+            <summary>
+            Check if there is an internet connection
+            </summary>
+            <returns>nullable bool</returns>
         </member>
         <member name="M:Malaga.MainPage.LoadFoursquare">
             <summary>

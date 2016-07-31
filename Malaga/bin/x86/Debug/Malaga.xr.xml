@@ -50,6 +50,7 @@
       <RootProperty Name="Background" />
       <RootProperty Name="IsScrollInertiaEnabled" />
       <RootProperty Name="IsVerticalRailEnabled" />
+      <RootEvent Name="ViewChanged" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.ProgressBar">
       <RootProperty Name="Visibility" />
@@ -88,6 +89,7 @@
       <RootProperty Name="PlaceholderText" />
       <RootProperty Name="IsSpellCheckEnabled" />
       <RootProperty Name="InputScope" />
+      <RootEvent Name="TextChanged" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.FlipView">
       <RootProperty Name="MaxHeight" />

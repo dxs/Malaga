@@ -16,7 +16,7 @@
     <PackageRegistrationPath>
     </PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
-    <RegisteredManifestChecksum>72692B139509422229CCCA420270AB9232303CFEF313D7F1045C890F143D4769</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>98B3CB6A9A3ED1F9599BCE6A6D08C0B47CD58BF55784D5C67FA5FADFB87EABD7</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>62394glaglasven.Malagatrip_0.9.16.0_x86__070hkg4km4tgr</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>62394glaglasven.Malagatrip_070hkg4km4tgr!App</RegisteredUserModeAppID>
     <RegisteredPackageID>62394glaglasven.Malagatrip</RegisteredPackageID>
@@ -28,13 +28,13 @@
     <AppXManifest Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-29T21:01:39.934</Modified>
+      <Modified>2016-07-31T16:30:05.612</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Malaga.exe">
       <PackagePath>entrypoint\Malaga.exe</PackagePath>
-      <Modified>2016-07-29T21:01:39.421</Modified>
+      <Modified>2016-07-31T16:30:04.966</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\.nuget\packages\Microsoft.CSharp\4.0.0\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -478,102 +478,102 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\bar.png">
       <PackagePath>Assets\bar.png</PackagePath>
-      <Modified>2016-07-24T22:31:48.907</Modified>
+      <Modified>2016-07-31T14:58:50.623</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\dj.png">
       <PackagePath>Assets\dj.png</PackagePath>
-      <Modified>2016-07-24T22:36:48.565</Modified>
+      <Modified>2016-07-31T14:58:50.624</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\restaurant.png">
       <PackagePath>Assets\restaurant.png</PackagePath>
-      <Modified>2016-07-27T09:38:28.251</Modified>
+      <Modified>2016-07-31T14:58:50.627</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\loc.png">
       <PackagePath>Assets\loc.png</PackagePath>
-      <Modified>2016-07-27T17:44:41.613</Modified>
+      <Modified>2016-07-31T14:58:50.625</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square150x150Logo.scale-100.png">
       <PackagePath>Assets\Square150x150Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:18:01.406</Modified>
+      <Modified>2016-07-31T14:58:50.612</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square310x310Logo.scale-100.png">
       <PackagePath>Assets\Square310x310Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:15:20.770</Modified>
+      <Modified>2016-07-31T14:58:50.615</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square310x310Logo.scale-200.png">
       <PackagePath>Assets\Square310x310Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:32:05.690</Modified>
+      <Modified>2016-07-31T14:58:50.616</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square71x71Logo.scale-100.png">
       <PackagePath>Assets\Square71x71Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:19:03.683</Modified>
+      <Modified>2016-07-31T14:58:50.619</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square71x71Logo.scale-200.png">
       <PackagePath>Assets\Square71x71Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:34:30.627</Modified>
+      <Modified>2016-07-31T14:58:50.620</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\visit.png">
       <PackagePath>Assets\visit.png</PackagePath>
-      <Modified>2016-07-28T17:51:19.078</Modified>
+      <Modified>2016-07-31T14:58:50.631</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
-      <Modified>2015-10-10T20:07:26.000</Modified>
+      <Modified>2016-07-31T14:58:50.610</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:14:03.183</Modified>
+      <Modified>2016-07-31T14:58:50.611</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:18:29.267</Modified>
+      <Modified>2016-07-31T14:58:50.613</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:16:10.383</Modified>
+      <Modified>2016-07-31T14:58:50.617</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:16:31.869</Modified>
+      <Modified>2016-07-31T14:58:50.618</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:20:10.896</Modified>
+      <Modified>2016-07-31T14:58:50.621</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-07-27T13:17:29.461</Modified>
+      <Modified>2016-07-31T14:58:50.622</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\running.gif">
       <PackagePath>Assets\running.gif</PackagePath>
-      <Modified>2016-07-27T15:39:24.782</Modified>
+      <Modified>2016-07-31T14:58:50.628</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\skeleton.gif">
       <PackagePath>Assets\skeleton.gif</PackagePath>
-      <Modified>2016-07-27T17:43:47.270</Modified>
+      <Modified>2016-07-31T14:58:50.630</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\points.xml">
       <PackagePath>points.xml</PackagePath>
-      <Modified>2016-07-24T21:28:09.337</Modified>
+      <Modified>2016-07-31T14:59:48.486</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
-      <Modified>2016-07-24T19:14:25.268</Modified>
+      <Modified>2016-07-31T14:58:50.713</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Malaga.xr.xml">
       <PackagePath>Malaga.xr.xml</PackagePath>
-      <Modified>2016-07-29T21:01:24.342</Modified>
+      <Modified>2016-07-31T16:22:23.387</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -581,11 +581,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2016-07-29T21:01:25.281</Modified>
+      <Modified>2016-07-31T16:26:51.784</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Core\Malaga.exe">
       <PackagePath>Malaga.exe</PackagePath>
-      <Modified>2016-07-29T21:01:39.930</Modified>
+      <Modified>2016-07-31T16:30:05.607</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

@@ -1,26 +1,16 @@
 ﻿using SQLite.Net;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Xml.Linq;
-using Windows.ApplicationModel;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using SQLite;
-using SQLite.Net.Platform;
 using SQLite.Net.Attributes;
 using SQLite.Net.Platform.WinRT;
 using System.Threading.Tasks;
@@ -29,11 +19,9 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.Services.Maps;
-using Windows.Data.Json;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
+using Windows.Networking.Connectivity;
 
 namespace Malaga
 {
@@ -373,20 +361,31 @@ namespace Malaga
 		public MainPage()
 		{
 			this.InitializeComponent();
+			SelectedPoint = new MapPoint();
 			timer = new DispatcherTimer();
 			timer.Interval = new TimeSpan(0,0,1);
 			timer.Tick += Timer_Tick;
 			setDB();
 			ListMapPoint = GetAllPoints();
 			setMap();
-			timer.Start();
+			//timer.Start();
 		}
 
 		private async void Timer_Tick(object sender, object e)
 		{
 			timer.Stop();
-			if (await LoadFoursquare() == false)
+			bool? isConnected = false;
+			isConnected = await LoadFoursquare();
+			if (isConnected == false)
+			{
+				timer.Interval = new TimeSpan(0, 0, 1);
 				timer.Start();
+			}
+			if(isConnected == null)
+			{
+				timer.Interval = new TimeSpan(0, 0, 30);
+				timer.Start();
+			}
 		}
 
 		/// <summary>
@@ -418,7 +417,6 @@ namespace Malaga
 					//_rootPage.NotifyUser("Unspecificed error!", NotifyType.ErrorMessage);
 					break;
 			}
-			LoadFoursquare();
 		}
 
 		/// <summary>
@@ -494,7 +492,6 @@ namespace Malaga
 				// Add the MapIcon to the map.
 				mainMap.MapElements.Add(mapIcon1);
 			}
-			LoadFoursquare();
 		}
 
 		/// <summary>
@@ -530,9 +527,15 @@ namespace Malaga
 				case "Visit":
 					typeSelect.SelectedIndex = 3;
 					break;
+				default:
+					typeSelect.SelectedIndex = 0;
+					break;
 			}
-			typeSelect.SelectionChanged += typeSelect_SelectionChanged;
 			SelectedPoint = point;
+			latBox.TextChanged += latBox_TextChanged;
+			LonBox.TextChanged += latBox_TextChanged;
+			streetBox.TextChanged += streetBox_TextChanged;
+			townBox.TextChanged += streetBox_TextChanged;
 		}
 
 		/// <summary>
@@ -684,7 +687,7 @@ namespace Malaga
 		/// </summary>
 		/// <remarks>not implemented yet</remarks>
 		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// <param name="args"></param>
 		private void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
 		{
 			MapPoint point = GetPointById(args.MapElements[0].ZIndex);
@@ -700,6 +703,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private async void mainMap_Tapped(MapControl sender, MapInputEventArgs e)
 		{
+			HideEditUI(false);
 			SelectedPoint = new MapPoint();
 			var tappedGeoPosition = e.Location.Position;
 			SelectedPoint.Latitude = tappedGeoPosition.Latitude;
@@ -711,7 +715,10 @@ namespace Malaga
 			streetBox.Text = SelectedPoint.Street = address[0];
 			townBox.Text = SelectedPoint.Town = address[1] + "," + address[2];
 			UpdateButton.Content = "Create";
-			HideEditUI(false);
+			latBox.TextChanged += latBox_TextChanged;
+			LonBox.TextChanged += latBox_TextChanged;
+			streetBox.TextChanged += streetBox_TextChanged;
+			townBox.TextChanged += streetBox_TextChanged;
 		}
 
 		#region eventflyout
@@ -768,31 +775,41 @@ namespace Malaga
 		}
 
 		/// <summary>
-		/// Update a private value when user change the selection
+		/// Hide the UI that allows user to edit fields
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void typeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		/// <param name="state"></param>
+		private void HideEditUI(bool state)
 		{
-			var combo = sender as ComboBox;
-			int a = combo.SelectedIndex;
-			switch(a)
+			UpdateButton.Content = "Update";
+
+			if (state)
 			{
-				case 0:
-					SelectedPoint.Type = "Bar";
-					break;
-				case 1:
-					SelectedPoint.Type = "Club";
-					break;
-				case 2:
-					SelectedPoint.Type = "Restaurant";
-					break;
-				case 3:
-					SelectedPoint.Type = "Visit";
-					break;
+				Grid.SetColumnSpan(scrollview, 2);
+				latBox.TextChanged -= latBox_TextChanged;
+				LonBox.TextChanged -= latBox_TextChanged;
+				streetBox.TextChanged -= streetBox_TextChanged;
+				townBox.TextChanged -= streetBox_TextChanged;
 			}
+			else
+			{
+				latBox.TextChanged -= latBox_TextChanged;
+				LonBox.TextChanged -= latBox_TextChanged;
+				streetBox.TextChanged -= streetBox_TextChanged;
+				townBox.TextChanged -= streetBox_TextChanged;
+				Grid.SetColumnSpan(scrollview, 1);
+			}
+
+
+			ListMapPoint = GetAllPoints();
+			setPOI();
+			setGridView();
 		}
 
+		#region comboBoxEvent
+
+		#endregion
+
+		#region buttonEvent
 		/// <summary>
 		/// Event called when user presses DeleteButton
 		/// </summary>
@@ -817,8 +834,8 @@ namespace Malaga
 				error = new MessageDialog("Please enter a Name");
 			if (boxDesc.Text == "" && error == null)
 				error = new MessageDialog("Please enter a Description");
-			if (((latBox.Text == "" || LonBox.Text == "") 
-				&& (streetBox.Text == "" || townBox.Text == "")) 
+			if (((latBox.Text == "" || LonBox.Text == "")
+				&& (streetBox.Text == "" || townBox.Text == ""))
 				&& error == null)
 				error = new MessageDialog("Please enter a Position");
 			if (error != null)
@@ -826,18 +843,29 @@ namespace Malaga
 				await error.ShowAsync();
 				return;
 			}
-			Point point = new Point(0,0);
+
+			UpdateCall();
+		}
+
+		private async void UpdateCall()
+		{
+			Point point = new Point(0, 0);
 			string address = "";
+
 			if (latBox.Text == "")
 				point = await GetPointFromAddress(streetBox.Text + ", " + townBox);
 			else
+			{
+				SelectedPoint.Latitude = Convert.ToDouble(latBox.Text);
+				SelectedPoint.Longitude = Convert.ToDouble(LonBox.Text);
 				address = await GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
+			}
 
 			SelectedPoint = new MapPoint();
 			SelectedPoint.Name = boxName.Text;
 			SelectedPoint.Description = boxDesc.Text;
 
-			if (point.X == 0 && point.Y == 0)
+			if (point.X == 0 || point.Y == 0)
 			{
 				SelectedPoint.Latitude = Convert.ToDouble(latBox.Text);
 				SelectedPoint.Longitude = Convert.ToDouble(LonBox.Text);
@@ -848,7 +876,7 @@ namespace Malaga
 				SelectedPoint.Longitude = point.Y;
 			}
 
-			if(address == "")
+			if (address == "")
 			{
 				SelectedPoint.Street = streetBox.Text;
 				SelectedPoint.Town = townBox.Text;
@@ -858,6 +886,25 @@ namespace Malaga
 				string[] parse = address.Split(',');
 				SelectedPoint.Street = parse[0];
 				SelectedPoint.Town = parse[1] + ',' + parse[2];
+			}
+
+			switch (typeSelect.SelectedIndex)
+			{
+				case 0:
+					SelectedPoint.Type = "Bar";
+					break;
+				case 1:
+					SelectedPoint.Type = "Club";
+					break;
+				case 2:
+					SelectedPoint.Type = "Restaurant";
+					break;
+				case 3:
+					SelectedPoint.Type = "Visit";
+					break;
+				default:
+					SelectedPoint.Type = "Visit";
+					break;
 			}
 
 			if (UpdateButton.Content.ToString() == "Create")
@@ -891,25 +938,9 @@ namespace Malaga
 		{
 			HideEditUI(true);
 		}
+		#endregion
 
-		/// <summary>
-		/// Hide the UI that allows user to edit fields
-		/// </summary>
-		/// <param name="state"></param>
-		private void HideEditUI(bool state)
-		{
-			UpdateButton.Content = "Update";
-
-			typeSelect.SelectionChanged -= typeSelect_SelectionChanged;
-			if (state)
-				Grid.SetColumnSpan(scrollview, 2);
-			else
-				Grid.SetColumnSpan(scrollview, 1);
-
-			ListMapPoint = GetAllPoints();
-			setPOI();
-			setGridView();
-		}
+		#region toggleButtonEvent
 
 		/// <summary>
 		/// Event called when user want to changes map view
@@ -954,11 +985,18 @@ namespace Malaga
 			else
 				mainMap.TrafficFlowVisible = false;
 		}
+		#endregion
 
+		#region scrollviewverEvent
+		/// <summary>
+		/// Called when user scroll to detect if bottom is reached
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
-    		var verticalOffset = sv.VerticalOffset;
-    		var maxVerticalOffset = sv.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
+    		var verticalOffset = foursquare_scrollviewer.VerticalOffset;
+    		var maxVerticalOffset = foursquare_scrollviewer.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
 
     		if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)
     		{
@@ -969,6 +1007,41 @@ namespace Malaga
         		// Not scrolled to bottom
     		}
 		}
+		#endregion
+
+		#region textBoxEvent
+		/// <summary>
+		/// Reset latitude and longitude box 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void streetBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			latBox.TextChanged -= latBox_TextChanged;
+			LonBox.TextChanged -= latBox_TextChanged;
+			latBox.Text = "";
+			LonBox.Text = "";
+			latBox.TextChanged += latBox_TextChanged;
+			LonBox.TextChanged += latBox_TextChanged;
+		}
+
+		/// <summary>
+		/// Reset street and town box
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void latBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			streetBox.TextChanged -= streetBox_TextChanged;
+			townBox.TextChanged -= streetBox_TextChanged;
+			streetBox.Text = "";
+			townBox.Text = "";
+			streetBox.TextChanged += streetBox_TextChanged;
+			townBox.TextChanged += streetBox_TextChanged;
+		}
+		#endregion
+
+
 		#region foursquare
 
 		/*
@@ -1029,12 +1102,28 @@ namespace Malaga
 		}
 
 		/// <summary>
+		/// Check if there is an internet connection
+		/// </summary>
+		/// <returns>nullable bool</returns>
+		public static bool IsInternet()
+		{
+			ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
+			bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+			return internet;
+		}
+
+		/// <summary>
 		/// Take care to call great functions to load Foursquare
 		/// </summary>
 		/// <remarks>Need to be done more elegant</remarks>
 		/// <returns>True if it performed correct</returns>
-		private async Task<bool> LoadFoursquare()
+		private async Task<bool?> LoadFoursquare()
 		{
+			if(IsInternet() == false)
+			{
+				var d = new MessageDialog("No internet access", "Sorry");
+				return null;
+			}
 			JObject json = new JObject();
 			if (mapIconME == null)
 				return false;
@@ -1170,7 +1259,7 @@ namespace Malaga
 				}
 				catch (Exception e)
 				{
-
+					e.ToString();
 				}
 			}
 		}

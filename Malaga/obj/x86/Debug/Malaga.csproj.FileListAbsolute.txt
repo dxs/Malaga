@@ -116,7 +116,6 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\System.Xml.XDocument.dll
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\System.Xml.XmlDocument.dll
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\System.Xml.XmlSerializer.dll
-C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\Malaga.csprojResolveAssemblyReference.cache
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\App.g.i.cs
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\App.g.cs
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\MainPage.g.i.cs
@@ -201,3 +200,4 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\Microsoft.Xaml.Interactivity.pri.xml
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\ProjectArchitectures.txt
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Newtonsoft.Json.dll
+C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\Malaga.csprojResolveAssemblyReference.cache

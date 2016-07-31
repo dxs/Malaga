@@ -48,14 +48,14 @@
 									<FlipView MaxHeight="180">
 										<FlipViewItem>
 											<StackPanel>
-												<TextBox x:Name="streetBox" Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
-												<TextBox x:Name="townBox" Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
+												<TextBox x:Name="streetBox" TextChanged="streetBox_TextChanged" Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
+												<TextBox x:Name="townBox" TextChanged="streetBox_TextChanged" Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
 											</StackPanel>
 										</FlipViewItem>
 										<FlipViewItem>
 											<StackPanel>
 												<TextBox x:Name="latBox" Header="Latitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
-												<TextBox x:Name="LonBox" Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+												<TextBox x:Name="LonBox" TextChanged="latBox_TextChanged" Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
 											</StackPanel>
 										</FlipViewItem>
 									</FlipView>

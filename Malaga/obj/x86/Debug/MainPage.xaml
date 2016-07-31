@@ -48,14 +48,14 @@
 									<FlipView MaxHeight="180">
 										<FlipViewItem>
 											<StackPanel>
-												<TextBox x:ConnectionId='18' x:Name="streetBox" Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
-												<TextBox x:ConnectionId='19' x:Name="townBox" Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
+												<TextBox x:ConnectionId='18' x:Name="streetBox"                                     Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
+												<TextBox x:ConnectionId='19' x:Name="townBox"                                     Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
 											</StackPanel>
 										</FlipViewItem>
 										<FlipViewItem>
 											<StackPanel>
 												<TextBox x:ConnectionId='16' x:Name="latBox" Header="Latitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
-												<TextBox x:ConnectionId='17' x:Name="LonBox" Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+												<TextBox x:ConnectionId='17' x:Name="LonBox"                                  Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
 											</StackPanel>
 										</FlipViewItem>
 									</FlipView>
@@ -81,7 +81,7 @@
 							</ScrollViewer>
 						</Grid>
 						
-						<ScrollViewer x:ConnectionId='7' Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+						<ScrollViewer x:ConnectionId='7'                                         Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
 							<StackPanel>
 								<Grid x:ConnectionId='8' Margin="10" x:Name="pointGrid" >
 									<Grid.ColumnDefinitions>
