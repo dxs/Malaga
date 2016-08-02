@@ -142,8 +142,12 @@
 	<Page.BottomAppBar>
 		<CommandBar>
 			<AppBarToggleButton x:ConnectionId='20' x:Name="toggle" Label="Aerial view" Icon="Globe"                                                                             />
-			<AppBarToggleButton x:ConnectionId='21' x:Name="followToggle" Label="Follow me"                            IsChecked="False" Icon="Bullets"/>
-			<AppBarToggleButton x:ConnectionId='22' x:Name="trafficToggle" Label="Traffic"                             IsChecked="False" Icon="TouchPointer"/>
+			<AppBarToggleButton x:ConnectionId='21' x:Name="followToggle" Label="Follow me"                            IsChecked="False" Icon="Bullets">
+				<FontIcon Glyph="&#xE7E7;"/>
+			</AppBarToggleButton>
+			<AppBarToggleButton x:ConnectionId='22' x:Name="trafficToggle" Label="Traffic"                             IsChecked="False">
+				<FontIcon Glyph="&#xE7EC;" />
+			</AppBarToggleButton>
 			<AppBarSeparator/>
 			<AppBarButton Label="Filter by" Icon="Filter" >
 				<AppBarButton.Flyout>

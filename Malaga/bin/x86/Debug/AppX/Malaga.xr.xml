@@ -114,6 +114,7 @@
       <RootProperty Name="Label" />
       <RootProperty Name="Icon" />
       <RootProperty Name="IsChecked" />
+      <RootProperty Name="Content" />
       <RootEvent Name="Checked" />
       <RootEvent Name="Unchecked" />
       <RootEvent Name="Click" />
@@ -130,6 +131,9 @@
     <RootType FullName="Windows.UI.Xaml.Controls.MenuFlyoutItem">
       <RootProperty Name="Text" />
       <RootEvent Name="Click" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.FontIcon">
+      <RootProperty Name="Glyph" />
     </RootType>
     <RootType FullName="Malaga.MainPage" />
   </Roots.RootTypes>

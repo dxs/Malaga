@@ -361,6 +361,9 @@
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\dj.png">
       <PackagePath>Assets\dj.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\mapPin.png">
+      <PackagePath>Assets\mapPin.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\Assets\restaurant.png">
       <PackagePath>Assets\restaurant.png</PackagePath>
     </AppxPackagedFile>

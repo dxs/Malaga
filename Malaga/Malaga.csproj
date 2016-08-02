@@ -117,6 +117,7 @@
   <ItemGroup>
     <Content Include="Assets\bar.png" />
     <Content Include="Assets\dj.png" />
+    <Content Include="Assets\mapPin.png" />
     <Content Include="Assets\running.gif" />
     <Content Include="Assets\restaurant.png" />
     <Content Include="Assets\loc.png" />

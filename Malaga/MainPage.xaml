@@ -142,8 +142,12 @@
 	<Page.BottomAppBar>
 		<CommandBar>
 			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
-			<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets"/>
-			<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False" Icon="TouchPointer"/>
+			<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets">
+				<FontIcon Glyph="&#xE7E7;"/>
+			</AppBarToggleButton>
+			<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False">
+				<FontIcon Glyph="&#xE7EC;" />
+			</AppBarToggleButton>
 			<AppBarSeparator/>
 			<AppBarButton Label="Filter by" Icon="Filter" >
 				<AppBarButton.Flyout>

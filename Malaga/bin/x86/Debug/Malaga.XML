@@ -236,6 +236,18 @@
             Set the grid view of points
             </summary>
         </member>
+        <member name="M:Malaga.MainPage.selectItemInView(System.String)">
+            <summary>
+            Given a parameter, updates the List and POI and map
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Malaga.MainPage.HideEditUI(System.Boolean)">
+            <summary>
+            Hide the UI that allows user to edit fields
+            </summary>
+            <param name="state"></param>
+        </member>
         <member name="M:Malaga.MainPage.CenterMap(Malaga.MainPage.MapPoint)">
             <summary>
             Center the map to a given MapPoint
@@ -247,20 +259,6 @@
             Center the map to a given Point (Latitude = X Longitude = Y)
             </summary>
             <param name="point"></param>
-        </member>
-        <member name="M:Malaga.MainPage.SelectButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
-            <summary>
-            Event called when user press select button
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:Malaga.MainPage.EditButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
-            <summary>
-            Event called when user press edit button
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
         </member>
         <member name="M:Malaga.MainPage.mainMap_MapElementClick(Windows.UI.Xaml.Controls.Maps.MapControl,Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs)">
             <summary>
@@ -276,6 +274,13 @@
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.setTmpPoint(System.Double,System.Double)">
+            <summary>
+            Set a mappin icon where the user has touch the map
+            </summary>
+            <param name="latitude"></param>
+            <param name="longitude"></param>
         </member>
         <member name="M:Malaga.MainPage.FlyoutSelectRest(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
             <summary>
@@ -305,18 +310,6 @@
             <param name="sender"></param>
             <param name="e"></param>
         </member>
-        <member name="M:Malaga.MainPage.selectItemInView(System.String)">
-            <summary>
-            Given a parameter, updates the List and POI and map
-            </summary>
-            <param name="type"></param>
-        </member>
-        <member name="M:Malaga.MainPage.HideEditUI(System.Boolean)">
-            <summary>
-            Hide the UI that allows user to edit fields
-            </summary>
-            <param name="state"></param>
-        </member>
         <member name="M:Malaga.MainPage.DeleteButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
             <summary>
             Event called when user presses DeleteButton
@@ -341,6 +334,20 @@
         <member name="M:Malaga.MainPage.HideButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
             <summary>
             Event called when user presses Hide Button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.SelectButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user press select button
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Malaga.MainPage.EditButton_Click(System.Object,Windows.UI.Xaml.RoutedEventArgs)">
+            <summary>
+            Event called when user press edit button
             </summary>
             <param name="sender"></param>
             <param name="e"></param>

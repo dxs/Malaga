@@ -33,6 +33,7 @@ namespace Malaga
 		/*Global vars*/
 		#region global
 		MapIcon mapIconME = null;
+		MapIcon tmpIcon = null;
 		DispatcherTimer timer;
 
 		MapPoint SelectedPoint = null;
@@ -368,7 +369,7 @@ namespace Malaga
 			setDB();
 			ListMapPoint = GetAllPoints();
 			setMap();
-			//timer.Start();
+			timer.Start();
 		}
 
 		private async void Timer_Tick(object sender, object e)
@@ -638,6 +639,49 @@ namespace Malaga
 		}
 
 		/// <summary>
+		/// Given a parameter, updates the List and POI and map
+		/// </summary>
+		/// <param name="type"></param>
+		private void selectItemInView(string type)
+		{
+			ListMapPoint = GetPointsByType(type);
+			setPOI();
+			setGridView();
+		}
+
+		/// <summary>
+		/// Hide the UI that allows user to edit fields
+		/// </summary>
+		/// <param name="state"></param>
+		private void HideEditUI(bool state)
+		{
+			UpdateButton.Content = "Update";
+
+			if (state)
+			{
+				Grid.SetColumnSpan(scrollview, 2);
+				latBox.TextChanged -= latBox_TextChanged;
+				LonBox.TextChanged -= latBox_TextChanged;
+				streetBox.TextChanged -= streetBox_TextChanged;
+				townBox.TextChanged -= streetBox_TextChanged;
+			}
+			else
+			{
+				latBox.TextChanged -= latBox_TextChanged;
+				LonBox.TextChanged -= latBox_TextChanged;
+				streetBox.TextChanged -= streetBox_TextChanged;
+				townBox.TextChanged -= streetBox_TextChanged;
+				Grid.SetColumnSpan(scrollview, 1);
+			}
+
+
+			ListMapPoint = GetAllPoints();
+			setPOI();
+			setGridView();
+		}
+
+		#region map
+		/// <summary>
 		/// Center the map to a given MapPoint
 		/// </summary>
 		/// <param name="point"></param>
@@ -655,31 +699,6 @@ namespace Malaga
 		{
 			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.X, Longitude = point.Y });
 			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
-		}
-
-		/// <summary>
-		/// Event called when user press select button
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SelectButton_Click(object sender, RoutedEventArgs e)
-		{
-			var select = sender as Button;
-			var point = GetPointById(Convert.ToInt32(select.Tag));
-			CenterMap(point);
-		}
-
-		/// <summary>
-		/// Event called when user press edit button
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void EditButton_Click(object sender, RoutedEventArgs e)
-		{
-			var select = sender as Button;
-			var point = GetPointById(Convert.ToInt32(select.Tag));
-			UpdateButton.Content = "Update";
-			EditPointUI(point);
 		}
 
 		/// <summary>
@@ -706,6 +725,7 @@ namespace Malaga
 			HideEditUI(false);
 			SelectedPoint = new MapPoint();
 			var tappedGeoPosition = e.Location.Position;
+			setTmpPoint(tappedGeoPosition.Latitude, tappedGeoPosition.Longitude);
 			SelectedPoint.Latitude = tappedGeoPosition.Latitude;
 			SelectedPoint.Longitude = tappedGeoPosition.Longitude;
 			latBox.Text = tappedGeoPosition.Latitude.ToString();
@@ -720,6 +740,26 @@ namespace Malaga
 			streetBox.TextChanged += streetBox_TextChanged;
 			townBox.TextChanged += streetBox_TextChanged;
 		}
+
+		/// <summary>
+		/// Set a mappin icon where the user has touch the map
+		/// </summary>
+		/// <param name="latitude"></param>
+		/// <param name="longitude"></param>
+		private void setTmpPoint(double latitude, double longitude)
+		{
+			if (tmpIcon == null)
+				tmpIcon = new MapIcon();
+			else
+				mainMap.MapElements.Remove(tmpIcon);
+			tmpIcon.Location = new Geopoint(new BasicGeoposition() { Latitude = latitude, Longitude = longitude });
+			tmpIcon.ZIndex = 100;
+			tmpIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
+			tmpIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+			tmpIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/mapPin.png"));
+			mainMap.MapElements.Add(tmpIcon);
+		}
+		#endregion
 
 		#region eventflyout
 		/// <summary>
@@ -762,48 +802,6 @@ namespace Malaga
 			selectItemInView("All");
 		}
 		#endregion
-
-		/// <summary>
-		/// Given a parameter, updates the List and POI and map
-		/// </summary>
-		/// <param name="type"></param>
-		private void selectItemInView(string type)
-		{
-			ListMapPoint = GetPointsByType(type);
-			setPOI();
-			setGridView();
-		}
-
-		/// <summary>
-		/// Hide the UI that allows user to edit fields
-		/// </summary>
-		/// <param name="state"></param>
-		private void HideEditUI(bool state)
-		{
-			UpdateButton.Content = "Update";
-
-			if (state)
-			{
-				Grid.SetColumnSpan(scrollview, 2);
-				latBox.TextChanged -= latBox_TextChanged;
-				LonBox.TextChanged -= latBox_TextChanged;
-				streetBox.TextChanged -= streetBox_TextChanged;
-				townBox.TextChanged -= streetBox_TextChanged;
-			}
-			else
-			{
-				latBox.TextChanged -= latBox_TextChanged;
-				LonBox.TextChanged -= latBox_TextChanged;
-				streetBox.TextChanged -= streetBox_TextChanged;
-				townBox.TextChanged -= streetBox_TextChanged;
-				Grid.SetColumnSpan(scrollview, 1);
-			}
-
-
-			ListMapPoint = GetAllPoints();
-			setPOI();
-			setGridView();
-		}
 
 		#region comboBoxEvent
 
@@ -908,7 +906,10 @@ namespace Malaga
 			}
 
 			if (UpdateButton.Content.ToString() == "Create")
+			{
 				SelectedPoint.Id = nextId++;
+				mainMap.MapElements.Remove(tmpIcon);
+			}
 			SaveMapPoint(SelectedPoint);
 			HideEditUI(true);
 		}
@@ -937,6 +938,32 @@ namespace Malaga
 		private void HideButton_Click(object sender, RoutedEventArgs e)
 		{
 			HideEditUI(true);
+		}
+
+
+		/// <summary>
+		/// Event called when user press select button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SelectButton_Click(object sender, RoutedEventArgs e)
+		{
+			var select = sender as Button;
+			var point = GetPointById(Convert.ToInt32(select.Tag));
+			CenterMap(point);
+		}
+
+		/// <summary>
+		/// Event called when user press edit button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void EditButton_Click(object sender, RoutedEventArgs e)
+		{
+			var select = sender as Button;
+			var point = GetPointById(Convert.ToInt32(select.Tag));
+			UpdateButton.Content = "Update";
+			EditPointUI(point);
 		}
 		#endregion
 
