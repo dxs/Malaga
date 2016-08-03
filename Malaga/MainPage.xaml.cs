@@ -376,7 +376,7 @@ namespace Malaga
 		{
 			timer.Stop();
 			bool? isConnected = false;
-			isConnected = await LoadFoursquare();
+			isConnected = await loadYelp();
 			if (isConnected == false)
 			{
 				timer.Interval = new TimeSpan(0, 0, 1);
@@ -387,6 +387,27 @@ namespace Malaga
 				timer.Interval = new TimeSpan(0, 0, 30);
 				timer.Start();
 			}
+		}
+
+		private async Task<bool> loadYelp()
+		{
+			if (mapIconME == null)
+				return false;
+			Yelp y = new Yelp();
+			Point p = new Point()
+			{
+				X = mapIconME.Location.Position.Latitude,
+				Y = mapIconME.Location.Position.Longitude
+			};
+			string town = (await GetAdressFromPoint(p)).Split(',')[2];
+			List<string> listing = new List<string>();
+			for (int i = 0; i < 20; i++)
+			{
+				listing = await y.GetData(p, "food", 10000, 15, i * 15, 0, town);
+				foreach (var item in listing)
+					AddYelpItem(item);
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -1310,7 +1331,7 @@ namespace Malaga
 		private async Task<JObject> GetJson(int Radius = 0, string Section = "trending", int NbItem = 20, int Offset = 0, string Time = "", string Day = "", 
 										bool Photo = false, bool IsOpenNow = false, bool sortByDistance = false, int Price = 0, double Latitude = 0, double Longitude = 0)
 		{
-			string web = @"https://api.foursquare.com/v2/venues/explore?client_id=" + CLIENTID + @"&client_secret=" + SECRETID;
+			string web = @"https://api.foursquare.com/v2/venues/explore?client_id=" + FOURSQUARECLIENTID + @"&client_secret=" + FOURSQUARESECRETID;
 			web += @"&v=20130815";
 			web += @"&ll=" + Latitude + "," + Longitude;
 			if (Radius > 0)

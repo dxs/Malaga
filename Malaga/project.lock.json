@@ -3,6 +3,79 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -28,6 +101,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -296,6 +384,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "SQLite.Net-PCL/3.1.1": {
@@ -1918,9 +2015,103 @@
             "rid": "win8-aot"
           }
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1946,6 +2137,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -2163,6 +2369,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -3702,9 +3917,103 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -3730,6 +4039,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -3945,6 +4269,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "runtime.aot.System.Private.DataContractSerialization/4.1.0": {
@@ -5443,9 +5776,103 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x64": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -5471,6 +5898,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -5694,6 +6136,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -7236,9 +7687,103 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -7264,6 +7809,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -7479,6 +8039,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "runtime.aot.System.Private.DataContractSerialization/4.1.0": {
@@ -8977,9 +9546,103 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x86": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -9005,6 +9668,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -9228,6 +9906,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -10770,9 +11457,103 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
+      "FubarCoder.RestSharp.Portable/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0"
+        }
+      },
+      "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Microsoft.Net.Http": "2.2.28"
+        },
+        "compile": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        },
+        "runtime": {
+          "lib/.NETCore50/RestSharp.Portable.HttpClient.dll": {}
+        }
+      },
+      "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll": {}
+        }
+      },
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/win8/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.21": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -10798,6 +11579,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.28": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.9",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.NETCore/5.0.0": {
@@ -11013,6 +11809,15 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Portable.BouncyCastle-Signed/1.7.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll": {}
         }
       },
       "runtime.aot.System.Private.DataContractSerialization/4.1.0": {
@@ -12511,10 +13316,270 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "yelp-sharp/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FubarCoder.RestSharp.Portable": "3.2.0",
+          "FubarCoder.RestSharp.Portable.Core": "3.2.0",
+          "FubarCoder.RestSharp.Portable.HttpClient": "3.2.0",
+          "FubarCoder.RestSharp.Portable.OAuth": "3.2.0",
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Async": "1.0.168",
+          "Microsoft.Bcl.Build": "1.0.21",
+          "Microsoft.Net.Http": "2.2.28",
+          "Newtonsoft.Json": "7.0.1",
+          "Portable.BouncyCastle-Signed": "1.7.0.2"
+        },
+        "compile": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "FubarCoder.RestSharp.Portable/3.2.0": {
+      "sha512": "2527LQKNL/UWAIpMWGCeykvOciXT8NprPfz8I1REse3GWOYb8EB+ub7BWLusverWv7KczQiV1uWQZUDyAaUMfw==",
+      "type": "package",
+      "files": [
+        "FubarCoder.RestSharp.Portable.3.2.0.nupkg.sha512",
+        "FubarCoder.RestSharp.Portable.nuspec"
+      ]
+    },
+    "FubarCoder.RestSharp.Portable.Core/3.2.0": {
+      "sha512": "CVQ3A900aNmhsWzpheWutHA6euSyiaz3CnDL+sEAV3DyEBDFEcKHm5evLEy00ltESRnSaPjSGYvyIeXUmx19VQ==",
+      "type": "package",
+      "files": [
+        "FubarCoder.RestSharp.Portable.Core.3.2.0.nupkg.sha512",
+        "FubarCoder.RestSharp.Portable.Core.nuspec",
+        "lib/native/_._",
+        "lib/portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.XML",
+        "lib/portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.XML",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.Core.dll",
+        "license.txt",
+        "tools/native/install.ps1",
+        "tools/native/uninstall.ps1"
+      ]
+    },
+    "FubarCoder.RestSharp.Portable.HttpClient/3.2.0": {
+      "sha512": "iDLu5VlshNCS9JgF5WYnIltnrAszjMZ7OrH8zDBZnPtnmkTvpp4kEcPivWKq7NblaXRhadaDr0ed315g6QaRUw==",
+      "type": "package",
+      "files": [
+        "FubarCoder.RestSharp.Portable.HttpClient.3.2.0.nupkg.sha512",
+        "FubarCoder.RestSharp.Portable.HttpClient.nuspec",
+        "content/.NETCore50/RestSharp.Portable.HttpClient.rd.xml",
+        "content/portable-win81+wpa81/RestSharp.Portable.HttpClient.rd.xml",
+        "content/win/RestSharp.Portable.HttpClient.rd.xml",
+        "content/wpa81/RestSharp.Portable.HttpClient.rd.xml",
+        "lib/.NETCore50/RestSharp.Portable.HttpClient.XML",
+        "lib/.NETCore50/RestSharp.Portable.HttpClient.dll",
+        "lib/MonoAndroid10/RestSharp.Portable.HttpClient.dll",
+        "lib/MonoAndroid10/RestSharp.Portable.HttpClient.xml",
+        "lib/MonoTouch10/RestSharp.Portable.HttpClient.dll",
+        "lib/MonoTouch10/RestSharp.Portable.HttpClient.xml",
+        "lib/Xamarin.iOS10/RestSharp.Portable.HttpClient.dll",
+        "lib/Xamarin.iOS10/RestSharp.Portable.HttpClient.xml",
+        "lib/native/_._",
+        "lib/net40/RestSharp.Portable.HttpClient.dll",
+        "lib/net40/RestSharp.Portable.HttpClient.xml",
+        "lib/net45/RestSharp.Portable.HttpClient.dll",
+        "lib/net45/RestSharp.Portable.HttpClient.xml",
+        "lib/portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.HttpClient.dll",
+        "lib/portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.HttpClient.xml",
+        "lib/portable-net45+dnxcore50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.HttpClient.XML",
+        "lib/portable-net45+dnxcore50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.HttpClient.dll",
+        "lib/portable-win81+wpa81/RestSharp.Portable.HttpClient.XML",
+        "lib/portable-win81+wpa81/RestSharp.Portable.HttpClient.dll",
+        "lib/sl50/RestSharp.Portable.HttpClient.dll",
+        "lib/sl50/RestSharp.Portable.HttpClient.xml",
+        "license.txt",
+        "tools/native/install.ps1",
+        "tools/native/uninstall.ps1"
+      ]
+    },
+    "FubarCoder.RestSharp.Portable.OAuth/3.2.0": {
+      "sha512": "CP7brJNHNnMpedR6EUhcKK2Mrs9o9fmP84eIFhiq0zO6G4kAMO/N3Ud0GcXoo868VT+D+eyGuSg8qlcqW+Xxag==",
+      "type": "package",
+      "files": [
+        "FubarCoder.RestSharp.Portable.OAuth.3.2.0.nupkg.sha512",
+        "FubarCoder.RestSharp.Portable.OAuth.nuspec",
+        "lib/MonoAndroid10/RestSharp.Portable.OAuth.XML",
+        "lib/MonoAndroid10/RestSharp.Portable.OAuth.dll",
+        "lib/MonoTouch10/RestSharp.Portable.OAuth.XML",
+        "lib/MonoTouch10/RestSharp.Portable.OAuth.dll",
+        "lib/Xamarin.iOS10/RestSharp.Portable.OAuth.XML",
+        "lib/Xamarin.iOS10/RestSharp.Portable.OAuth.dll",
+        "lib/native/_._",
+        "lib/net40/RestSharp.Portable.OAuth.XML",
+        "lib/net40/RestSharp.Portable.OAuth.dll",
+        "lib/net45/RestSharp.Portable.OAuth.XML",
+        "lib/net45/RestSharp.Portable.OAuth.dll",
+        "lib/portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.XML",
+        "lib/portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.XML",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10/RestSharp.Portable.OAuth.dll",
+        "license.txt",
+        "tools/native/install.ps1",
+        "tools/native/uninstall.ps1"
+      ]
+    },
+    "Microsoft.Bcl/1.1.10": {
+      "sha512": "+tTqoh/M1pyL8El3qLy30EcwnAtyvFoDZJtdG9Cbg/WdFbh4N8kyrq198XHuEL7lnJbeD0DRO8jcX5IIOh05cQ==",
+      "type": "package",
+      "files": [
+        "License-Stable.rtf",
+        "Microsoft.Bcl.1.1.10.nupkg.sha512",
+        "Microsoft.Bcl.nuspec",
+        "lib/Xamarin.iOS10/_._",
+        "lib/monoandroid/_._",
+        "lib/monotouch/_._",
+        "lib/net40/System.IO.dll",
+        "lib/net40/System.IO.xml",
+        "lib/net40/System.Runtime.dll",
+        "lib/net40/System.Runtime.xml",
+        "lib/net40/System.Threading.Tasks.dll",
+        "lib/net40/System.Threading.Tasks.xml",
+        "lib/net40/ensureRedirect.xml",
+        "lib/net45/_._",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.IO.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.IO.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Runtime.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Runtime.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.IO.dll",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.IO.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Runtime.dll",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Runtime.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+sl4+win8/System.IO.dll",
+        "lib/portable-net40+sl4+win8/System.IO.xml",
+        "lib/portable-net40+sl4+win8/System.Runtime.dll",
+        "lib/portable-net40+sl4+win8/System.Runtime.xml",
+        "lib/portable-net40+sl4+win8/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8/ensureRedirect.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.IO.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.IO.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Runtime.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Runtime.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+win8+wp8+wpa81/System.IO.dll",
+        "lib/portable-net40+win8+wp8+wpa81/System.IO.xml",
+        "lib/portable-net40+win8+wp8+wpa81/System.Runtime.dll",
+        "lib/portable-net40+win8+wp8+wpa81/System.Runtime.xml",
+        "lib/portable-net40+win8+wp8+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+win8+wp8+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+win8+wp8+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+win8/System.IO.dll",
+        "lib/portable-net40+win8/System.IO.xml",
+        "lib/portable-net40+win8/System.Runtime.dll",
+        "lib/portable-net40+win8/System.Runtime.xml",
+        "lib/portable-net40+win8/System.Threading.Tasks.dll",
+        "lib/portable-net40+win8/System.Threading.Tasks.xml",
+        "lib/portable-net40+win8/ensureRedirect.xml",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/portable-net45+win8+wpa81/_._",
+        "lib/portable-net451+win81+wpa81/_._",
+        "lib/portable-net451+win81/_._",
+        "lib/portable-win81+wp81+wpa81/_._",
+        "lib/sl4-windowsphone71/System.IO.dll",
+        "lib/sl4-windowsphone71/System.IO.xml",
+        "lib/sl4-windowsphone71/System.Runtime.dll",
+        "lib/sl4-windowsphone71/System.Runtime.xml",
+        "lib/sl4-windowsphone71/System.Threading.Tasks.dll",
+        "lib/sl4-windowsphone71/System.Threading.Tasks.xml",
+        "lib/sl4-windowsphone71/ensureRedirect.xml",
+        "lib/sl4/System.IO.dll",
+        "lib/sl4/System.IO.xml",
+        "lib/sl4/System.Runtime.dll",
+        "lib/sl4/System.Runtime.xml",
+        "lib/sl4/System.Threading.Tasks.dll",
+        "lib/sl4/System.Threading.Tasks.xml",
+        "lib/sl5/System.IO.dll",
+        "lib/sl5/System.IO.xml",
+        "lib/sl5/System.Runtime.dll",
+        "lib/sl5/System.Runtime.xml",
+        "lib/sl5/System.Threading.Tasks.dll",
+        "lib/sl5/System.Threading.Tasks.xml",
+        "lib/win8/_._",
+        "lib/wp8/_._",
+        "lib/wpa81/_._"
+      ]
+    },
+    "Microsoft.Bcl.Async/1.0.168": {
+      "sha512": "tUNC02eBwDKpGre0BcNIvblLv1q0Q3DnS/vtkRHj2FE1sXwt386HAudztyl5C0U88hllrqHDvtlz8bK0Y8cHDA==",
+      "type": "package",
+      "files": [
+        "License-Stable.rtf",
+        "Microsoft.Bcl.Async.1.0.168.nupkg.sha512",
+        "Microsoft.Bcl.Async.nuspec",
+        "lib/net40/Microsoft.Threading.Tasks.Extensions.Desktop.dll",
+        "lib/net40/Microsoft.Threading.Tasks.Extensions.Desktop.xml",
+        "lib/net40/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/net40/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/net40/Microsoft.Threading.Tasks.dll",
+        "lib/net40/Microsoft.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/Microsoft.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/Microsoft.Threading.Tasks.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Microsoft.Threading.Tasks.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Microsoft.Threading.Tasks.xml",
+        "lib/portable-net45+win8+wpa81/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/portable-net45+win8+wpa81/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/portable-net45+win8+wpa81/Microsoft.Threading.Tasks.dll",
+        "lib/portable-net45+win8+wpa81/Microsoft.Threading.Tasks.xml",
+        "lib/sl4-windowsphone71/Microsoft.Threading.Tasks.Extensions.Phone.dll",
+        "lib/sl4-windowsphone71/Microsoft.Threading.Tasks.Extensions.Phone.xml",
+        "lib/sl4-windowsphone71/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/sl4-windowsphone71/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/sl4-windowsphone71/Microsoft.Threading.Tasks.dll",
+        "lib/sl4-windowsphone71/Microsoft.Threading.Tasks.xml",
+        "lib/sl4/Microsoft.Threading.Tasks.Extensions.Silverlight.dll",
+        "lib/sl4/Microsoft.Threading.Tasks.Extensions.Silverlight.xml",
+        "lib/sl4/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/sl4/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/sl4/Microsoft.Threading.Tasks.dll",
+        "lib/sl4/Microsoft.Threading.Tasks.xml",
+        "lib/win8/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/win8/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/win8/Microsoft.Threading.Tasks.dll",
+        "lib/win8/Microsoft.Threading.Tasks.xml",
+        "lib/wp8/Microsoft.Threading.Tasks.Extensions.Phone.dll",
+        "lib/wp8/Microsoft.Threading.Tasks.Extensions.Phone.xml",
+        "lib/wp8/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/wp8/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/wp8/Microsoft.Threading.Tasks.dll",
+        "lib/wp8/Microsoft.Threading.Tasks.xml",
+        "lib/wpa81/Microsoft.Threading.Tasks.Extensions.dll",
+        "lib/wpa81/Microsoft.Threading.Tasks.Extensions.xml",
+        "lib/wpa81/Microsoft.Threading.Tasks.dll",
+        "lib/wpa81/Microsoft.Threading.Tasks.xml"
+      ]
+    },
+    "Microsoft.Bcl.Build/1.0.21": {
+      "sha512": "sgHu4mIt0+NVGyI12Bj4hLPypNK55UOH+ologj2LqDCjxq3EbIxe/uAtHjY+fEwbE1dtsAHG8SXHf+V/EYbKTg==",
+      "type": "package",
+      "files": [
+        "License-Stable.rtf",
+        "Microsoft.Bcl.Build.1.0.21.nupkg.sha512",
+        "Microsoft.Bcl.Build.nuspec",
+        "build/Microsoft.Bcl.Build.Tasks.dll",
+        "build/Microsoft.Bcl.Build.targets"
+      ]
+    },
     "Microsoft.CSharp/4.0.0": {
       "sha512": "oWqeKUxHXdK6dL2CFjgMcaBISbkk+AqEg+yvJHE4DElNzS4QaTsCflgkkqZwVlWby1Dg9zo9n+iCAMFefFdJ/A==",
       "type": "package",
@@ -12552,6 +13617,68 @@
         "ref/wpa81/_._",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._"
+      ]
+    },
+    "Microsoft.Net.Http/2.2.28": {
+      "sha512": "hPL9k+rPIpAj84RZSq3WtJkOD9uMStBovAIAz/0OQ+9hQIwQ2XqQlAhMqI4kw0XDxweJySIqNTMlkhRRuthcPQ==",
+      "type": "package",
+      "files": [
+        "License-Stable.rtf",
+        "Microsoft.Net.Http.2.2.28.nupkg.sha512",
+        "Microsoft.Net.Http.nuspec",
+        "lib/monoandroid/System.Net.Http.Extensions.XML",
+        "lib/monoandroid/System.Net.Http.Extensions.dll",
+        "lib/monoandroid/System.Net.Http.Primitives.dll",
+        "lib/monoandroid/System.Net.Http.Primitives.xml",
+        "lib/monotouch/System.Net.Http.Extensions.XML",
+        "lib/monotouch/System.Net.Http.Extensions.dll",
+        "lib/monotouch/System.Net.Http.Primitives.dll",
+        "lib/monotouch/System.Net.Http.Primitives.xml",
+        "lib/net40/System.Net.Http.Extensions.XML",
+        "lib/net40/System.Net.Http.Extensions.dll",
+        "lib/net40/System.Net.Http.Primitives.dll",
+        "lib/net40/System.Net.Http.Primitives.xml",
+        "lib/net40/System.Net.Http.WebRequest.dll",
+        "lib/net40/System.Net.Http.WebRequest.xml",
+        "lib/net40/System.Net.Http.dll",
+        "lib/net40/System.Net.Http.xml",
+        "lib/net40/ensureRedirect.xml",
+        "lib/net45/System.Net.Http.Extensions.XML",
+        "lib/net45/System.Net.Http.Extensions.dll",
+        "lib/net45/System.Net.Http.Primitives.dll",
+        "lib/net45/System.Net.Http.Primitives.xml",
+        "lib/net45/ensureRedirect.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Extensions.XML",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Extensions.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Primitives.XML",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Primitives.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/ensureRedirect.xml",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Extensions.XML",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Extensions.dll",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Primitives.dll",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Primitives.xml",
+        "lib/portable-net45+win8+wpa81/ensureRedirect.xml",
+        "lib/portable-net45+win8/System.Net.Http.Extensions.XML",
+        "lib/portable-net45+win8/System.Net.Http.Extensions.dll",
+        "lib/portable-net45+win8/System.Net.Http.Primitives.dll",
+        "lib/portable-net45+win8/System.Net.Http.Primitives.xml",
+        "lib/portable-net45+win8/ensureRedirect.xml",
+        "lib/sl4-windowsphone71/System.Net.Http.Extensions.XML",
+        "lib/sl4-windowsphone71/System.Net.Http.Extensions.dll",
+        "lib/sl4-windowsphone71/System.Net.Http.Primitives.XML",
+        "lib/sl4-windowsphone71/System.Net.Http.Primitives.dll",
+        "lib/sl4-windowsphone71/System.Net.Http.dll",
+        "lib/sl4-windowsphone71/System.Net.Http.xml",
+        "lib/win8/System.Net.Http.Extensions.XML",
+        "lib/win8/System.Net.Http.Extensions.dll",
+        "lib/win8/System.Net.Http.Primitives.dll",
+        "lib/win8/System.Net.Http.Primitives.xml",
+        "lib/wpa81/System.Net.Http.Extensions.XML",
+        "lib/wpa81/System.Net.Http.Extensions.dll",
+        "lib/wpa81/System.Net.Http.Primitives.dll",
+        "lib/wpa81/System.Net.Http.Primitives.xml"
       ]
     },
     "Microsoft.NETCore/5.0.0": {
@@ -13136,6 +14263,20 @@
         "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.xml",
         "tools/install.ps1"
+      ]
+    },
+    "Portable.BouncyCastle-Signed/1.7.0.2": {
+      "sha512": "aBVsV7h2b0nfKUrp63MDXH181qqC7RSf/AjuUViUigyRy7CAXC9/On7Gyg/IXM3FR/wMEbjAJXvSS3SsJiet/g==",
+      "type": "package",
+      "files": [
+        "License.html",
+        "Portable.BouncyCastle-Signed.1.7.0.2.nupkg.sha512",
+        "Portable.BouncyCastle-Signed.nuspec",
+        "Readme.html",
+        "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll",
+        "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.xml",
+        "lib/portable-net45+dnxcore50+wp80+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll",
+        "lib/portable-net45+dnxcore50+wp80+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.xml"
       ]
     },
     "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -15846,6 +16987,15 @@
         "runtime.json",
         "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
+    },
+    "yelp-sharp/1.0.1": {
+      "sha512": "nN6MtNxX9ZxsSIQeQ5WC7LySpP+qjJTaTkWo05XrzQgXG1Nh/iX5KFJxI0r380kbn142LYV5gHYzqqbH2imJhQ==",
+      "type": "package",
+      "files": [
+        "lib/portable-net45+sl5+win8+wpa81+wp8+xamarinios+monotouch+monoandroid/YelpSharp.dll",
+        "yelp-sharp.1.0.1.nupkg.sha512",
+        "yelp-sharp.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -15853,7 +17003,8 @@
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.1.0",
       "Newtonsoft.Json >= 9.0.1",
-      "SQLite.Net-PCL >= 3.1.1"
+      "SQLite.Net-PCL >= 3.1.1",
+      "yelp-sharp >= 1.0.1"
     ],
     "UAP,Version=v10.0": []
   }

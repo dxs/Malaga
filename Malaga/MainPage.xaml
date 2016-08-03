@@ -110,6 +110,9 @@
 				<Grid>
 					<ProgressRing x:Name="ring" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="100" Width="100"/>
 					<StackPanel>
+						<ListBox x:Name="list">
+
+						</ListBox>
 						<ScrollViewer x:Name="foursquare_scrollviewer" IsEnabled="True">
 							<StackPanel>
 								<Grid Margin="10" x:Name="foursquareGrid" >

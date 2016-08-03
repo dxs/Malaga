@@ -201,3 +201,12 @@ C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\ProjectArchitectures.txt
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Newtonsoft.Json.dll
 C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x86\Debug\Malaga.csprojResolveAssemblyReference.cache
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\RestSharp.Portable.Core.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\RestSharp.Portable.HttpClient.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\RestSharp.Portable.OAuth.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\Microsoft.Threading.Tasks.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\System.Net.Http.Extensions.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\System.Net.Http.Primitives.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\crypto.dll
+C:\Users\glagl\Documents\Visual Studio 2015\Projects\Malaga\Malaga\bin\x86\Debug\YelpSharp.dll

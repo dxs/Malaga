@@ -58,6 +58,50 @@
             GetXmlnsDefinitions()
             </summary>
         </member>
+        <member name="F:Malaga.Yelp.CONSUMER_KEY">
+            <summary>
+            Consumer key used for OAuth authentication.
+            This must be set by the user.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.CONSUMER_SECRET">
+            <summary>
+            Consumer secret used for OAuth authentication.
+            This must be set by the user.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.TOKEN">
+            <summary>
+            Token used for OAuth authentication.
+            This must be set by the user.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.TOKEN_SECRET">
+            <summary>
+            Token secret used for OAuth authentication.
+            This must be set by the user.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.API_HOST">
+            <summary>
+            Host of the API.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.SEARCH_PATH">
+            <summary>
+            Relative path for the Search API.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.BUSINESS_PATH">
+            <summary>
+            Relative path for the Business API.
+            </summary>
+        </member>
+        <member name="F:Malaga.Yelp.SEARCH_LIMIT">
+            <summary>
+            Search limit that dictates the number of businesses returned.
+            </summary>
+        </member>
         <member name="T:Malaga.MainPage">
             <summary>
             Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
