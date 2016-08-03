@@ -1,27 +1,27 @@
-﻿using SQLite.Net;
+﻿using Newtonsoft.Json.Linq;
+using SQLite.Net;
+using SQLite.Net.Attributes;
+using SQLite.Net.Platform.WinRT;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
+using Windows.Networking.Connectivity;
+using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
-using SQLite.Net.Attributes;
-using SQLite.Net.Platform.WinRT;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Shapes;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.Popups;
-using Windows.Services.Maps;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
-using Windows.Networking.Connectivity;
 
 namespace Malaga
 {
@@ -42,8 +42,8 @@ namespace Malaga
 		List<MapPoint> ListMapPoint = null;
 		List<Venue> ListVenue = null;
 
-		string CLIENTID = @"OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL";
-		string SECRETID = @"WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W";
+		string FOURSQUARECLIENTID = @"OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL";
+		string FOURSQUARESECRETID = @"WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W";
 
 		#endregion
 
