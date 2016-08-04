@@ -61,13 +61,15 @@ namespace Malaga
 		private const int SEARCH_LIMIT = 3;
 
 		YelpSharp.YelpClient client;
-		List<Business> listBusiness;
+		static List<Business> listBusiness;
 
 		public struct Business
 		{
 			public string ID;
 
 			public string Name;
+
+			public string Description;
 
 			public double Distance;
 
@@ -139,6 +141,7 @@ namespace Malaga
 			{
 				ID = business.id,
 				Name = business.name,
+				Description = business.categories[0][0],
 				Distance = business.distance,
 				Latitude = business.location.coordinate.Latitude,
 				Longitude = business.location.coordinate.Longitude,
@@ -171,6 +174,14 @@ namespace Malaga
 			Business bus = listBusiness[id];
 			id++;
 			return bus;
+		}
+
+		internal static Business FindBusinessById(string Id)
+		{
+			foreach (Business business in listBusiness)
+				if (business.ID == Id)
+					return business;
+			return new Business();
 		}
 	}
 }

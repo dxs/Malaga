@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 	
 	<Grid Background="WhiteSmoke" >
-		<Pivot x:Name="rootPivot" Title="Malaga" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
+		<Pivot x:Name="rootPivot" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
 
 			<PivotItem Header="Maps">
 				<Grid>
@@ -118,14 +118,14 @@
 					<ProgressRing x:Name="ring" Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
 
 					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
-						<GridView x:Name="yelpGridView" CanReorderItems="True" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" UseLayoutRounding="True" Margin="10">
+						<GridView x:Name="yelpGridView" CanReorderItems="True" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" UseLayoutRounding="True" Margin="10" HorizontalAlignment="Center">
 
 						</GridView>
 					</ScrollViewer>
 					
 					<ProgressRing x:Name="ring2" Grid.Row="2" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
 					
-					<Button x:Name="SaveYelpButton" Content="Save" Grid.Row="3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF47BCFF" />
+					<Button x:Name="SaveYelpButton" Content="Save" Grid.Row="3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF47BCFF" Click="SaveYelpButton_Click"/>
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="To buy">

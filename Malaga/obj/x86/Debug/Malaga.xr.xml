@@ -24,7 +24,6 @@
       <RootMethod Name="SetColumnSpan" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Pivot">
-      <RootProperty Name="Title" />
       <RootProperty Name="HeaderFocusVisualPlacement" />
       <RootProperty Name="Items" />
       <RootEvent Name="SelectionChanged" />
@@ -70,6 +69,7 @@
       <RootProperty Name="IsItemClickEnabled" />
       <RootProperty Name="UseLayoutRounding" />
       <RootProperty Name="Margin" />
+      <RootProperty Name="HorizontalAlignment" />
       <RootEvent Name="SelectionChanged" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Maps.MapControl">

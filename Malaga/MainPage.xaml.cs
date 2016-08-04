@@ -437,11 +437,13 @@ namespace Malaga
 						});
 					stack.Children.Add(new TextBlock()
 					{
-						Text = business.Name
+						Text = business.Name,
+						TextWrapping = TextWrapping.Wrap
 					});
 					stack.Children.Add(new TextBlock()
 					{
-						Text = "Rating : " + business.Rating.ToString()
+						Text = "Rating : " + business.Rating.ToString(),
+						TextWrapping = TextWrapping.Wrap
 					});
 					yelpGridView.Items.Add(new GridViewItem()
 					{
@@ -1039,6 +1041,30 @@ namespace Malaga
 			UpdateButton.Content = "Update";
 			EditPointUI(point);
 		}
+
+		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
+		{
+			rootPivot.SelectedIndex = 0;
+			foreach(GridViewItem item in yelpGridView.Items)
+			{
+				if (item.IsSelected)
+				{
+					Yelp.Business business = Yelp.FindBusinessById(item.Name);
+					if (business.Name != null)
+						ConvertBusinessToMapPoint(business);
+				}
+			}
+			ListMapPoint = GetAllPoints();
+			setPOI();
+			setGridView();
+		}
+
+		private async void ConvertBusinessToMapPoint(Yelp.Business business)
+		{
+			MapPoint point = await createMapPoint(nextId, business.Name, business.Description, business.Latitude, business.Longitude, "bar");
+			nextId++;
+			SaveMapPoint(point);
+		}
 		#endregion
 
 		#region toggleButtonEvent
@@ -1468,6 +1494,5 @@ namespace Malaga
 		}
 
 		#endregion
-
 	}
 }
