@@ -102,6 +102,30 @@
             Search limit that dictates the number of businesses returned.
             </summary>
         </member>
+        <member name="M:Malaga.Yelp.GetData(Windows.Foundation.Point,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Get data from yelp API
+            </summary>
+            <param name="coordinate">X for Latitude, Y for Longitude</param>
+            <param name="query">What is the request</param>
+            <param name="radius">Distance starting from the coordinate</param>
+            <param name="nbToLoad">Numer of place to load</param>
+            <param name="offset">Offset</param>
+            <param name="sortBy">Sort results by [BestMatched, Distance, HighestRated]</param>
+            <param name="town">Additionnal parameter for town</param>
+        </member>
+        <member name="M:Malaga.Yelp.AddBusinessToList(YelpSharp.YelpBusiness)">
+            <summary>
+            Add a business to the List
+            </summary>
+            <param name="business"></param>
+        </member>
+        <member name="M:Malaga.Yelp.GetNextBusiness">
+            <summary>
+            Return the next business information
+            </summary>
+            <returns>Return anonymous type represented as [Id, Name, Distance, Photo url, url, latitude, longitude, rating]</returns>
+        </member>
         <member name="T:Malaga.MainPage">
             <summary>
             Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.

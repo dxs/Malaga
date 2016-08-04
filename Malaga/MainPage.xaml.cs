@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace Malaga
@@ -41,6 +42,8 @@ namespace Malaga
 		static int nextId = 0;
 		List<MapPoint> ListMapPoint = null;
 		List<Venue> ListVenue = null;
+
+		int numberOfQueryDone = 0;
 
 		string FOURSQUARECLIENTID = @"OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL";
 		string FOURSQUARESECRETID = @"WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W";
@@ -382,14 +385,16 @@ namespace Malaga
 				timer.Interval = new TimeSpan(0, 0, 1);
 				timer.Start();
 			}
-			if(isConnected == null)
+			if (isConnected == null)
 			{
 				timer.Interval = new TimeSpan(0, 0, 30);
 				timer.Start();
 			}
 		}
 
-		private async Task<bool> loadYelp()
+
+		#region Yelp
+		private async Task<bool> loadYelp(int queryNb = 0)
 		{
 			if (mapIconME == null)
 				return false;
@@ -400,15 +405,63 @@ namespace Malaga
 				Y = mapIconME.Location.Position.Longitude
 			};
 			string town = (await GetAdressFromPoint(p)).Split(',')[2];
-			List<string> listing = new List<string>();
-			for (int i = 0; i < 20; i++)
-			{
-				listing = await y.GetData(p, "food", 10000, 15, i * 15, 0, town);
-				foreach (var item in listing)
-					AddYelpItem(item);
-			}
+			int offset = 20;
+			ring2.Visibility = Visibility.Visible;
+			await y.GetData(p, "", 10000, offset, queryNb * offset, 0, town);
+			ring2.Visibility = Visibility.Collapsed;
+			ring.Visibility = Visibility.Collapsed;
+			DisplayYelp(offset, y);
 			return true;
 		}
+
+		private void DisplayYelp(int offset, Yelp y)
+		{
+			for (int i = 0; i < offset; i++)
+			{
+				Yelp.Business business = new Yelp.Business();
+				business = y.GetNextBusiness();
+				if (business.Name != null)
+				{
+					StackPanel stack = new StackPanel();
+					if (business.PhotoUrl != null)
+						stack.Children.Add(new Image()
+						{
+							Source = new BitmapImage(new Uri(business.PhotoUrl)),
+							MaxWidth = 120
+						});
+					else
+						stack.Children.Add(new Image()
+						{
+							Source = new BitmapImage(new Uri("ms-appx:///Assets/barBig.png")),
+							MaxWidth =120
+						});
+					stack.Children.Add(new TextBlock()
+					{
+						Text = business.Name
+					});
+					stack.Children.Add(new TextBlock()
+					{
+						Text = "Rating : " + business.Rating.ToString()
+					});
+					yelpGridView.Items.Add(new GridViewItem()
+					{
+						Name = business.ID,
+						Content = stack,
+						Margin = new Thickness(10)
+					});
+				}
+			}
+		}
+
+		private void yelpGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (yelpGridView.SelectedItems.Count > 0)
+				SaveYelpButton.Visibility = Visibility.Visible;
+			else
+				SaveYelpButton.Visibility = Visibility.Collapsed;
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Set up the position of the map
@@ -1041,18 +1094,19 @@ namespace Malaga
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+		private async void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
-    		var verticalOffset = foursquare_scrollviewer.VerticalOffset;
-    		var maxVerticalOffset = foursquare_scrollviewer.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
+    		var verticalOffset = yelp_scrollviewer.VerticalOffset;
+    		var maxVerticalOffset = yelp_scrollviewer.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
 
-    		if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)
-    		{
-        		// Scrolled to bottom
+    		if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)// Scrolled to bottom
+			{
+				numberOfQueryDone++;
+				await loadYelp(numberOfQueryDone);
 			}
-    		else
-    		{
-        		// Not scrolled to bottom
+			else// Not scrolled to bottom
+			{
+        		
     		}
 		}
 		#endregion
@@ -1089,6 +1143,51 @@ namespace Malaga
 		}
 		#endregion
 
+		#region Pivot
+		private void rootPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Pivot a = sender as Pivot;
+			switch (a.SelectedIndex)
+			{
+				case 0:
+					SetCommandBarMap();
+					break;
+				case 1:
+					SetCommandBarYelp();
+					break;
+				case 2:
+					break;
+			}
+		}
+
+		private void SetCommandBarMap()
+		{
+			//<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
+			//<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets">
+			//	<FontIcon Glyph="&#xE7E7;"/>
+			//</AppBarToggleButton>
+			//<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False">
+			//	<FontIcon Glyph="&#xE7EC;" />
+			//</AppBarToggleButton>
+			//<AppBarSeparator/>
+			//<AppBarButton Label="Filter by" Icon="Filter" >
+			//	<AppBarButton.Flyout>
+			//		<MenuFlyout>
+			//			<MenuFlyoutItem Click="FlyoutSelectBar" Text="Bar" />
+			//			<MenuFlyoutItem Click="FlyoutSelectClub" Text="Club" />
+			//			<MenuFlyoutItem Click="FlyoutSelectRest" Text="Restaurant" />
+			//			<MenuFlyoutItem Click="FlyoutSelectAll" Text="All" />
+			//		</MenuFlyout>
+			//	</AppBarButton.Flyout>
+			//</AppBarButton>
+		}
+
+		private void SetCommandBarYelp()
+		{
+			
+		}
+
+		#endregion
 
 		#region foursquare
 
@@ -1185,12 +1284,12 @@ namespace Malaga
 
 		private void DisplayFoursquareList()
 		{
-			foursquareGrid.Children.Clear();
+			//foursquareGrid.Children.Clear();
 			var i = 0;
 			foreach (Venue venue in ListVenue)
 			{
 				var rd = new RowDefinition();
-				foursquareGrid.RowDefinitions.Add(rd);
+				//foursquareGrid.RowDefinitions.Add(rd);
 
 				if (i % 2 == 0)
 				{
@@ -1199,7 +1298,7 @@ namespace Malaga
 					Grid.SetRow(background, i);
 					Grid.SetColumn(background, 0);
 					Grid.SetColumnSpan(background, 5);
-					foursquareGrid.Children.Add(background);
+					//foursquareGrid.Children.Add(background);
 				}
 
 				TextBlock tbId = new TextBlock()
@@ -1213,7 +1312,7 @@ namespace Malaga
 
 				Grid.SetRow(tbId, i);
 				Grid.SetColumn(tbId, 0);
-				foursquareGrid.Children.Add(tbId);
+				//foursquareGrid.Children.Add(tbId);
 
 				TextBlock tbName = new TextBlock()
 				{
@@ -1226,7 +1325,7 @@ namespace Malaga
 
 				Grid.SetRow(tbName, i);
 				Grid.SetColumn(tbName, 1);
-				foursquareGrid.Children.Add(tbName);
+				//foursquareGrid.Children.Add(tbName);
 
 				TextBlock tbDescr = new TextBlock()
 				{
@@ -1239,7 +1338,7 @@ namespace Malaga
 
 				Grid.SetRow(tbDescr, i);
 				Grid.SetColumn(tbDescr, 2);
-				foursquareGrid.Children.Add(tbDescr);
+				//foursquareGrid.Children.Add(tbDescr);
 
 				TextBlock tbStreet = new TextBlock()
 				{
@@ -1252,7 +1351,7 @@ namespace Malaga
 
 				Grid.SetRow(tbStreet, i);
 				Grid.SetColumn(tbStreet, 3);
-				foursquareGrid.Children.Add(tbStreet);
+				//foursquareGrid.Children.Add(tbStreet);
 
 				ToggleButton toggleButton = new ToggleButton()
 				{
@@ -1270,7 +1369,7 @@ namespace Malaga
 
 				Grid.SetRow(toggleButton, i);
 				Grid.SetColumn(toggleButton, 4);
-				foursquareGrid.Children.Add(toggleButton);
+				//foursquareGrid.Children.Add(toggleButton);
 
 				i++;
 			}
@@ -1369,5 +1468,6 @@ namespace Malaga
 		}
 
 		#endregion
+
 	}
 }

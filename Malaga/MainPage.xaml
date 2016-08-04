@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 	
 	<Grid Background="WhiteSmoke" >
-		<Pivot x:Name="rootPivot" Title="Malaga" HeaderFocusVisualPlacement="ItemHeaders">
+		<Pivot x:Name="rootPivot" Title="Malaga" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
 
 			<PivotItem Header="Maps">
 				<Grid>
@@ -81,7 +81,7 @@
 							</ScrollViewer>
 						</Grid>
 						
-						<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
 							<StackPanel>
 								<Grid Margin="10" x:Name="pointGrid" >
 									<Grid.ColumnDefinitions>
@@ -108,31 +108,24 @@
 			<PivotItem Header="Points of Interest">
 				<!--Pivot content goes here-->
 				<Grid>
-					<ProgressRing x:Name="ring" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="100" Width="100"/>
-					<StackPanel>
-						<ListBox x:Name="list">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					
+					<ProgressRing x:Name="ring" Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
 
-						</ListBox>
-						<ScrollViewer x:Name="foursquare_scrollviewer" IsEnabled="True">
-							<StackPanel>
-								<Grid Margin="10" x:Name="foursquareGrid" >
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<!-- ID-->
-										<ColumnDefinition Width="Auto" />
-										<!--Name-->
-										<ColumnDefinition Width="*" />
-										<!--Description-->
-										<ColumnDefinition Width="Auto" />
-										<!--Address-->
-										<ColumnDefinition Width="Auto" />
-										<!--add togglebutton-->
-									</Grid.ColumnDefinitions>
-								</Grid>
-							</StackPanel>
-						</ScrollViewer>
-						<ProgressBar x:Name="progressBar" Visibility="Collapsed" Minimum="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10" Height="50" />
-					</StackPanel>
+					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
+						<GridView x:Name="yelpGridView" CanReorderItems="True" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" UseLayoutRounding="True" Margin="10">
+
+						</GridView>
+					</ScrollViewer>
+					
+					<ProgressRing x:Name="ring2" Grid.Row="2" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
+					
+					<Button x:Name="SaveYelpButton" Content="Save" Grid.Row="3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF47BCFF" />
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="To buy">
@@ -143,7 +136,7 @@
 	</Grid>
 
 	<Page.BottomAppBar>
-		<CommandBar>
+		<CommandBar x:Name="commandBar" Visibility="Visible">
 			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
 			<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets">
 				<FontIcon Glyph="&#xE7E7;"/>
