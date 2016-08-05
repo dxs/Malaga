@@ -4,6 +4,7 @@ using SQLite.Net.Attributes;
 using SQLite.Net.Platform.WinRT;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -40,9 +41,10 @@ namespace Malaga
 		MapPoint SelectedPoint = null;
 		bool? follow = false;
 		static int nextId = 0;
-		List<MapPoint> ListMapPoint = null;
-		List<Venue> ListVenue = null;
+		private ObservableCollection<MapPoint> listMapPoint = null;
+		internal ObservableCollection<MapPoint> ListMapPoint { get { return listMapPoint; } }
 
+		ObservableCollection<Venue> ListVenue = null;
 		int numberOfQueryDone = 0;
 
 		string FOURSQUARECLIENTID = @"OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL";
@@ -154,7 +156,7 @@ namespace Malaga
 				}
 				#endregion
 			}
-			ListMapPoint = GetAllPoints();
+			listMapPoint = GetAllPoints();
 			setPOI();
 			setGridView();
 		}
@@ -173,11 +175,14 @@ namespace Malaga
 		/// Gets all the point as a List
 		/// </summary>
 		/// <returns>List of MapPoint</returns>
-		private static List<MapPoint> GetAllPoints()
+		private static ObservableCollection<MapPoint> GetAllPoints()
 		{
-			List<MapPoint> pointList;
+			ObservableCollection<MapPoint> pointList = new ObservableCollection<MapPoint>();
+			List<MapPoint> list;
 			using (var DB = DbConnection)
-				pointList = (from m in DB.Table<MapPoint>() select m).ToList();
+				list = (from m in DB.Table<MapPoint>() select m).ToList();
+			foreach (MapPoint item in list)
+				pointList.Add(item);
 			if(pointList.Count > 0)
 				nextId = pointList[pointList.Count - 1].Id + 1;
 			return pointList;
@@ -232,9 +237,10 @@ namespace Malaga
 		/// </summary>
 		/// <param name="Type"></param>
 		/// <returns>List of MapPoint</returns>
-		private static List<MapPoint> GetPointsByType(string Type)
+		private static ObservableCollection<MapPoint> GetPointsByType(string Type)
 		{
 			List<MapPoint> list = null;
+			ObservableCollection<MapPoint> listPoint = new ObservableCollection<MapPoint>();
 			if (Type == "All")
 				return GetAllPoints();
 
@@ -243,7 +249,9 @@ namespace Malaga
 				list = (from m in DB.Table<MapPoint>()
 						where m.Type == Type
 						select m).ToList();
-				return list;
+				foreach (MapPoint item in list)
+					listPoint.Add(item);
+				return listPoint;
 			}
 		}
 
@@ -370,7 +378,7 @@ namespace Malaga
 			timer.Interval = new TimeSpan(0,0,1);
 			timer.Tick += Timer_Tick;
 			setDB();
-			ListMapPoint = GetAllPoints();
+			listMapPoint = GetAllPoints();
 			setMap();
 			timer.Start();
 		}
@@ -535,10 +543,10 @@ namespace Malaga
 		private void setPOI()
 		{
 			clearPOI();
-			if (ListMapPoint == null)
+			if (listMapPoint == null)
 				return;
 
-			foreach (MapPoint point in ListMapPoint)
+			foreach (MapPoint point in listMapPoint)
 			{
 				Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
 				MapIcon mapIcon1 = new MapIcon();
@@ -622,7 +630,7 @@ namespace Malaga
 		{
 			pointGrid.Children.Clear();
 			var i = 0;
-			foreach (MapPoint point in ListMapPoint)
+			foreach (MapPoint point in listMapPoint)
 			{
 				var rd = new RowDefinition();
 				pointGrid.RowDefinitions.Add(rd);
@@ -720,7 +728,7 @@ namespace Malaga
 		/// <param name="type"></param>
 		private void selectItemInView(string type)
 		{
-			ListMapPoint = GetPointsByType(type);
+			listMapPoint = GetPointsByType(type);
 			setPOI();
 			setGridView();
 		}
@@ -751,7 +759,7 @@ namespace Malaga
 			}
 
 
-			ListMapPoint = GetAllPoints();
+			listMapPoint = GetAllPoints();
 			setPOI();
 			setGridView();
 		}
@@ -1054,7 +1062,7 @@ namespace Malaga
 						ConvertBusinessToMapPoint(business);
 				}
 			}
-			ListMapPoint = GetAllPoints();
+			listMapPoint = GetAllPoints();
 			setPOI();
 			setGridView();
 		}

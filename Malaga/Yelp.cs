@@ -137,6 +137,9 @@ namespace Malaga
 		{
 			if (!isValid(business))
 				return;
+			if (business.image_url == null)
+				business.image_url = "ms-appx:///Assets/barBig.png";
+
 			listBusiness.Add(new Business()
 			{
 				ID = business.id,
