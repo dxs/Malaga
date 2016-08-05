@@ -1,6 +1,0 @@
-﻿[ResourceMetadata]
-"ResourceId"			"split.language-fr"
-"ResourceDimensions"		"language-fr-fr"
-
-[Files]
-"C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\obj\x64\Release\split.language-fr.pri"			"resources.pri"
