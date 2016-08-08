@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SQLite.Net;
 using SQLite.Net.Attributes;
 using SQLite.Net.Platform.WinRT;
@@ -27,404 +27,253 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Malaga
 {
-	/// <summary>
-	/// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
-	/// </summary>
-	public sealed partial class MainPage : Page
-	{
-		/*Global vars*/
-		#region global
-		MapIcon mapIconME = null;
-		MapIcon tmpIcon = null;
-		DispatcherTimer timer;
+    public sealed partial class MainPage : Page
+    {
+		Database DB;
+		DispatcherTimer yelpTimer;
+		ObservableCollection<Database.MapPoint> collectionMapPoint;
+		Database.MapPoint SelectedPoint;
 
-		MapPoint SelectedPoint = null;
-		bool? follow = false;
-		static int nextId = 0;
-		private ObservableCollection<MapPoint> listMapPoint = null;
-		internal ObservableCollection<MapPoint> ListMapPoint { get { return listMapPoint; } }
+		MapIcon mapIconMe = null, tmpIcon = null;
+		bool? follow;
 
-		ObservableCollection<Venue> ListVenue = null;
+		SolidColorBrush red;
+
 		int numberOfQueryDone = 0;
 
-		string FOURSQUARECLIENTID = @"OZKEEVVRUNALJV5W4JDENEFQLNUBN2SJN10IHFRQM3VOQGGL";
-		string FOURSQUARESECRETID = @"WRPOPQHQOVZUES0L3SAY44XUXFINKRXTLUU0AP1WNQS24Q4W";
-
-		#endregion
-
-		#region Database
-		private static string dbPath = string.Empty;
-		private static string DbPath
+		/// <summary>
+		/// Point d'entr�e
+		/// </summary>
+		public MainPage()
 		{
-			get
+			this.InitializeComponent();
+			DB = new Database(ApplicationData.Current.LocalFolder.Path);
+
+			Setup();
+
+			yelpTimer = new DispatcherTimer()
 			{
-				if (string.IsNullOrEmpty(dbPath))
-					dbPath = System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "MapPoint.sqlite");
-				return dbPath;
+				Interval = new TimeSpan(0, 0, 1)
+			};
+			yelpTimer.Tick += YelpTimer_Tick;
+
+			setMap();
+
+			yelpTimer.Start();
+		}
+
+		private async void Setup()
+		{
+			await DB.setDB();
+			collectionMapPoint = DB.GetAllPoints();
+			setGridView();
+			setPOI();
+		}
+
+		private async void YelpTimer_Tick(object sender, object e)
+		{
+			yelpTimer.Stop();
+			bool? isConnected = false;
+			isConnected = await LoadYelp();
+			if(isConnected == false)
+			{
+				yelpTimer.Interval = new TimeSpan(0, 0, 1);
+				yelpTimer.Start();
+			}
+			if(isConnected == null)
+			{
+				yelpTimer.Interval = new TimeSpan(0, 0, 10);
+				yelpTimer.Start();
 			}
 		}
 
-		private static SQLiteConnection DbConnection
-		{
-			get { return new SQLiteConnection(new SQLitePlatformWinRT(), DbPath); }
-		}
-
 		/// <summary>
-		/// Internal Object repressenting a Point on a Map
+		/// Given a parameter, updates the List and POI and map
 		/// </summary>
-		internal class MapPoint
+		/// <param name="type"></param>
+		private void selectItemInView(string type)
 		{
-			/// <summary>
-			/// Gets or sets the identifier.
-			/// </summary>
-			[PrimaryKey, AutoIncrement]
-			public int Id { get; set; }
-
-			/// <summary>
-			/// Gets or sets the name.
-			/// </summary>
-			[MaxLength(64)]
-			public string Name { get; set; }
-
-			/// <summary>
-			/// Gets or sets the description.
-			/// </summary>
-			public string Description { get; set; }
-
-			/// <summary>
-			/// Gets or sets the latitude
-			/// </summary>
-			public double Latitude { get; set; }
-
-			/// <summary>
-			/// Gets or sets the Longitude
-			/// </summary>
-			public double Longitude { get; set; }
-
-			/// <summary>
-			/// Gets or sets the type
-			/// </summary>
-			public string Type { get; set; }
-
-			/// <summary>
-			/// Gets or sets the Street address
-			/// </summary>
-			public string Street { get; set; }
-
-			/// <summary>
-			/// Gets or sets the Town
-			/// </summary>
-			public string Town { get; set; }
-
-		}
-
-		/// <summary>
-		/// Setup Database and create table if not already exist
-		/// </summary>
-		private async void setDB()
-		{
-			using (var DB = DbConnection)
-			{
-				var c = DB.CreateTable<MapPoint>();
-				var info = DB.GetMapping(typeof(MapPoint));
-				var j = 1;
-				var count = DB.Table<MapPoint>().Count();
-				#region MapPointCreation
-				if (count < 1)
-				{
-					MapPoint point = new MapPoint();//46.532622, 6.590774
-					point = await createMapPoint(j++, "Bar fiesta", "Happy hours 22h-22h30", 46.532622, 6.590774, "Bar");
-					var i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Bar Pong Pong", "Beer pong party", 46.532821, 6.600000, "Bar");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Club PicNique", "Pool party tonight", 46.529087, 6.587635, "Club");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "La fraise", "Chou fractale happy hour", 46.538762, 6.577635, "Restaurant");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5386756, 6.587528, "Club");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Zoo", "Animal crossing 2", 46.5287756, 6.574768, "Visit");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5279756, 6.5862528, "visit");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Bar chicka", "Braaaaa", 46.5287567, 6.587620, "Bar");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Tapas Tacos", "Petage de panse", 46.5387260, 6.5721976, "Restaurant");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Chinese food", "Chez toi ou Chinois?", 46.539678, 6.597290, "Restaurant");
-					i = DB.InsertOrReplace(point);
-				}
-				#endregion
-			}
-			listMapPoint = GetAllPoints();
+			collectionMapPoint = DB.GetPointsByType(type);
 			setPOI();
 			setGridView();
 		}
 
 		/// <summary>
-		/// Delete an entry in Database
+		/// Hide the UI that allows user to edit fields
 		/// </summary>
-		/// <param name="point"></param>
-		private static void DeleteMapPoint(MapPoint point)
+		/// <param name="state">Closed of open</param>
+		/// <param name="create">Is it a creation?</param>
+		private void HideEditUI(bool state, bool create = false)
 		{
-			using (var DB = DbConnection)
-				DB.Execute("DELETE FROM MapPoint WHERE Id = ?", point.Id);
-		}
-
-		/// <summary>
-		/// Gets all the point as a List
-		/// </summary>
-		/// <returns>List of MapPoint</returns>
-		private static ObservableCollection<MapPoint> GetAllPoints()
-		{
-			ObservableCollection<MapPoint> pointList = new ObservableCollection<MapPoint>();
-			List<MapPoint> list;
-			using (var DB = DbConnection)
-				list = (from m in DB.Table<MapPoint>() select m).ToList();
-			foreach (MapPoint item in list)
-				pointList.Add(item);
-			if(pointList.Count > 0)
-				nextId = pointList[pointList.Count - 1].Id + 1;
-			return pointList;
-		}
-
-		/// <summary>
-		/// Save a point (creating or updating existing point)
-		/// </summary>
-		/// <param name="point"></param>
-		private static void SaveMapPoint(MapPoint point)
-		{
-			using (var DB = DbConnection)
+			UpdateButton.Content = "Update";
+			latBox.TextChanged -= latBox_TextChanged;
+			LonBox.TextChanged -= latBox_TextChanged;
+			streetBox.TextChanged -= streetBox_TextChanged;
+			townBox.TextChanged -= streetBox_TextChanged;
+			if (state)
 			{
-				DB.InsertOrReplace(point);
+				Grid.SetColumnSpan(EditScrollView, 1);
+				Grid.SetColumn(EditScrollView, 1);
+				Grid.SetColumnSpan(scrollview, 2);
+				scrollview.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				Grid.SetColumnSpan(scrollview, 1);
+				if (create)
+				{
+					scrollview.Visibility = Visibility.Collapsed;
+					Grid.SetColumnSpan(EditScrollView, 2);
+					Grid.SetColumn(EditScrollView, 0);
+				}
+				else
+				{
+					scrollview.Visibility = Visibility.Visible;
+					Grid.SetColumnSpan(EditScrollView, 1);
+					Grid.SetColumn(EditScrollView, 1);
+				}
+			}
+
+			collectionMapPoint = DB.GetAllPoints();
+			setPOI();
+			setGridView();
+		}
+
+		/// <summary>
+		/// Set the grid view of points
+		/// </summary>
+		private void setGridView()
+		{
+			pointGrid.Children.Clear();
+			var i = 0;
+			MyColors color = new MyColors();
+			foreach (Database.MapPoint point in collectionMapPoint)
+			{
+				var rd = new RowDefinition();
+				pointGrid.RowDefinitions.Add(rd);
+
+				Rectangle background = new Rectangle();
+				if (i % 2 == 1)
+					background.Fill = color.GrayFaded;
+				else
+					;
+				///Gonna use this if icon are set to color representation
+				//switch (point.Type)
+				//{
+				//	case "Bar":
+				//		background.Fill = color.BlueFaded;
+				//		break;
+				//	case "Club":
+				//		background.Fill = color.RedFaded;
+				//		break;
+				//	case "Restaurant":
+				//		background.Fill = color.GreenFaded;
+				//		break;
+				//	case "Visit":
+				//		background.Fill = color.VioletFaded;
+				//		break;
+				//	default:
+				//		background.Fill = color.VioletFaded;
+				//		break;
+				//}
+				Grid.SetRow(background, i);
+				Grid.SetColumn(background, 0);
+				Grid.SetColumnSpan(background, 4);
+				pointGrid.Children.Add(background);
+
+				TextBlock tbName = new TextBlock()
+				{
+					Text = point.Name,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(6)
+				};
+
+				Grid.SetRow(tbName, i);
+				Grid.SetColumn(tbName, 0);
+				pointGrid.Children.Add(tbName);
+
+				TextBlock tbDescr = new TextBlock()
+				{
+					Text = point.Description,
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Center,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(6)
+				};
+
+				Grid.SetRow(tbDescr, i);
+				Grid.SetColumn(tbDescr, 1);
+				pointGrid.Children.Add(tbDescr);
+
+				Button selectButton = new Button()
+				{
+					Content = new FontIcon()
+					{
+						FontFamily = new FontFamily("Segoe MDL2 Assets"),
+						Glyph = "\uE1D2"
+					},
+					Padding = new Thickness(6),
+					Background = new SolidColorBrush(Colors.Transparent),
+					Tag = point.Id
+				};
+				selectButton.Click += SelectButton_Click;
+
+				Grid.SetRow(selectButton, i);
+				Grid.SetColumn(selectButton, 2);
+				pointGrid.Children.Add(selectButton);
+
+				Button editButton = new Button()
+				{
+					Content = new FontIcon()
+					{
+						FontFamily = new FontFamily("Segoe MDL2 Assets"),
+						Glyph = "\uE946"
+					},
+					Padding = new Thickness(6),
+					Background = new SolidColorBrush(Colors.Transparent),
+					Tag = point.Id
+				};
+				editButton.Click += EditButton_Click;
+
+				Grid.SetRow(editButton, i);
+				Grid.SetColumn(editButton, 3);
+				pointGrid.Children.Add(editButton);
+
+				i++;
 			}
 		}
 
-		/// <summary>
-		/// Get a MapPoint from an Id
-		/// </summary>
-		/// <param name="_Id"></param>
-		/// <returns>MapPoint</returns>
-		private static MapPoint GetPointById(int _Id)
-		{
-			using (var DB = DbConnection)
-			{
-				MapPoint point = (from m in DB.Table<MapPoint>()
-								  where m.Id == _Id
-								  select m).FirstOrDefault();
-				return point;
-			}
-		}
+		#region YELP
 
 		/// <summary>
-		/// Get a MapPoint from name
+		/// Perform Task to load Yelp
 		/// </summary>
-		/// <param name="Name"></param>
-		/// <returns>MapPoint</returns>
-		private static MapPoint GetPointByName(string Name)
+		/// <param name="queryNb"></param>
+		/// <returns></returns>
+		private async Task<bool> LoadYelp(int queryNb = 0)
 		{
-			using (var DB = DbConnection)
-			{
-				MapPoint point = (from m in DB.Table<MapPoint>()
-								  where m.Name == Name
-								  select m).FirstOrDefault();
-				return point;
-			}
-		}
-
-		/// <summary>
-		/// Retrieve from DB all MapPoint that match a Type
-		/// </summary>
-		/// <param name="Type"></param>
-		/// <returns>List of MapPoint</returns>
-		private static ObservableCollection<MapPoint> GetPointsByType(string Type)
-		{
-			List<MapPoint> list = null;
-			ObservableCollection<MapPoint> listPoint = new ObservableCollection<MapPoint>();
-			if (Type == "All")
-				return GetAllPoints();
-
-			using (var DB = DbConnection)
-			{
-				list = (from m in DB.Table<MapPoint>()
-						where m.Type == Type
-						select m).ToList();
-				foreach (MapPoint item in list)
-					listPoint.Add(item);
-				return listPoint;
-			}
-		}
-
-		/// <summary>
-		/// Cree un MapPoint selon une latitude et une longitude
-		/// </summary>
-		/// <param name="_Id">Identifiant</param>
-		/// <param name="_Name">Nom</param>
-		/// <param name="_Description">Explication brève et remarques</param>
-		/// <param name="_Latitude">Coordonnée géographique 1</param>
-		/// <param name="_Longitude">Coordonnée géographique 2</param>
-		/// <param name="_Type">Type d'endroit</param>
-		/// <returns>MapPoint</returns>
-		private async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type)
-		{
-			MapPoint _point = new MapPoint();
-			_point.Id = _Id;
-			_point.Latitude = _Latitude;
-			_point.Longitude = _Longitude;
-			string address = await GetAdressFromPoint(new Point(_Latitude, _Longitude));
-			string[] parse = address.Split(',');
-			_point.Street = parse[0];
-			_point.Town = parse[1] + "," + parse[2];
-			_point.Name = _Name;
-			_point.Type = _Type;
-			_point.Description = _Description;
-			return _point;
-		}
-
-		/// <summary>
-		/// Cree un MapPoint selon une adresse
-		/// </summary>
-		/// <param name="_Id"></param>
-		/// <param name="_Name"></param>
-		/// <param name="_Description"></param>
-		/// <param name="_Street"></param>
-		/// <param name="_Town"></param>
-		/// <param name="_Type"></param>
-		/// <returns>MapPoint</returns>
-		private async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, string _Street, string _Town, string _Type)
-		{
-			MapPoint _point = new MapPoint();
-			_point.Id = _Id;
-			_point.Street = _Street;
-			_point.Town = _Town;
-			Point p = await GetPointFromAddress(_Street + ", " + _Town);
-			_point.Latitude = p.X;
-			_point.Longitude = p.Y;
-			_point.Name = _Name;
-			_point.Type = _Type;
-			_point.Description = _Description;
-			return _point;
-		}
-
-		#endregion
-
-		#region coordAdressConverter
-
-		/// <summary>
-		/// Convert a lat/lon coordinate to an address
-		/// </summary>
-		/// <param name="point"></param>
-		/// <returns>string address</returns>
-		private async Task<string> GetAdressFromPoint(Point point)
-		{
-			string address = "";
-			// The location to reverse geocode.
-			BasicGeoposition location = new BasicGeoposition();
-			location.Latitude = point.X;
-			location.Longitude = point.Y;
-			Geopoint pointToReverseGeocode = new Geopoint(location);
-
-			// Reverse geocode the specified geographic location.
-			MapLocationFinderResult result =  await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-
-			if (result.Status == MapLocationFinderStatus.Success)
-			{
-				address += result.Locations[0].Address.Street + " ";
-				address += result.Locations[0].Address.StreetNumber + ", ";
-				address += result.Locations[0].Address.PostCode + ", ";
-				address += result.Locations[0].Address.Town;
-			}
-
-			return address;
-		}
-
-		/// <summary>
-		/// Convert an address to a lat/lon coordinate
-		/// </summary>
-		/// <param name="address"></param>
-		/// <returns>Point latitude = X longitude = y</returns>
-		private async Task<Point> GetPointFromAddress(string address)
-		{
-			Point point = new Point(0.00, 0.00);
-
-			// The nearby location to use as a query hint.
-			BasicGeoposition queryHint = new BasicGeoposition();
-			queryHint.Latitude = mapIconME.Location.Position.Latitude;
-			queryHint.Longitude = mapIconME.Location.Position.Longitude;
-			Geopoint hintPoint = new Geopoint(queryHint);
-
-			// Geocode the specified address, using the specified reference point
-			// as a query hint. Return no more than 3 results.
-			MapLocationFinderResult result =
-				  await MapLocationFinder.FindLocationsAsync(address, hintPoint, 3);
-
-			if (result.Status == MapLocationFinderStatus.Success)
-			{
-				point.X = result.Locations[0].Point.Position.Latitude;
-				point.Y = result.Locations[0].Point.Position.Longitude;
-			}
-			return point;
-		}
-		#endregion
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public MainPage()
-		{
-			this.InitializeComponent();
-			SelectedPoint = new MapPoint();
-			timer = new DispatcherTimer();
-			timer.Interval = new TimeSpan(0,0,1);
-			timer.Tick += Timer_Tick;
-			setDB();
-			listMapPoint = GetAllPoints();
-			setMap();
-			timer.Start();
-		}
-
-		private async void Timer_Tick(object sender, object e)
-		{
-			timer.Stop();
-			bool? isConnected = false;
-			isConnected = await loadYelp();
-			if (isConnected == false)
-			{
-				timer.Interval = new TimeSpan(0, 0, 1);
-				timer.Start();
-			}
-			if (isConnected == null)
-			{
-				timer.Interval = new TimeSpan(0, 0, 30);
-				timer.Start();
-			}
-		}
-
-
-		#region Yelp
-		private async Task<bool> loadYelp(int queryNb = 0)
-		{
-			if (mapIconME == null)
+			if (mapIconMe == null)
 				return false;
 			Yelp y = new Yelp();
 			Point p = new Point()
 			{
-				X = mapIconME.Location.Position.Latitude,
-				Y = mapIconME.Location.Position.Longitude
+				X = mapIconMe.Location.Position.Latitude,
+				Y = mapIconMe.Location.Position.Longitude
 			};
-			string town = (await GetAdressFromPoint(p)).Split(',')[2];
+			string town = (await DB.GetAdressFromPoint(p)).Split(',')[2];
 			int offset = 20;
 			ring2.Visibility = Visibility.Visible;
-			await y.GetData(p, "", 10000, offset, queryNb * offset, 0, town);
-			ring2.Visibility = Visibility.Collapsed;
-			ring.Visibility = Visibility.Collapsed;
+			await y.GetData(p, "Museum", 10000, offset, queryNb * offset, 0, town);
+			ring.Visibility = ring2.Visibility = Visibility.Collapsed;
 			DisplayYelp(offset, y);
 			return true;
 		}
 
 		private void DisplayYelp(int offset, Yelp y)
 		{
-			for (int i = 0; i < offset; i++)
+			for(int i = 0; i < offset; i++)
 			{
 				Yelp.Business business = new Yelp.Business();
 				business = y.GetNextBusiness();
@@ -441,7 +290,7 @@ namespace Malaga
 						stack.Children.Add(new Image()
 						{
 							Source = new BitmapImage(new Uri("ms-appx:///Assets/barBig.png")),
-							MaxWidth =120
+							MaxWidth = 120
 						});
 					stack.Children.Add(new TextBlock()
 					{
@@ -472,6 +321,196 @@ namespace Malaga
 		}
 
 		#endregion
+
+		#region MapFunctions
+
+		/// <summary>
+		/// Set a MapElement on MapControl representing the user position
+		/// </summary>
+		/// <param name="position"></param>
+		private void setMyPosition(Geoposition position)
+		{
+			if (mapIconMe == null)
+				mapIconMe = new MapIcon();
+
+			mapIconMe.Location = new Geopoint(new BasicGeoposition()
+			{ Latitude = position.Coordinate.Point.Position.Latitude, Longitude = position.Coordinate.Point.Position.Longitude });
+			mapIconMe.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
+			mapIconMe.ZIndex = 100;
+			mapIconMe.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+			mapIconMe.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/loc.png"));
+			mainMap.MapElements.Remove(mapIconMe);
+			mainMap.MapElements.Add(mapIconMe);
+		}
+
+		/// <summary>
+		/// Set POI (Point Of Interest) on the map
+		/// </summary>
+		/// <remarks>Use the ZIndex to mark the Id of the point</remarks>
+		private void setPOI()
+		{
+			clearPOI();
+			if (collectionMapPoint == null)
+				return;
+
+			foreach (Database.MapPoint point in collectionMapPoint)
+			{
+				Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
+				MapIcon mapIcon1 = new MapIcon();
+				mapIcon1.Location = loc;
+				mapIcon1.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
+				mapIcon1.Title = point.Name;
+				mapIcon1.ZIndex = point.Id;
+				mapIcon1.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+				Uri picPath = new Uri("ms-appx:///Assets/bar.png");
+				switch (point.Type)
+				{
+					case "Club":
+						picPath = new Uri("ms-appx:///Assets/dj.png");
+						break;
+					case "Restaurant":
+						picPath = new Uri("ms-appx:///Assets/restaurant.png"); ;
+						break;
+					case "Bar":
+						picPath = new Uri("ms-appx:///Assets/bar.png");
+						break;
+					case "Visit":
+						picPath = new Uri("ms-appx:///Assets/visit.png");
+						break;
+					default:
+						break;
+				}
+				mapIcon1.Image = RandomAccessStreamReference.CreateFromUri(picPath);
+				// Add the MapIcon to the map.
+				mainMap.MapElements.Add(mapIcon1);
+			}
+		}
+
+		/// <summary>
+		/// Clear POI
+		/// </summary>
+		private void clearPOI() { mainMap.MapElements.Clear(); }
+
+		/// <summary>
+		/// Open the editor for a point
+		/// </summary>
+		/// <param name="point"></param>
+		private void EditPointUI(Database.MapPoint point)
+		{
+			HideEditUI(false);
+			/*fill the fields*/
+			boxName.Text = point.Name;
+			boxDesc.Text = point.Description;
+			latBox.Text = point.Latitude.ToString();
+			LonBox.Text = point.Longitude.ToString();
+			streetBox.Text = point.Street;
+			townBox.Text = point.Town;
+			switch (point.Type)
+			{
+				case "Bar":
+					typeSelect.SelectedIndex = 0;
+					break;
+				case "Club":
+					typeSelect.SelectedIndex = 1;
+					break;
+				case "Restaurant":
+					typeSelect.SelectedIndex = 2;
+					break;
+				case "Visit":
+					typeSelect.SelectedIndex = 3;
+					break;
+				default:
+					typeSelect.SelectedIndex = 0;
+					break;
+			}
+			SelectedPoint = point;
+			latBox.TextChanged += latBox_TextChanged;
+			LonBox.TextChanged += latBox_TextChanged;
+			streetBox.TextChanged += streetBox_TextChanged;
+			townBox.TextChanged += streetBox_TextChanged;
+		}
+
+		/// <summary>
+		/// Center the map to a given MapPoint
+		/// </summary>
+		/// <param name="point"></param>
+		private async void CenterMap(Database.MapPoint point)
+		{
+			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
+			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
+		}
+
+		/// <summary>
+		/// Center the map to a given Point (Latitude = X Longitude = Y)
+		/// </summary>
+		/// <param name="point"></param>
+		private async void CenterMap(Point point)
+		{
+			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.X, Longitude = point.Y });
+			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
+		}
+
+		/// <summary>
+		/// Event called when user click on a map element
+		/// </summary>
+		/// <remarks>not implemented yet</remarks>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
+		{
+			Database.MapPoint point = DB.GetPointById(args.MapElements[0].ZIndex);
+			CenterMap(point);
+			UpdateButton.Content = "Update";
+			EditPointUI(point);
+		}
+
+		/// <summary>
+		/// Event called when user click on the map
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private async void mainMap_Tapped(MapControl sender, MapInputEventArgs e)
+		{
+			HideEditUI(false);
+			SelectedPoint = new Database.MapPoint();
+			var tappedGeoPosition = e.Location.Position;
+			setTmpPoint(tappedGeoPosition.Latitude, tappedGeoPosition.Longitude);
+			SelectedPoint.Latitude = tappedGeoPosition.Latitude;
+			SelectedPoint.Longitude = tappedGeoPosition.Longitude;
+			latBox.Text = tappedGeoPosition.Latitude.ToString();
+			LonBox.Text = tappedGeoPosition.Longitude.ToString();
+			string s = await DB.GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
+			string[] address = s.Split(',');
+			streetBox.Text = SelectedPoint.Street = address[0];
+			townBox.Text = SelectedPoint.Town = address[1] + "," + address[2];
+			UpdateButton.Content = "Create";
+			latBox.TextChanged += latBox_TextChanged;
+			LonBox.TextChanged += latBox_TextChanged;
+			streetBox.TextChanged += streetBox_TextChanged;
+			townBox.TextChanged += streetBox_TextChanged;
+		}
+
+		/// <summary>
+		/// Set a mappin icon where the user has touch the map
+		/// </summary>
+		/// <param name="latitude"></param>
+		/// <param name="longitude"></param>
+		private void setTmpPoint(double latitude, double longitude)
+		{
+			if (tmpIcon == null)
+				tmpIcon = new MapIcon();
+			else
+				mainMap.MapElements.Remove(tmpIcon);
+			tmpIcon.Location = new Geopoint(new BasicGeoposition() { Latitude = latitude, Longitude = longitude });
+			tmpIcon.ZIndex = 100;
+			tmpIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
+			tmpIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+			tmpIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/mapPin.png"));
+			mainMap.MapElements.Add(tmpIcon);
+		}
+		#endregion
+
+		#region GetPosition
 
 		/// <summary>
 		/// Set up the position of the map
@@ -515,334 +554,10 @@ namespace Malaga
 			Point p = new Point(args.Position.Coordinate.Point.Position.Latitude, args.Position.Coordinate.Point.Position.Longitude);
 			if (follow == true)
 				CenterMap(p);
+			Database.CurrentLatitude = p.X;
+			Database.CurrentLongitude = p.Y;
 		}
 
-		/// <summary>
-		/// Set a MapElement on MapControl representing the user position
-		/// </summary>
-		/// <param name="position"></param>
-		private void setMyPosition(Geoposition position)
-		{
-			if (mapIconME == null)
-				mapIconME = new MapIcon();
-				
-			mapIconME.Location = new Geopoint(new BasicGeoposition()
-			{ Latitude = position.Coordinate.Point.Position.Latitude, Longitude = position.Coordinate.Point.Position.Longitude });
-			mapIconME.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
-			mapIconME.ZIndex = 100;
-			mapIconME.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-			mapIconME.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/loc.png"));
-			mainMap.MapElements.Remove(mapIconME);
-			mainMap.MapElements.Add(mapIconME);
-		}
-
-		/// <summary>
-		/// Set POI (Point Of Interest) on the map
-		/// </summary>
-		/// <remarks>Use the ZIndex to mark the Id of the point</remarks>
-		private void setPOI()
-		{
-			clearPOI();
-			if (listMapPoint == null)
-				return;
-
-			foreach (MapPoint point in listMapPoint)
-			{
-				Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
-				MapIcon mapIcon1 = new MapIcon();
-				mapIcon1.Location = loc;
-				mapIcon1.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
-				mapIcon1.Title = point.Name;
-				mapIcon1.ZIndex = point.Id;
-				mapIcon1.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-				Uri picPath = new Uri("ms-appx:///Assets/bar.png");
-				switch (point.Type)
-				{
-					case "Club":
-						picPath = new Uri("ms-appx:///Assets/dj.png");
-						break;
-					case "Restaurant":
-						picPath = new Uri("ms-appx:///Assets/restaurant.png"); ;
-						break;
-					case "Bar":
-						picPath = new Uri("ms-appx:///Assets/bar.png");
-						break;
-					case "Visit":
-						picPath = new Uri("ms-appx:///Assets/visit.png");
-						break;
-					default:
-						break;
-				}
-				mapIcon1.Image = RandomAccessStreamReference.CreateFromUri(picPath);
-				// Add the MapIcon to the map.
-				mainMap.MapElements.Add(mapIcon1);
-			}
-		}
-
-		/// <summary>
-		/// Clear POI
-		/// </summary>
-		private void clearPOI() { mainMap.MapElements.Clear(); }
-
-		/// <summary>
-		/// Open the editor for a point
-		/// </summary>
-		/// <param name="point"></param>
-		private void EditPointUI(MapPoint point)
-		{
-			HideEditUI(false);
-			/*fill the fields*/
-			boxName.Text = point.Name;
-			boxDesc.Text = point.Description;
-			latBox.Text = point.Latitude.ToString();
-			LonBox.Text = point.Longitude.ToString();
-			streetBox.Text = point.Street;
-			townBox.Text = point.Town;
-			switch (point.Type)
-			{
-				case "Bar":
-					typeSelect.SelectedIndex = 0;
-					break;
-				case "Club":
-					typeSelect.SelectedIndex = 1;
-					break;
-				case "Restaurant":
-					typeSelect.SelectedIndex = 2;
-					break;
-				case "Visit":
-					typeSelect.SelectedIndex = 3;
-					break;
-				default:
-					typeSelect.SelectedIndex = 0;
-					break;
-			}
-			SelectedPoint = point;
-			latBox.TextChanged += latBox_TextChanged;
-			LonBox.TextChanged += latBox_TextChanged;
-			streetBox.TextChanged += streetBox_TextChanged;
-			townBox.TextChanged += streetBox_TextChanged;
-		}
-
-		/// <summary>
-		/// Set the grid view of points
-		/// </summary>
-		private void setGridView()
-		{
-			pointGrid.Children.Clear();
-			var i = 0;
-			foreach (MapPoint point in listMapPoint)
-			{
-				var rd = new RowDefinition();
-				pointGrid.RowDefinitions.Add(rd);
-
-				if (i % 2 == 0)
-				{
-					Rectangle background = new Rectangle();
-					background.Fill = new SolidColorBrush(Color.FromArgb(Convert.ToByte(90), Convert.ToByte(230), Convert.ToByte(230), Convert.ToByte(230)));
-					Grid.SetRow(background, i);
-					Grid.SetColumn(background, 0);
-					Grid.SetColumnSpan(background, 5);
-					pointGrid.Children.Add(background);
-				}
-
-				TextBlock tbId = new TextBlock()
-				{
-					Text = point.Id.ToString(),
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
-
-				Grid.SetRow(tbId, i);
-				Grid.SetColumn(tbId, 0);
-				pointGrid.Children.Add(tbId);
-
-				TextBlock tbName = new TextBlock()
-				{
-					Text = point.Name,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
-
-				Grid.SetRow(tbName, i);
-				Grid.SetColumn(tbName, 1);
-				pointGrid.Children.Add(tbName);
-
-				TextBlock tbDescr = new TextBlock()
-				{
-					Text = point.Description,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
-
-				Grid.SetRow(tbDescr, i);
-				Grid.SetColumn(tbDescr, 2);
-				pointGrid.Children.Add(tbDescr);
-
-				Button selectButton = new Button()
-				{
-					Content = new FontIcon()
-					{
-						FontFamily = new FontFamily("Segoe MDL2 Assets"),
-						Glyph = "\uE1D2"
-					},
-					Padding = new Thickness(6),
-					Background = new SolidColorBrush(Colors.Transparent),
-					Tag = point.Id
-				};
-				selectButton.Click += SelectButton_Click;
-
-				Grid.SetRow(selectButton, i);
-				Grid.SetColumn(selectButton, 3);
-				pointGrid.Children.Add(selectButton);
-
-				Button editButton = new Button()
-				{
-					Content = new FontIcon()
-					{
-						FontFamily = new FontFamily("Segoe MDL2 Assets"),
-						Glyph = "\uE946"
-					},
-					Padding = new Thickness(6),
-					Background = new SolidColorBrush(Colors.Transparent),
-					Tag = point.Id
-				};
-				editButton.Click += EditButton_Click;
-
-				Grid.SetRow(editButton, i);
-				Grid.SetColumn(editButton, 4);
-				pointGrid.Children.Add(editButton);
-
-				i++;
-			}
-		}
-
-		/// <summary>
-		/// Given a parameter, updates the List and POI and map
-		/// </summary>
-		/// <param name="type"></param>
-		private void selectItemInView(string type)
-		{
-			listMapPoint = GetPointsByType(type);
-			setPOI();
-			setGridView();
-		}
-
-		/// <summary>
-		/// Hide the UI that allows user to edit fields
-		/// </summary>
-		/// <param name="state"></param>
-		private void HideEditUI(bool state)
-		{
-			UpdateButton.Content = "Update";
-
-			if (state)
-			{
-				Grid.SetColumnSpan(scrollview, 2);
-				latBox.TextChanged -= latBox_TextChanged;
-				LonBox.TextChanged -= latBox_TextChanged;
-				streetBox.TextChanged -= streetBox_TextChanged;
-				townBox.TextChanged -= streetBox_TextChanged;
-			}
-			else
-			{
-				latBox.TextChanged -= latBox_TextChanged;
-				LonBox.TextChanged -= latBox_TextChanged;
-				streetBox.TextChanged -= streetBox_TextChanged;
-				townBox.TextChanged -= streetBox_TextChanged;
-				Grid.SetColumnSpan(scrollview, 1);
-			}
-
-
-			listMapPoint = GetAllPoints();
-			setPOI();
-			setGridView();
-		}
-
-		#region map
-		/// <summary>
-		/// Center the map to a given MapPoint
-		/// </summary>
-		/// <param name="point"></param>
-		private async void CenterMap(MapPoint point)
-		{
-			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
-			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
-		}
-
-		/// <summary>
-		/// Center the map to a given Point (Latitude = X Longitude = Y)
-		/// </summary>
-		/// <param name="point"></param>
-		private async void CenterMap(Point point)
-		{
-			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.X, Longitude = point.Y });
-			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
-		}
-
-		/// <summary>
-		/// Event called when user click on a map element
-		/// </summary>
-		/// <remarks>not implemented yet</remarks>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		private void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
-		{
-			MapPoint point = GetPointById(args.MapElements[0].ZIndex);
-			CenterMap(point);
-			UpdateButton.Content = "Update";
-			EditPointUI(point);
-		}
-
-		/// <summary>
-		/// Event called when user click on the map
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private async void mainMap_Tapped(MapControl sender, MapInputEventArgs e)
-		{
-			HideEditUI(false);
-			SelectedPoint = new MapPoint();
-			var tappedGeoPosition = e.Location.Position;
-			setTmpPoint(tappedGeoPosition.Latitude, tappedGeoPosition.Longitude);
-			SelectedPoint.Latitude = tappedGeoPosition.Latitude;
-			SelectedPoint.Longitude = tappedGeoPosition.Longitude;
-			latBox.Text = tappedGeoPosition.Latitude.ToString();
-			LonBox.Text = tappedGeoPosition.Longitude.ToString();
-			string s = await GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
-			string[] address = s.Split(',');
-			streetBox.Text = SelectedPoint.Street = address[0];
-			townBox.Text = SelectedPoint.Town = address[1] + "," + address[2];
-			UpdateButton.Content = "Create";
-			latBox.TextChanged += latBox_TextChanged;
-			LonBox.TextChanged += latBox_TextChanged;
-			streetBox.TextChanged += streetBox_TextChanged;
-			townBox.TextChanged += streetBox_TextChanged;
-		}
-
-		/// <summary>
-		/// Set a mappin icon where the user has touch the map
-		/// </summary>
-		/// <param name="latitude"></param>
-		/// <param name="longitude"></param>
-		private void setTmpPoint(double latitude, double longitude)
-		{
-			if (tmpIcon == null)
-				tmpIcon = new MapIcon();
-			else
-				mainMap.MapElements.Remove(tmpIcon);
-			tmpIcon.Location = new Geopoint(new BasicGeoposition() { Latitude = latitude, Longitude = longitude });
-			tmpIcon.ZIndex = 100;
-			tmpIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
-			tmpIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-			tmpIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/mapPin.png"));
-			mainMap.MapElements.Add(tmpIcon);
-		}
 		#endregion
 
 		#region eventflyout
@@ -899,7 +614,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
-			DeleteMapPoint(SelectedPoint);
+			DB.DeleteMapPoint(SelectedPoint);
 			HideEditUI(true);
 		}
 
@@ -935,15 +650,15 @@ namespace Malaga
 			string address = "";
 
 			if (latBox.Text == "")
-				point = await GetPointFromAddress(streetBox.Text + ", " + townBox);
+				point = await DB.GetPointFromAddress(streetBox.Text + ", " + townBox);
 			else
 			{
 				SelectedPoint.Latitude = Convert.ToDouble(latBox.Text);
 				SelectedPoint.Longitude = Convert.ToDouble(LonBox.Text);
-				address = await GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
+				address = await DB.GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
 			}
 
-			SelectedPoint = new MapPoint();
+			SelectedPoint = new Database.MapPoint();
 			SelectedPoint.Name = boxName.Text;
 			SelectedPoint.Description = boxDesc.Text;
 
@@ -991,10 +706,10 @@ namespace Malaga
 
 			if (UpdateButton.Content.ToString() == "Create")
 			{
-				SelectedPoint.Id = nextId++;
+				SelectedPoint.Id = Database.nextId++;
 				mainMap.MapElements.Remove(tmpIcon);
 			}
-			SaveMapPoint(SelectedPoint);
+			DB.SaveMapPoint(SelectedPoint);
 			HideEditUI(true);
 		}
 
@@ -1005,7 +720,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
-			HideEditUI(false);
+			HideEditUI(false, true);
 			latBox.Text = "";
 			LonBox.Text = "";
 			boxDesc.Text = "";
@@ -1033,7 +748,7 @@ namespace Malaga
 		private void SelectButton_Click(object sender, RoutedEventArgs e)
 		{
 			var select = sender as Button;
-			var point = GetPointById(Convert.ToInt32(select.Tag));
+			var point = DB.GetPointById(Convert.ToInt32(select.Tag));
 			CenterMap(point);
 		}
 
@@ -1045,7 +760,7 @@ namespace Malaga
 		private void EditButton_Click(object sender, RoutedEventArgs e)
 		{
 			var select = sender as Button;
-			var point = GetPointById(Convert.ToInt32(select.Tag));
+			var point = DB.GetPointById(Convert.ToInt32(select.Tag));
 			UpdateButton.Content = "Update";
 			EditPointUI(point);
 		}
@@ -1053,7 +768,7 @@ namespace Malaga
 		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
 		{
 			rootPivot.SelectedIndex = 0;
-			foreach(GridViewItem item in yelpGridView.Items)
+			foreach (GridViewItem item in yelpGridView.Items)
 			{
 				if (item.IsSelected)
 				{
@@ -1062,16 +777,15 @@ namespace Malaga
 						ConvertBusinessToMapPoint(business);
 				}
 			}
-			listMapPoint = GetAllPoints();
+			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
 			setGridView();
 		}
 
 		private async void ConvertBusinessToMapPoint(Yelp.Business business)
 		{
-			MapPoint point = await createMapPoint(nextId, business.Name, business.Description, business.Latitude, business.Longitude, "bar");
-			nextId++;
-			SaveMapPoint(point);
+			Database.MapPoint point = await DB.createMapPoint(Database.nextId++, business.Name, business.Description, business.Latitude, business.Longitude, "bar");
+			DB.SaveMapPoint(point);
 		}
 		#endregion
 
@@ -1130,18 +844,28 @@ namespace Malaga
 		/// <param name="e"></param>
 		private async void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
-    		var verticalOffset = yelp_scrollviewer.VerticalOffset;
-    		var maxVerticalOffset = yelp_scrollviewer.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
+			var verticalOffset = yelp_scrollviewer.VerticalOffset;
+			var maxVerticalOffset = yelp_scrollviewer.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
 
-    		if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)// Scrolled to bottom
+			if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)// Scrolled to bottom
 			{
 				numberOfQueryDone++;
-				await loadYelp(numberOfQueryDone);
+				await LoadYelp(numberOfQueryDone);
 			}
 			else// Not scrolled to bottom
 			{
-        		
-    		}
+
+			}
+		}
+
+		/// <summary>
+		/// Event called when user press on the grid
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void scrollview_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+		{
+			HideEditUI(true);
 		}
 		#endregion
 
@@ -1218,288 +942,288 @@ namespace Malaga
 
 		private void SetCommandBarYelp()
 		{
-			
+
 		}
 
 		#endregion
 
 		#region foursquare
 
-		/*
-		https://api.foursquare.com/v2/venues/search
-		?client_id=CLIENT_ID
-		&client_secret=CLIENT_SECRET
-		&v=20130815
-		&ll=40.7,-74
-		&query=sushi
-		*/
+		///*
+		//https://api.foursquare.com/v2/venues/search
+		//?client_id=CLIENT_ID
+		//&client_secret=CLIENT_SECRET
+		//&v=20130815
+		//&ll=40.7,-74
+		//&query=sushi
+		//*/
 
-		/// <summary>
-		/// Internal Object repressenting a Venue
-		/// </summary>
-		internal class Venue
-		{
-			/// <summary>
-			/// Gets or sets the identifier.
-			/// </summary>
-			[PrimaryKey]
-			public string Id { get; set; }
+		///// <summary>
+		///// Internal Object repressenting a Venue
+		///// </summary>
+		//internal class Venue
+		//{
+		//	/// <summary>
+		//	/// Gets or sets the identifier.
+		//	/// </summary>
+		//	[PrimaryKey]
+		//	public string Id { get; set; }
 
-			/// <summary>
-			/// Gets or sets the name.
-			/// </summary>
-			[MaxLength(128)]
-			public string Name { get; set; }
+		//	/// <summary>
+		//	/// Gets or sets the name.
+		//	/// </summary>
+		//	[MaxLength(128)]
+		//	public string Name { get; set; }
 
-			/// <summary>
-			/// Gets or sets the description.
-			/// </summary>
-			public string Description { get; set; }
+		//	/// <summary>
+		//	/// Gets or sets the description.
+		//	/// </summary>
+		//	public string Description { get; set; }
 
-			/// <summary>
-			/// Gets or sets the latitude
-			/// </summary>
-			public double Latitude { get; set; }
+		//	/// <summary>
+		//	/// Gets or sets the latitude
+		//	/// </summary>
+		//	public double Latitude { get; set; }
 
-			/// <summary>
-			/// Gets or sets the Longitude
-			/// </summary>
-			public double Longitude { get; set; }
+		//	/// <summary>
+		//	/// Gets or sets the Longitude
+		//	/// </summary>
+		//	public double Longitude { get; set; }
 
-			/// <summary>
-			/// Gets or sets the type
-			/// </summary>
-			public string Categorie { get; set; }
+		//	/// <summary>
+		//	/// Gets or sets the type
+		//	/// </summary>
+		//	public string Categorie { get; set; }
 
-			/// <summary>
-			/// Gets or sets the Street address
-			/// </summary>
-			public string Street { get; set; }
+		//	/// <summary>
+		//	/// Gets or sets the Street address
+		//	/// </summary>
+		//	public string Street { get; set; }
 
-			/// <summary>
-			/// Gets or sets the Town
-			/// </summary>
-			public string Town { get; set; }
-		}
+		//	/// <summary>
+		//	/// Gets or sets the Town
+		//	/// </summary>
+		//	public string Town { get; set; }
+		//}
 
-		/// <summary>
-		/// Check if there is an internet connection
-		/// </summary>
-		/// <returns>nullable bool</returns>
-		public static bool IsInternet()
-		{
-			ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
-			bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
-			return internet;
-		}
+		///// <summary>
+		///// Check if there is an internet connection
+		///// </summary>
+		///// <returns>nullable bool</returns>
+		//public static bool IsInternet()
+		//{
+		//	ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
+		//	bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+		//	return internet;
+		//}
 
-		/// <summary>
-		/// Take care to call great functions to load Foursquare
-		/// </summary>
-		/// <remarks>Need to be done more elegant</remarks>
-		/// <returns>True if it performed correct</returns>
-		private async Task<bool?> LoadFoursquare()
-		{
-			if(IsInternet() == false)
-			{
-				var d = new MessageDialog("No internet access", "Sorry");
-				return null;
-			}
-			JObject json = new JObject();
-			if (mapIconME == null)
-				return false;
-			json = await GetJson(1000,"",50,0,"","",false,false,false,0,mapIconME.Location.Position.Latitude,mapIconME.Location.Position.Longitude);
-			ring.Visibility = Visibility.Collapsed;
+		///// <summary>
+		///// Take care to call great functions to load Foursquare
+		///// </summary>
+		///// <remarks>Need to be done more elegant</remarks>
+		///// <returns>True if it performed correct</returns>
+		//private async Task<bool?> LoadFoursquare()
+		//{
+		//	if (IsInternet() == false)
+		//	{
+		//		var d = new MessageDialog("No internet access", "Sorry");
+		//		return null;
+		//	}
+		//	JObject json = new JObject();
+		//	if (mapIconMe == null)
+		//		return false;
+		//	json = await GetJson(1000, "", 50, 0, "", "", false, false, false, 0, mapIconMe.Location.Position.Latitude, mapIconMe.Location.Position.Longitude);
+		//	ring.Visibility = Visibility.Collapsed;
 
-			UpdateFoursquareList(json);
-			DisplayFoursquareList();
-			return true;
-		}
+		//	UpdateFoursquareList(json);
+		//	DisplayFoursquareList();
+		//	return true;
+		//}
 
-		private void DisplayFoursquareList()
-		{
-			//foursquareGrid.Children.Clear();
-			var i = 0;
-			foreach (Venue venue in ListVenue)
-			{
-				var rd = new RowDefinition();
-				//foursquareGrid.RowDefinitions.Add(rd);
+		//private void DisplayFoursquareList()
+		//{
+		//	//foursquareGrid.Children.Clear();
+		//	var i = 0;
+		//	foreach (Venue venue in ListVenue)
+		//	{
+		//		var rd = new RowDefinition();
+		//		//foursquareGrid.RowDefinitions.Add(rd);
 
-				if (i % 2 == 0)
-				{
-					Rectangle background = new Rectangle();
-					background.Fill = new SolidColorBrush(Color.FromArgb(Convert.ToByte(90), Convert.ToByte(230), Convert.ToByte(230), Convert.ToByte(230)));
-					Grid.SetRow(background, i);
-					Grid.SetColumn(background, 0);
-					Grid.SetColumnSpan(background, 5);
-					//foursquareGrid.Children.Add(background);
-				}
+		//		if (i % 2 == 0)
+		//		{
+		//			Rectangle background = new Rectangle();
+		//			background.Fill = new SolidColorBrush(Color.FromArgb(Convert.ToByte(90), Convert.ToByte(230), Convert.ToByte(230), Convert.ToByte(230)));
+		//			Grid.SetRow(background, i);
+		//			Grid.SetColumn(background, 0);
+		//			Grid.SetColumnSpan(background, 5);
+		//			//foursquareGrid.Children.Add(background);
+		//		}
 
-				TextBlock tbId = new TextBlock()
-				{
-					Text = venue.Id.ToString(),
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
+		//		TextBlock tbId = new TextBlock()
+		//		{
+		//			Text = venue.Id.ToString(),
+		//			HorizontalAlignment = HorizontalAlignment.Left,
+		//			VerticalAlignment = VerticalAlignment.Center,
+		//			TextWrapping = TextWrapping.Wrap,
+		//			Margin = new Thickness(6)
+		//		};
 
-				Grid.SetRow(tbId, i);
-				Grid.SetColumn(tbId, 0);
-				//foursquareGrid.Children.Add(tbId);
+		//		Grid.SetRow(tbId, i);
+		//		Grid.SetColumn(tbId, 0);
+		//		//foursquareGrid.Children.Add(tbId);
 
-				TextBlock tbName = new TextBlock()
-				{
-					Text = venue.Name,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
+		//		TextBlock tbName = new TextBlock()
+		//		{
+		//			Text = venue.Name,
+		//			HorizontalAlignment = HorizontalAlignment.Left,
+		//			VerticalAlignment = VerticalAlignment.Center,
+		//			TextWrapping = TextWrapping.Wrap,
+		//			Margin = new Thickness(6)
+		//		};
 
-				Grid.SetRow(tbName, i);
-				Grid.SetColumn(tbName, 1);
-				//foursquareGrid.Children.Add(tbName);
+		//		Grid.SetRow(tbName, i);
+		//		Grid.SetColumn(tbName, 1);
+		//		//foursquareGrid.Children.Add(tbName);
 
-				TextBlock tbDescr = new TextBlock()
-				{
-					Text = venue.Description,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
+		//		TextBlock tbDescr = new TextBlock()
+		//		{
+		//			Text = venue.Description,
+		//			HorizontalAlignment = HorizontalAlignment.Left,
+		//			VerticalAlignment = VerticalAlignment.Center,
+		//			TextWrapping = TextWrapping.Wrap,
+		//			Margin = new Thickness(6)
+		//		};
 
-				Grid.SetRow(tbDescr, i);
-				Grid.SetColumn(tbDescr, 2);
-				//foursquareGrid.Children.Add(tbDescr);
+		//		Grid.SetRow(tbDescr, i);
+		//		Grid.SetColumn(tbDescr, 2);
+		//		//foursquareGrid.Children.Add(tbDescr);
 
-				TextBlock tbStreet = new TextBlock()
-				{
-					Text = venue.Street + "\n" + venue.Town,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
+		//		TextBlock tbStreet = new TextBlock()
+		//		{
+		//			Text = venue.Street + "\n" + venue.Town,
+		//			HorizontalAlignment = HorizontalAlignment.Left,
+		//			VerticalAlignment = VerticalAlignment.Center,
+		//			TextWrapping = TextWrapping.Wrap,
+		//			Margin = new Thickness(6)
+		//		};
 
-				Grid.SetRow(tbStreet, i);
-				Grid.SetColumn(tbStreet, 3);
-				//foursquareGrid.Children.Add(tbStreet);
+		//		Grid.SetRow(tbStreet, i);
+		//		Grid.SetColumn(tbStreet, 3);
+		//		//foursquareGrid.Children.Add(tbStreet);
 
-				ToggleButton toggleButton = new ToggleButton()
-				{
-					Content = new FontIcon()
-					{
-						FontFamily = new FontFamily("Segoe MDL2 Assets"),
-						Glyph = "\uE1D2"
-					},
-					IsChecked = false,
-					Padding = new Thickness(6),
-					Background = new SolidColorBrush(Colors.Transparent),
-					Tag = venue.Id
-				};
-				
+		//		ToggleButton toggleButton = new ToggleButton()
+		//		{
+		//			Content = new FontIcon()
+		//			{
+		//				FontFamily = new FontFamily("Segoe MDL2 Assets"),
+		//				Glyph = "\uE1D2"
+		//			},
+		//			IsChecked = false,
+		//			Padding = new Thickness(6),
+		//			Background = new SolidColorBrush(Colors.Transparent),
+		//			Tag = venue.Id
+		//		};
 
-				Grid.SetRow(toggleButton, i);
-				Grid.SetColumn(toggleButton, 4);
-				//foursquareGrid.Children.Add(toggleButton);
 
-				i++;
-			}
-		}
+		//		Grid.SetRow(toggleButton, i);
+		//		Grid.SetColumn(toggleButton, 4);
+		//		//foursquareGrid.Children.Add(toggleButton);
 
-		/// <summary>
-		/// Update the List of foursquare point
-		/// </summary>
-		/// <param name="json"></param>
-		private async void UpdateFoursquareList(JObject json)
-		{
-			var item = json["response"]["groups"][0]["items"];
-			int itemCount = item.Count();
+		//		i++;
+		//	}
+		//}
 
-			for (int i = 0; i < itemCount; i++)
-			{
-				try
-				{
-					Venue v = new Venue();
-					var venue = json["response"]["groups"][0]["items"][i];
-					v.Id = venue["venue"]["id"].ToString();
-					v.Name = venue["venue"]["name"].ToString();
-					string tmp = venue["venue"]["location"]["lat"].ToString();
-					v.Latitude = Convert.ToDouble(tmp);
-					tmp = venue["venue"]["location"]["lng"].ToString();
-					v.Longitude = Convert.ToDouble(tmp);
-					v.Description = venue["venue"]["categories"][0]["name"].ToString();
-					string address = await GetAdressFromPoint(new Point(v.Latitude, v.Longitude));
-					string[] add = address.Split(',');
-					v.Street = add[0];
-					v.Town = add[1] + ", " + add[2];
-					ListVenue.Add(v);
-					
-				}
-				catch (Exception e)
-				{
-					e.ToString();
-				}
-			}
-		}
+		///// <summary>
+		///// Update the List of foursquare point
+		///// </summary>
+		///// <param name="json"></param>
+		//private async void UpdateFoursquareList(JObject json)
+		//{
+		//	var item = json["response"]["groups"][0]["items"];
+		//	int itemCount = item.Count();
 
-		/// <summary>
-		/// Get the query of server from different parameters
-		/// </summary>
-		/// <param name="Radius">Radius research zone</param>
-		/// <param name="Section">Type de résultats [food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, nextVenues]</param>
-		/// <param name="NbItem">Number a item requested</param>
-		/// <param name="Offset">Offset for the item requested</param>
-		/// <param name="Time">[Morning, Lunch, Dinner, Night]</param>
-		/// <param name="Day">[Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche]</param>
-		/// <param name="Photo">Retrieve picture too</param>
-		/// <param name="IsOpenNow">Check only if open</param>
-		/// <param name="sortByDistance">Sort things by distance from point</param>
-		/// <param name="Price">Price from low to high [1,2,3,4]</param>
-		/// <param name="Latitude">double representing latitude</param>
-		/// <param name="Longitude">double representing lonitude</param>
-		/// <returns>JsonObject</returns>
-		private async Task<JObject> GetJson(int Radius = 0, string Section = "trending", int NbItem = 20, int Offset = 0, string Time = "", string Day = "", 
-										bool Photo = false, bool IsOpenNow = false, bool sortByDistance = false, int Price = 0, double Latitude = 0, double Longitude = 0)
-		{
-			string web = @"https://api.foursquare.com/v2/venues/explore?client_id=" + FOURSQUARECLIENTID + @"&client_secret=" + FOURSQUARESECRETID;
-			web += @"&v=20130815";
-			web += @"&ll=" + Latitude + "," + Longitude;
-			if (Radius > 0)
-				web += @"&radius=" + Radius;
-			if (Section != "")
-				web += @"&section=" + Section;
-			if (NbItem > 0)
-				web += @"&limit=" + NbItem;
-			if (Offset > 0)
-				web += @"&offset=" + Offset;
-			if(Time != "")
-			{
-				//TODO
-				;
-			}
-			if(Day != "")
-			{
-				//TODO
-				;
-			}
-			if (Photo)
-				web += @"&venuePhoto=1";
-			if (IsOpenNow)
-				web += @"&openNow=1";
-			if (sortByDistance)
-				web += @"&sortByDistance=1";
-			if (Price > 1)
-				web += @"&price=" + Price;
-				
-			var uri = new Uri(web);
+		//	for (int i = 0; i < itemCount; i++)
+		//	{
+		//		try
+		//		{
+		//			Venue v = new Venue();
+		//			var venue = json["response"]["groups"][0]["items"][i];
+		//			v.Id = venue["venue"]["id"].ToString();
+		//			v.Name = venue["venue"]["name"].ToString();
+		//			string tmp = venue["venue"]["location"]["lat"].ToString();
+		//			v.Latitude = Convert.ToDouble(tmp);
+		//			tmp = venue["venue"]["location"]["lng"].ToString();
+		//			v.Longitude = Convert.ToDouble(tmp);
+		//			v.Description = venue["venue"]["categories"][0]["name"].ToString();
+		//			string address = await GetAdressFromPoint(new Point(v.Latitude, v.Longitude));
+		//			string[] add = address.Split(',');
+		//			v.Street = add[0];
+		//			v.Town = add[1] + ", " + add[2];
+		//			ListVenue.Add(v);
 
-			var httpClient = new HttpClient();
-			var content = await httpClient.GetStringAsync(uri);
-			return await Task.Run(() => JObject.Parse(content));
-		}
+		//		}
+		//		catch (Exception e)
+		//		{
+		//			e.ToString();
+		//		}
+		//	}
+		//}
+
+		///// <summary>
+		///// Get the query of server from different parameters
+		///// </summary>
+		///// <param name="Radius">Radius research zone</param>
+		///// <param name="Section">Type de r�sultats [food, drinks, coffee, shops, arts, outdoors, sights, trending or specials, nextVenues]</param>
+		///// <param name="NbItem">Number a item requested</param>
+		///// <param name="Offset">Offset for the item requested</param>
+		///// <param name="Time">[Morning, Lunch, Dinner, Night]</param>
+		///// <param name="Day">[Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche]</param>
+		///// <param name="Photo">Retrieve picture too</param>
+		///// <param name="IsOpenNow">Check only if open</param>
+		///// <param name="sortByDistance">Sort things by distance from point</param>
+		///// <param name="Price">Price from low to high [1,2,3,4]</param>
+		///// <param name="Latitude">double representing latitude</param>
+		///// <param name="Longitude">double representing lonitude</param>
+		///// <returns>JsonObject</returns>
+		//private async Task<JObject> GetJson(int Radius = 0, string Section = "trending", int NbItem = 20, int Offset = 0, string Time = "", string Day = "",
+		//								bool Photo = false, bool IsOpenNow = false, bool sortByDistance = false, int Price = 0, double Latitude = 0, double Longitude = 0)
+		//{
+		//	string web = @"https://api.foursquare.com/v2/venues/explore?client_id=" + FOURSQUARECLIENTID + @"&client_secret=" + FOURSQUARESECRETID;
+		//	web += @"&v=20130815";
+		//	web += @"&ll=" + Latitude + "," + Longitude;
+		//	if (Radius > 0)
+		//		web += @"&radius=" + Radius;
+		//	if (Section != "")
+		//		web += @"&section=" + Section;
+		//	if (NbItem > 0)
+		//		web += @"&limit=" + NbItem;
+		//	if (Offset > 0)
+		//		web += @"&offset=" + Offset;
+		//	if (Time != "")
+		//	{
+		//		//TODO
+		//		;
+		//	}
+		//	if (Day != "")
+		//	{
+		//		//TODO
+		//		;
+		//	}
+		//	if (Photo)
+		//		web += @"&venuePhoto=1";
+		//	if (IsOpenNow)
+		//		web += @"&openNow=1";
+		//	if (sortByDistance)
+		//		web += @"&sortByDistance=1";
+		//	if (Price > 1)
+		//		web += @"&price=" + Price;
+
+		//	var uri = new Uri(web);
+
+		//	var httpClient = new HttpClient();
+		//	var content = await httpClient.GetStringAsync(uri);
+		//	return await Task.Run(() => JObject.Parse(content));
+		//}
 
 		#endregion
 	}

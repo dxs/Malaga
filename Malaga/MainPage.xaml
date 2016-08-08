@@ -40,7 +40,7 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<Grid Grid.Column="1" Grid.Row="1" Margin="10">
+						<Grid x:Name="EditScrollView" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Margin="10">
 							<ScrollViewer>
 								<StackPanel>
 									<TextBox x:Name="boxName" Header="Name" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Name" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth" />
@@ -81,12 +81,10 @@
 							</ScrollViewer>
 						</Grid>
 						
-						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" >
+						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" Tapped="scrollview_Tapped">
 							<StackPanel>
 								<Grid Margin="10" x:Name="pointGrid" >
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<!-- ID-->
 										<ColumnDefinition Width="Auto" />
 										<!--Name-->
 										<ColumnDefinition Width="*" />
@@ -97,7 +95,6 @@
 										<!-- edit button-->
 									</Grid.ColumnDefinitions>
 								</Grid>
-								<Button Content="Add" HorizontalAlignment="Center" Margin="10" x:Name="AddButton" Click="AddButton_Click" />
 							</StackPanel>
 						</ScrollViewer>
 
@@ -118,7 +115,7 @@
 					<ProgressRing x:Name="ring" Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
 
 					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
-						<GridView x:Name="yelpGridView" CanReorderItems="True" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" UseLayoutRounding="True" Margin="10" HorizontalAlignment="Center" ItemsSource="{x:Bind ListMapPoint}">
+						<GridView x:Name="yelpGridView" CanReorderItems="True" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" UseLayoutRounding="True" Margin="10" HorizontalAlignment="Center">
 
 						</GridView>
 					</ScrollViewer>
@@ -155,6 +152,7 @@
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 			</AppBarButton>
+			<AppBarButton Label="Add item" x:Name="AddButton" Click="AddButton_Click" Icon="Add"/>
 		</CommandBar>
 	</Page.BottomAppBar>
 </Page>
