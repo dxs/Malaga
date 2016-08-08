@@ -66,6 +66,9 @@ namespace Malaga
 			yelpTimer.Start();
 		}
 
+		/// <summary>
+		/// Setup de base pour le lancement de l'app
+		/// </summary>
 		private async void Setup()
 		{
 			await DB.setDB();
@@ -73,6 +76,11 @@ namespace Malaga
 			setPOI();
 		}
 
+		/// <summary>
+		/// Timer called to start getting yelp data
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void YelpTimer_Tick(object sender, object e)
 		{
 			yelpTimer.Stop();
@@ -162,52 +170,15 @@ namespace Malaga
 			ring2.Visibility = Visibility.Visible;
 			await y.GetData(p, "Museum", 10000, offset, queryNb * offset, 0, town);
 			ring.Visibility = ring2.Visibility = Visibility.Collapsed;
-			//DisplayYelp(offset, y);
 			collectionBusiness = y.GetAllBusiness();
 			return true;
 		}
 
-		private void DisplayYelp(int offset, Yelp y)
-		{
-			for(int i = 0; i < offset; i++)
-			{
-				Business business = new Business();
-				business = y.GetNextBusiness();
-				if (business.Name != null)
-				{
-					StackPanel stack = new StackPanel();
-					if (business.PhotoUrl != null)
-						stack.Children.Add(new Image()
-						{
-							Source = new BitmapImage(new Uri(business.PhotoUrl)),
-							MaxWidth = 120
-						});
-					else
-						stack.Children.Add(new Image()
-						{
-							Source = new BitmapImage(new Uri("ms-appx:///Assets/barBig.png")),
-							MaxWidth = 120
-						});
-					stack.Children.Add(new TextBlock()
-					{
-						Text = business.Name,
-						TextWrapping = TextWrapping.Wrap
-					});
-					stack.Children.Add(new TextBlock()
-					{
-						Text = "Rating : " + business.Rating.ToString(),
-						TextWrapping = TextWrapping.Wrap
-					});
-					yelpGridView.Items.Add(new GridViewItem()
-					{
-						Name = business.ID,
-						Content = stack,
-						Margin = new Thickness(10)
-					});
-				}
-			}
-		}
-
+		/// <summary>
+		/// Event called to show or not the save button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void yelpGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (yelpGridView.SelectedItems.Count > 0)

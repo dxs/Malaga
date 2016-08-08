@@ -13,6 +13,9 @@ using YelpSharp;
 
 namespace Malaga
 {
+	/// <summary>
+	/// Class that handle the access to Yelp Data
+	/// </summary>
 	class Yelp
 	{
 		int id = 0;
@@ -135,6 +138,11 @@ namespace Malaga
 			});
 		}
 
+		/// <summary>
+		/// Check if a Business is valid or not
+		/// </summary>
+		/// <param name="business"></param>
+		/// <returns>True if valid, false otherwise</returns>
 		private bool isValid(YelpBusiness business)
 		{
 			if (business.name == null)
@@ -161,11 +169,20 @@ namespace Malaga
 			return bus;
 		}
 
+		/// <summary>
+		/// Return a collection of Businesses
+		/// </summary>
+		/// <returns>ObservableCollection of Business</returns>
 		public ObservableCollection<Business> GetAllBusiness()
 		{
 			return collectionBusiness;
 		}
 
+		/// <summary>
+		/// Search a Business by his Id
+		/// </summary>
+		/// <param name="Id"></param>
+		/// <returns>Business</returns>
 		internal static Business FindBusinessById(string Id)
 		{
 			foreach (Business business in collectionBusiness)
