@@ -27,17 +27,21 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Malaga
 {
+	/// <summary>
+	/// 
+	/// </summary>
     public sealed partial class MainPage : Page
     {
 		Database DB;
 		DispatcherTimer yelpTimer;
-		ObservableCollection<Database.MapPoint> collectionMapPoint;
-		Database.MapPoint SelectedPoint;
+		ObservableCollection<MapPoint> collectionMapPoint;
+		public ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
+		ObservableCollection<Yelp.Business> collectionBusiness;
+		ObservableCollection<Yelp.Business> CollectionBusiness { get { return collectionBusiness; } }
+		MapPoint SelectedPoint;
 
 		MapIcon mapIconMe = null, tmpIcon = null;
 		bool? follow;
-
-		SolidColorBrush red;
 
 		int numberOfQueryDone = 0;
 
@@ -48,9 +52,9 @@ namespace Malaga
 		{
 			this.InitializeComponent();
 			DB = new Database(ApplicationData.Current.LocalFolder.Path);
-
+			SelectedPoint = new MapPoint();
 			Setup();
-
+			
 			yelpTimer = new DispatcherTimer()
 			{
 				Interval = new TimeSpan(0, 0, 1)
@@ -66,7 +70,6 @@ namespace Malaga
 		{
 			await DB.setDB();
 			collectionMapPoint = DB.GetAllPoints();
-			setGridView();
 			setPOI();
 		}
 
@@ -85,7 +88,7 @@ namespace Malaga
 				yelpTimer.Interval = new TimeSpan(0, 0, 10);
 				yelpTimer.Start();
 			}
-		}
+		 }
 
 		/// <summary>
 		/// Given a parameter, updates the List and POI and map
@@ -95,7 +98,6 @@ namespace Malaga
 		{
 			collectionMapPoint = DB.GetPointsByType(type);
 			setPOI();
-			setGridView();
 		}
 
 		/// <summary>
@@ -136,113 +138,6 @@ namespace Malaga
 
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
-			setGridView();
-		}
-
-		/// <summary>
-		/// Set the grid view of points
-		/// </summary>
-		private void setGridView()
-		{
-			pointGrid.Children.Clear();
-			var i = 0;
-			MyColors color = new MyColors();
-			foreach (Database.MapPoint point in collectionMapPoint)
-			{
-				var rd = new RowDefinition();
-				pointGrid.RowDefinitions.Add(rd);
-
-				Rectangle background = new Rectangle();
-				if (i % 2 == 1)
-					background.Fill = color.GrayFaded;
-				else
-					;
-				///Gonna use this if icon are set to color representation
-				//switch (point.Type)
-				//{
-				//	case "Bar":
-				//		background.Fill = color.BlueFaded;
-				//		break;
-				//	case "Club":
-				//		background.Fill = color.RedFaded;
-				//		break;
-				//	case "Restaurant":
-				//		background.Fill = color.GreenFaded;
-				//		break;
-				//	case "Visit":
-				//		background.Fill = color.VioletFaded;
-				//		break;
-				//	default:
-				//		background.Fill = color.VioletFaded;
-				//		break;
-				//}
-				Grid.SetRow(background, i);
-				Grid.SetColumn(background, 0);
-				Grid.SetColumnSpan(background, 4);
-				pointGrid.Children.Add(background);
-
-				TextBlock tbName = new TextBlock()
-				{
-					Text = point.Name,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
-
-				Grid.SetRow(tbName, i);
-				Grid.SetColumn(tbName, 0);
-				pointGrid.Children.Add(tbName);
-
-				TextBlock tbDescr = new TextBlock()
-				{
-					Text = point.Description,
-					HorizontalAlignment = HorizontalAlignment.Left,
-					VerticalAlignment = VerticalAlignment.Center,
-					TextWrapping = TextWrapping.Wrap,
-					Margin = new Thickness(6)
-				};
-
-				Grid.SetRow(tbDescr, i);
-				Grid.SetColumn(tbDescr, 1);
-				pointGrid.Children.Add(tbDescr);
-
-				Button selectButton = new Button()
-				{
-					Content = new FontIcon()
-					{
-						FontFamily = new FontFamily("Segoe MDL2 Assets"),
-						Glyph = "\uE1D2"
-					},
-					Padding = new Thickness(6),
-					Background = new SolidColorBrush(Colors.Transparent),
-					Tag = point.Id
-				};
-				selectButton.Click += SelectButton_Click;
-
-				Grid.SetRow(selectButton, i);
-				Grid.SetColumn(selectButton, 2);
-				pointGrid.Children.Add(selectButton);
-
-				Button editButton = new Button()
-				{
-					Content = new FontIcon()
-					{
-						FontFamily = new FontFamily("Segoe MDL2 Assets"),
-						Glyph = "\uE946"
-					},
-					Padding = new Thickness(6),
-					Background = new SolidColorBrush(Colors.Transparent),
-					Tag = point.Id
-				};
-				editButton.Click += EditButton_Click;
-
-				Grid.SetRow(editButton, i);
-				Grid.SetColumn(editButton, 3);
-				pointGrid.Children.Add(editButton);
-
-				i++;
-			}
 		}
 
 		#region YELP
@@ -267,7 +162,8 @@ namespace Malaga
 			ring2.Visibility = Visibility.Visible;
 			await y.GetData(p, "Museum", 10000, offset, queryNb * offset, 0, town);
 			ring.Visibility = ring2.Visibility = Visibility.Collapsed;
-			DisplayYelp(offset, y);
+			//DisplayYelp(offset, y);
+			collectionBusiness = y.GetAllBusiness();
 			return true;
 		}
 
@@ -353,7 +249,7 @@ namespace Malaga
 			if (collectionMapPoint == null)
 				return;
 
-			foreach (Database.MapPoint point in collectionMapPoint)
+			foreach (MapPoint point in collectionMapPoint)
 			{
 				Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
 				MapIcon mapIcon1 = new MapIcon();
@@ -395,7 +291,7 @@ namespace Malaga
 		/// Open the editor for a point
 		/// </summary>
 		/// <param name="point"></param>
-		private void EditPointUI(Database.MapPoint point)
+		private void EditPointUI(MapPoint point)
 		{
 			HideEditUI(false);
 			/*fill the fields*/
@@ -434,7 +330,7 @@ namespace Malaga
 		/// Center the map to a given MapPoint
 		/// </summary>
 		/// <param name="point"></param>
-		private async void CenterMap(Database.MapPoint point)
+		private async void CenterMap(MapPoint point)
 		{
 			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
 			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
@@ -458,7 +354,7 @@ namespace Malaga
 		/// <param name="args"></param>
 		private void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
 		{
-			Database.MapPoint point = DB.GetPointById(args.MapElements[0].ZIndex);
+			MapPoint point = DB.GetPointById(args.MapElements[0].ZIndex);
 			CenterMap(point);
 			UpdateButton.Content = "Update";
 			EditPointUI(point);
@@ -472,7 +368,7 @@ namespace Malaga
 		private async void mainMap_Tapped(MapControl sender, MapInputEventArgs e)
 		{
 			HideEditUI(false);
-			SelectedPoint = new Database.MapPoint();
+			SelectedPoint = new MapPoint();
 			var tappedGeoPosition = e.Location.Position;
 			setTmpPoint(tappedGeoPosition.Latitude, tappedGeoPosition.Longitude);
 			SelectedPoint.Latitude = tappedGeoPosition.Latitude;
@@ -658,7 +554,7 @@ namespace Malaga
 				address = await DB.GetAdressFromPoint(new Point(SelectedPoint.Latitude, SelectedPoint.Longitude));
 			}
 
-			SelectedPoint = new Database.MapPoint();
+			SelectedPoint = new MapPoint();
 			SelectedPoint.Name = boxName.Text;
 			SelectedPoint.Description = boxDesc.Text;
 
@@ -703,7 +599,7 @@ namespace Malaga
 					SelectedPoint.Type = "Visit";
 					break;
 			}
-
+			SelectedPoint.PhotoUrl = "ms-appx:///Assets/barBig.png";
 			if (UpdateButton.Content.ToString() == "Create")
 			{
 				SelectedPoint.Id = Database.nextId++;
@@ -779,12 +675,11 @@ namespace Malaga
 			}
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
-			setGridView();
 		}
 
 		private async void ConvertBusinessToMapPoint(Yelp.Business business)
 		{
-			Database.MapPoint point = await DB.createMapPoint(Database.nextId++, business.Name, business.Description, business.Latitude, business.Longitude, "bar");
+			MapPoint point = await DB.createMapPoint(Database.nextId++, business.Name, business.Description, business.Latitude, business.Longitude, "bar", business.PhotoUrl);
 			DB.SaveMapPoint(point);
 		}
 		#endregion

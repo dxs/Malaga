@@ -45,55 +45,6 @@ namespace Malaga
 		}
 
 		/// <summary>
-		/// Internal Object repressenting a Point on a Map
-		/// </summary>
-		internal class MapPoint
-		{
-			/// <summary>
-			/// Gets or sets the identifier.
-			/// </summary>
-			[PrimaryKey, AutoIncrement]
-			public int Id { get; set; }
-
-			/// <summary>
-			/// Gets or sets the name.
-			/// </summary>
-			[MaxLength(64)]
-			public string Name { get; set; }
-
-			/// <summary>
-			/// Gets or sets the description.
-			/// </summary>
-			public string Description { get; set; }
-
-			/// <summary>
-			/// Gets or sets the latitude
-			/// </summary>
-			public double Latitude { get; set; }
-
-			/// <summary>
-			/// Gets or sets the Longitude
-			/// </summary>
-			public double Longitude { get; set; }
-
-			/// <summary>
-			/// Gets or sets the type
-			/// </summary>
-			public string Type { get; set; }
-
-			/// <summary>
-			/// Gets or sets the Street address
-			/// </summary>
-			public string Street { get; set; }
-
-			/// <summary>
-			/// Gets or sets the Town
-			/// </summary>
-			public string Town { get; set; }
-
-		}
-
-		/// <summary>
 		/// Setup Database and create table if not already exist
 		/// </summary>
 		public async Task<bool> setDB()
@@ -103,34 +54,7 @@ namespace Malaga
 			{
 				var c = DB.CreateTable<MapPoint>();
 				var info = DB.GetMapping(typeof(MapPoint));
-				var j = 1;
 				int count = DB.Table<MapPoint>().Count();
-				#region MapPointCreation
-				if(count < 1)
-				{
-					MapPoint point = new MapPoint();//46.532622, 6.590774
-					point = await createMapPoint(j++, "Bar fiesta", "Happy hours 22h-22h30", 46.532622, 6.590774, "Bar");
-					var i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Bar Pong Pong", "Beer pong party", 46.532821, 6.600000, "Bar");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Club PicNique", "Pool party tonight", 46.529087, 6.587635, "Club");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "La fraise", "Chou fractale happy hour", 46.538762, 6.577635, "Restaurant");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5386756, 6.587528, "Club");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Zoo", "Animal crossing 2", 46.5287756, 6.574768, "Visit");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Le gigolo", "Viens, on sera bien", 46.5279756, 6.5862528, "visit");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Bar chicka", "Braaaaa", 46.5287567, 6.587620, "Bar");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Tapas Tacos", "Petage de panse", 46.5387260, 6.5721976, "Restaurant");
-					i = DB.InsertOrReplace(point);
-					point = await createMapPoint(j++, "Chinese food", "Chez toi ou Chinois?", 46.539678, 6.597290, "Restaurant");
-					i = DB.InsertOrReplace(point);
-				}
-				#endregion
 			}
 			return true;
 		}
@@ -238,8 +162,9 @@ namespace Malaga
 		/// <param name="_Latitude">Coordonnée géographique 1</param>
 		/// <param name="_Longitude">Coordonnée géographique 2</param>
 		/// <param name="_Type">Type d'endroit</param>
+		/// <param name="_PhotoUrl">URL de la photo</param>
 		/// <returns>MapPoint</returns>
-		public async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type)
+		public async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type, string _PhotoUrl)
 		{
 			MapPoint _point = new MapPoint();
 			_point.Id = _Id;
@@ -252,6 +177,7 @@ namespace Malaga
 			_point.Name = _Name;
 			_point.Type = _Type;
 			_point.Description = _Description;
+			_point.PhotoUrl = _PhotoUrl;
 			return _point;
 		}
 
@@ -264,8 +190,9 @@ namespace Malaga
 		/// <param name="_Street">Rue</param>
 		/// <param name="_Town">Code postal + ville</param>
 		/// <param name="_Type">Type d'endroits</param>
+		/// <param name="_PhotoUrl">URL de la photo</param>
 		/// <returns>MapPoint</returns>
-		public async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, string _Street, string _Town, string _Type)
+		public async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, string _Street, string _Town, string _Type, string _PhotoUrl)
 		{
 			MapPoint _point = new MapPoint();
 			_point.Id = _Id;
@@ -277,6 +204,7 @@ namespace Malaga
 			_point.Name = _Name;
 			_point.Type = _Type;
 			_point.Description = _Description;
+			_point.PhotoUrl = _PhotoUrl;
 			return _point;
 		}
 

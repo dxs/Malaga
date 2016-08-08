@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -61,7 +62,7 @@ namespace Malaga
 		private const int SEARCH_LIMIT = 3;
 
 		YelpSharp.YelpClient client;
-		static List<Business> listBusiness;
+		static ObservableCollection<Business> collectionBusiness;
 
 		public struct Business
 		{
@@ -85,7 +86,7 @@ namespace Malaga
 		public Yelp()
 		{
 			client = new YelpSharp.YelpClient(TOKEN, TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET);
-			listBusiness = new List<Business>();
+			collectionBusiness = new ObservableCollection<Business>();
 		}
 
 		/// <summary>
@@ -140,7 +141,7 @@ namespace Malaga
 			if (business.image_url == null)
 				business.image_url = "ms-appx:///Assets/barBig.png";
 
-			listBusiness.Add(new Business()
+			collectionBusiness.Add(new Business()
 			{
 				ID = business.id,
 				Name = business.name,
@@ -172,16 +173,21 @@ namespace Malaga
 		/// <returns>Return anonymous type represented as [Id, Name, Distance, Photo url, url, latitude, longitude, rating]</returns>
 		public Business GetNextBusiness()
 		{
-			if (id >= listBusiness.Count)
+			if (id >= collectionBusiness.Count)
 				return new Business();
-			Business bus = listBusiness[id];
+			Business bus = collectionBusiness[id];
 			id++;
 			return bus;
 		}
 
+		public ObservableCollection<Business> GetAllBusiness()
+		{
+			return collectionBusiness;
+		}
+
 		internal static Business FindBusinessById(string Id)
 		{
-			foreach (Business business in listBusiness)
+			foreach (Business business in collectionBusiness)
 				if (business.ID == Id)
 					return business;
 			return new Business();
