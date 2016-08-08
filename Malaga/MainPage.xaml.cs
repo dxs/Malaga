@@ -35,9 +35,9 @@ namespace Malaga
 		Database DB;
 		DispatcherTimer yelpTimer;
 		ObservableCollection<MapPoint> collectionMapPoint;
-		public ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
-		ObservableCollection<Yelp.Business> collectionBusiness;
-		ObservableCollection<Yelp.Business> CollectionBusiness { get { return collectionBusiness; } }
+		ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
+		ObservableCollection<Business> collectionBusiness;
+		ObservableCollection<Business> CollectionBusiness { get { return collectionBusiness; } }
 		MapPoint SelectedPoint;
 
 		MapIcon mapIconMe = null, tmpIcon = null;
@@ -171,7 +171,7 @@ namespace Malaga
 		{
 			for(int i = 0; i < offset; i++)
 			{
-				Yelp.Business business = new Yelp.Business();
+				Business business = new Business();
 				business = y.GetNextBusiness();
 				if (business.Name != null)
 				{
@@ -606,6 +606,8 @@ namespace Malaga
 				mainMap.MapElements.Remove(tmpIcon);
 			}
 			DB.SaveMapPoint(SelectedPoint);
+			collectionMapPoint = DB.GetAllPoints();
+			Bindings.Update();
 			HideEditUI(true);
 		}
 
@@ -668,7 +670,7 @@ namespace Malaga
 			{
 				if (item.IsSelected)
 				{
-					Yelp.Business business = Yelp.FindBusinessById(item.Name);
+					Business business = Yelp.FindBusinessById(item.Name);
 					if (business.Name != null)
 						ConvertBusinessToMapPoint(business);
 				}
@@ -677,7 +679,7 @@ namespace Malaga
 			setPOI();
 		}
 
-		private async void ConvertBusinessToMapPoint(Yelp.Business business)
+		private async void ConvertBusinessToMapPoint(Business business)
 		{
 			MapPoint point = await DB.createMapPoint(Database.nextId++, business.Name, business.Description, business.Latitude, business.Longitude, "bar", business.PhotoUrl);
 			DB.SaveMapPoint(point);

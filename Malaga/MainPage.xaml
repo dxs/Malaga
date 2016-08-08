@@ -88,7 +88,8 @@
 										<DataTemplate x:DataType="local:MapPoint">
 											<StackPanel>
 												<Image Source="{x:Bind PhotoUrl, Mode=OneWay}" MaxWidth="120" MaxHeight="120" Stretch="UniformToFill"/>
-												<TextBlock Text="{x:Bind Name, Mode=TwoWay}" />
+												<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+												<TextBlock Text="{x:Bind Description, Mode=OneWay}" />
 											</StackPanel>
 										</DataTemplate>
 									</GridView.ItemTemplate>
@@ -100,6 +101,11 @@
 					</Grid>
 				</Grid>
 			</PivotItem>
+			
+			
+			
+			
+			
 			<PivotItem Header="Points of Interest">
 				<!--Pivot content goes here-->
 				<Grid>
@@ -114,8 +120,16 @@
 
 					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
 						<StackPanel>
-							<GridView x:Name="yelpGridView" CanReorderItems="True" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" UseLayoutRounding="True" Margin="10" HorizontalAlignment="Center">
-
+							<GridView x:Name="yelpGridView" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" Margin="10" HorizontalAlignment="Center" ItemsSource="{x:Bind CollectionBusiness}">
+								<GridView.ItemTemplate>
+									<DataTemplate x:DataType="local:Business">
+										<StackPanel>
+											<Image Source="{x:Bind PhotoUrl, Mode=OneWay}" MaxWidth="120" MaxHeight="120" Stretch="UniformToFill"/>
+											<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+											<TextBlock Text="{x:Bind Description, Mode=OneWay}" />
+										</StackPanel>
+									</DataTemplate>
+								</GridView.ItemTemplate>
 							</GridView>
 
 						</StackPanel>
@@ -126,6 +140,11 @@
 					<Button x:Name="SaveYelpButton" Content="Save" Grid.Row="3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF47BCFF" Click="SaveYelpButton_Click"/>
 				</Grid>
 			</PivotItem>
+			
+			
+			
+			
+			
 			<PivotItem Header="To buy">
 				<!--Pivot content goes here-->
 				<TextBlock Text="Content of pivot item 3."/>

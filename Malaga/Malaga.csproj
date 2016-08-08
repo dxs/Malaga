@@ -103,6 +103,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Business.cs" />
     <Compile Include="MapPoint.cs" />
     <Compile Include="MyColors.cs" />
     <Compile Include="Database.cs" />

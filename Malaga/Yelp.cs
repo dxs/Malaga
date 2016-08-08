@@ -62,26 +62,7 @@ namespace Malaga
 		private const int SEARCH_LIMIT = 3;
 
 		YelpSharp.YelpClient client;
-		static ObservableCollection<Business> collectionBusiness;
-
-		public struct Business
-		{
-			public string ID;
-
-			public string Name;
-
-			public string Description;
-
-			public double Distance;
-
-			public string PhotoUrl;
-
-			public double Latitude;
-
-			public double Longitude;
-
-			public double Rating;
-		}
+		static private ObservableCollection<Business> collectionBusiness;
 
 		public Yelp()
 		{
