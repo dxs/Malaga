@@ -34,6 +34,7 @@ namespace Malaga
     {
 		Database DB;
 		DispatcherTimer yelpTimer;
+		Yelp yelp = null;
 		ObservableCollection<MapPoint> collectionMapPoint;
 		ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
 		ObservableCollection<Business> collectionBusiness;
@@ -157,9 +158,11 @@ namespace Malaga
 		private async Task<bool> LoadYelp(int queryNb = 0, string query = "Food")
 		{
 			yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
+			ring.Visibility = Visibility.Collapsed;
 			if (mapIconMe == null)
 				return false;
-			Yelp y = new Yelp();
+			if (yelp == null)
+				yelp = new Yelp();
 			Point p = new Point()
 			{
 				X = mapIconMe.Location.Position.Latitude,
@@ -167,10 +170,9 @@ namespace Malaga
 			};
 			string town = (await DB.GetAdressFromPoint(p)).Split(',')[2];
 			int offset = 20;
-			ring2.Visibility = Visibility.Visible;
-			await y.GetData(p, query, 10000, offset, queryNb * offset, 0, town);
-			ring.Visibility = ring2.Visibility = Visibility.Collapsed;
-			collectionBusiness = y.GetAllBusiness();
+			await yelp.GetData(p, query, 10000, offset, queryNb * offset, 0, town);
+			ring.Visibility = Visibility.Collapsed;
+			collectionBusiness = yelp.GetAllBusiness();
 			this.Bindings.Update();
 			yelp_scrollviewer.ViewChanged += OnScrollViewerViewChanged;
 			return true;
@@ -722,15 +724,11 @@ namespace Malaga
 		/// <param name="e"></param>
 		private async void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
-			var verticalOffset = yelp_scrollviewer.VerticalOffset;
-			var maxVerticalOffset = yelp_scrollviewer.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
+			var HorizontalOffset = yelp_scrollviewer.HorizontalOffset;
+			var maxHorizontalOffset = yelp_scrollviewer.ScrollableWidth; //sv.ExtentHeight - sv.ViewportHeight;
 
-			if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)// Scrolled to bottom
-			{
-				yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
-				numberOfQueryDone++;
-				await LoadYelp(numberOfQueryDone);
-			}
+			if (HorizontalOffset < 0 || HorizontalOffset == maxHorizontalOffset)// Scrolled to bottom
+				await LoadYelp(++numberOfQueryDone);
 			else// Not scrolled to bottom
 			{
 
@@ -795,7 +793,7 @@ namespace Malaga
 					lineTab1.Visibility = lineTab3.Visibility = Visibility.Collapsed;
 					break;
 				case 2:
-					lineTab3.Visibility = Visibility.Visible;
+					lineTab3.Visibility = Visibility;
 					lineTab1.Visibility = lineTab2.Visibility = Visibility.Collapsed;
 					break;
 			}

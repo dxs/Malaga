@@ -10,7 +10,13 @@
     mc:Ignorable="d">
 
 	<Grid Background="WhiteSmoke" >
-		<Pivot x:Name="rootPivot" HorizontalContentAlignment="Center" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
+		<Pivot 
+			x:Name="rootPivot" 
+			HorizontalContentAlignment="Center" 
+			SelectionChanged="rootPivot_SelectionChanged" 
+			HeaderFocusVisualPlacement="ItemHeaders"
+			>
+			<!--Page One, Map Page-->
 			<PivotItem>
 				<PivotItem.Header>
 					<StackPanel>
@@ -19,7 +25,8 @@
                             Margin="0,3,0,0"
                             Glyph="&#xE707;"
 							Foreground="#CCCC5E29"
-                            FontSize="22" />
+                            FontSize="22" 
+							/>
 						<TextBlock
                             FontFamily="Segoe UI"
                             Text="Map"
@@ -31,8 +38,15 @@
                             IsTextScaleFactorEnabled="False"
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
-                            Margin="2,3,2,0" />
-						<Rectangle x:Name="lineTab1" Visibility="Visible" Fill="#FFCC5E29" Height="3" Stretch="Fill"/>
+                            Margin="2,3,2,0" 
+							/>
+						<Rectangle 
+							x:Name="lineTab1" 
+							Visibility="Visible" 
+							Fill="#FFCC5E29" 
+							Height="3" 
+							Stretch="Fill"
+							/>
 					</StackPanel>
 				</PivotItem.Header>
 
@@ -52,7 +66,7 @@
 						VerticalAlignment="Stretch"
 						MapTapped="mainMap_Tapped"
 						MapElementClick="mainMap_MapElementClick"
-					/>
+						/>
 					<Grid Grid.Row="1">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
@@ -63,26 +77,80 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<Grid x:Name="EditScrollView" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Margin="10">
+						<Grid 
+							x:Name="EditScrollView" 
+							Grid.Column="1" 
+							Grid.Row="1" 
+							Grid.ColumnSpan="1" 
+							Margin="10"
+							>
 							<ScrollViewer>
 								<StackPanel>
-									<TextBox x:Name="boxName" Header="Name" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Name" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth" />
-									<TextBox x:Name="boxDesc" Header="Description" Margin="10" IsTextPredictionEnabled="True" PlaceholderText="Description" IsSpellCheckEnabled="True" InputScope="AlphanumericFullWidth"/>
+									<TextBox 
+										x:Name="boxName" 
+										Header="Name" 
+										Margin="10" 
+										IsTextPredictionEnabled="True" 
+										PlaceholderText="Name" 
+										IsSpellCheckEnabled="True" 
+										InputScope="AlphanumericFullWidth" 
+										/>
+									<TextBox 
+										x:Name="boxDesc" 
+										Header="Description" 
+										Margin="10" 
+										IsTextPredictionEnabled="True" 
+										PlaceholderText="Description" 
+										IsSpellCheckEnabled="True" 
+										InputScope="AlphanumericFullWidth"
+										/>
 									<FlipView MaxHeight="180">
 										<FlipViewItem>
 											<StackPanel>
-												<TextBox x:Name="streetBox" TextChanged="streetBox_TextChanged" Header="Street" Margin="10" PlaceholderText="main street 19" InputScope="AlphanumericFullWidth"/>
-												<TextBox x:Name="townBox" TextChanged="streetBox_TextChanged" Header="Town" Margin="10" PlaceholderText="1162, St-Prex" InputScope="AlphanumericFullWidth"/>
+												<TextBox 
+													x:Name="streetBox" 
+													TextChanged="streetBox_TextChanged" 
+													Header="Street" 
+													Margin="10" 
+													PlaceholderText="main street 19" 
+													InputScope="AlphanumericFullWidth"
+													/>
+												<TextBox 
+													x:Name="townBox" 
+													TextChanged="streetBox_TextChanged" 
+													Header="Town" 
+													Margin="10" 
+													PlaceholderText="1162, St-Prex" 
+													InputScope="AlphanumericFullWidth"
+													/>
 											</StackPanel>
 										</FlipViewItem>
 										<FlipViewItem>
 											<StackPanel>
-												<TextBox x:Name="latBox" Header="Latitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
-												<TextBox x:Name="LonBox" TextChanged="latBox_TextChanged" Header="Longitude" Margin="10" PlaceholderText="0.00" InputScope="Digits"/>
+												<TextBox 
+													x:Name="latBox" 
+													Header="Latitude" 
+													Margin="10" 
+													PlaceholderText="0.00" 
+													InputScope="Digits"
+													/>
+												<TextBox 
+													x:Name="LonBox" 
+													TextChanged="latBox_TextChanged" 
+													Header="Longitude" 
+													Margin="10" 
+													PlaceholderText="0.00" 
+													InputScope="Digits"
+													/>
 											</StackPanel>
 										</FlipViewItem>
 									</FlipView>
-									<ComboBox x:Name="typeSelect" Header="Type" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+									<ComboBox 
+										x:Name="typeSelect" 
+										Header="Type" 
+										HorizontalAlignment="Center" 
+										VerticalAlignment="Stretch"
+										>
 										<ComboBoxItem Content="Bar" />
 										<ComboBoxItem Content="Club" />
 										<ComboBoxItem Content="Restaurant" />
@@ -94,23 +162,66 @@
 											<ColumnDefinition/>
 											<ColumnDefinition />
 										</Grid.ColumnDefinitions>
-										<Button Content="Update" x:Name="UpdateButton" Click="UpdateButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0"/>
+										<Button 
+											Content="Update" 
+											x:Name="UpdateButton" 
+											Click="UpdateButton_Click" 
+											Margin="10" 
+											VerticalAlignment="Center" 
+											HorizontalAlignment="Center" 
+											Grid.Column="0"
+											/>
 
-										<Button Content="Delete" x:Name="DeleteButton" Click="DeleteButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
+										<Button 
+											Content="Delete" 
+											x:Name="DeleteButton" 
+											Click="DeleteButton_Click" 
+											Margin="10" 
+											VerticalAlignment="Center"
+											HorizontalAlignment="Center" 
+											Grid.Column="1"
+											/>
 
-										<Button Content="Hide" x:Name="HideButton" Click="HideButton_Click" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+										<Button 
+											Content="Hide" 
+											x:Name="HideButton"
+											Click="HideButton_Click"
+											Margin="10" 
+											VerticalAlignment="Center" 
+											HorizontalAlignment="Center" 
+											Grid.Column="2"
+											/>
 									</Grid>
 								</StackPanel>
 							</ScrollViewer>
 						</Grid>
 
-						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" Tapped="scrollview_Tapped">
+						<ScrollViewer 
+							x:Name="scrollview" 
+							Grid.Row="1" 
+							Grid.Column="0" 
+							Grid.ColumnSpan="2" 
+							IsEnabled="True" 
+							IsScrollInertiaEnabled="True" 
+							IsVerticalRailEnabled="True" 
+							Tapped="scrollview_Tapped"
+							>
 							<StackPanel>
-								<GridView Margin="10" x:Name="pointGrid" ItemsSource="{x:Bind CollectionMapPoint}">
+								<GridView 
+									Margin="10" 
+									x:Name="pointGrid" 
+									ItemsSource="{x:Bind CollectionMapPoint}"
+									>
 									<GridView.ItemTemplate>
-										<DataTemplate x:DataType="local:MapPoint">
+										<DataTemplate 
+											x:DataType="local:MapPoint"
+											>
 											<StackPanel>
-												<Image Source="{x:Bind PhotoUrl, Mode=OneWay}" MaxWidth="120" MaxHeight="120" Stretch="UniformToFill"/>
+												<Image 
+													Source="{x:Bind PhotoUrl, Mode=OneWay}" 
+													MaxWidth="120" 
+													MaxHeight="120" 
+													Stretch="UniformToFill"/>
 												<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
 												<TextBlock Text="{x:Bind Description, Mode=OneWay}" />
 											</StackPanel>
@@ -123,32 +234,88 @@
 
 					</Grid>
 
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Background="Transparent">
-						<ToggleButton x:Name="toggle" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" Background="Transparent">
+					<!-- Bottom app bar -->
+					<StackPanel 
+						Orientation="Horizontal" 
+						HorizontalAlignment="Center" 
+						Grid.Row="2" 
+						Background="Transparent"
+						>
+						<ToggleButton 
+							x:Name="toggle" 
+							Checked="AppBarToggleButton_Checked" 
+							Unchecked="AppBarToggleButton_Checked" 
+							Background="Transparent"
+							>
 							<StackPanel>
-								<FontIcon Glyph="&#xE909;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
-								<TextBlock Text="Aerial view" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+								<FontIcon 
+									Glyph="&#xE909;" 
+									HorizontalAlignment="Center" 
+									Foreground="#BBCC5E29"
+									/>
+								<TextBlock 
+									Text="Aerial view" 
+									HorizontalAlignment="Center" 
+									FontSize="12" 
+									Foreground="#88CC5E29"/>
 							</StackPanel>
 						</ToggleButton>
 
-						<ToggleButton x:Name="followToggle" Click="followToggle_Click" IsChecked="False" Background="Transparent">
+						<ToggleButton 
+							x:Name="followToggle" 
+							Click="followToggle_Click" 
+							IsChecked="False" 
+							Background="Transparent"
+							>
 							<StackPanel>
-								<FontIcon Glyph="&#xE81D;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
-								<TextBlock Text="Follow" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+								<FontIcon 
+									Glyph="&#xE81D;" 
+									HorizontalAlignment="Center" 
+									Foreground="#BBCC5E29"
+									/>
+								<TextBlock 
+									Text="Follow" 
+									HorizontalAlignment="Center" 
+									FontSize="12" 
+									Foreground="#88CC5E29"
+									/>
 							</StackPanel>
 						</ToggleButton>
 
-						<ToggleButton x:Name="trafficToggle" Click="trafficToggle_Click" IsChecked="False" Background="Transparent">
+						<ToggleButton 
+							x:Name="trafficToggle" 
+							Click="trafficToggle_Click" 
+							IsChecked="False" 
+							Background="Transparent"
+							>
 							<StackPanel>
-								<FontIcon Glyph="&#xE7EC;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
-								<TextBlock Text="Trafic" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+								<FontIcon 
+									Glyph="&#xE7EC;" 
+									HorizontalAlignment="Center" 
+									Foreground="#BBCC5E29"
+									/>
+								<TextBlock 
+									Text="Trafic" 
+									HorizontalAlignment="Center" 
+									FontSize="12" 
+									Foreground="#88CC5E29"
+									/>
 							</StackPanel>
 						</ToggleButton>
 
 						<Button Background="Transparent">
 							<StackPanel>
-								<FontIcon Glyph="&#xE71C;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
-								<TextBlock Text="Filter by" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+								<FontIcon 
+									Glyph="&#xE71C;" 
+									HorizontalAlignment="Center" 
+									Foreground="#BBCC5E29"
+									/>
+								<TextBlock 
+									Text="Filter by" 
+									HorizontalAlignment="Center" 
+									FontSize="12" 
+									Foreground="#88CC5E29"
+									/>
 							</StackPanel>
 							<Button.Flyout>
 								<MenuFlyout>
@@ -160,10 +327,21 @@
 							</Button.Flyout>
 						</Button>
 
-						<Button x:Name="AddButton" Background="Transparent">
+						<Button 
+							x:Name="AddButton" 
+							Background="Transparent">
 							<StackPanel>
-								<FontIcon Glyph="&#xE710;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
-								<TextBlock Text="Add" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+								<FontIcon 
+									Glyph="&#xE710;" 
+									HorizontalAlignment="Center" 
+									Foreground="#BBCC5E29"
+									/>
+								<TextBlock 
+									Text="Add" 
+									HorizontalAlignment="Center"
+									FontSize="12" 
+									Foreground="#88CC5E29"
+									/>
 							</StackPanel>
 						</Button>
 					</StackPanel>
@@ -173,9 +351,8 @@
 
 
 
-
+			<!-- Page 2 - Yelp general page -->
 			<PivotItem>
-				<!--Pivot content goes here-->
 				<PivotItem.Header>
 					<StackPanel>
 						<FontIcon
@@ -183,7 +360,8 @@
                             Margin="0,3,0,0"
                             Glyph="&#xE753;"
                             FontSize="22" 
-							Foreground="#CCCC5E29"/>
+							Foreground="#CCCC5E29"
+							/>
 						<TextBlock
                             FontFamily="Segoe UI"
                             Text="Yelp"
@@ -195,8 +373,15 @@
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
                             Margin="2,3,2,0" 
-							Foreground="#CCCC5E29"/>
-						<Rectangle x:Name="lineTab2" Visibility="Collapsed" Fill="#FFCC5E29" Height="3" Stretch="Fill"/>
+							Foreground="#CCCC5E29"
+							/>
+						<Rectangle 
+							x:Name="lineTab2" 
+							Visibility="Collapsed" 
+							Fill="#FFCC5E29" 
+							Height="3" 
+							Stretch="Fill"
+							/>
 					</StackPanel>
 				</PivotItem.Header>
 				<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -207,33 +392,122 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<ProgressRing x:Name="ring" Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
+					<ProgressRing 
+						x:Name="ring" 
+						Grid.Row="0" 
+						Grid.RowSpan="3" 
+						Visibility="Visible" 
+						IsActive="True" 
+						VerticalAlignment="Center" 
+						HorizontalAlignment="Center" 
+						Height="30" 
+						Width="30"
+						/>
 
-					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
-						<StackPanel>
-							<GridView x:Name="yelpGridView" SelectionMode="None" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" Margin="10" ItemsSource="{x:Bind CollectionBusiness}">
-								<GridView.ItemTemplate>
-									<DataTemplate x:DataType="local:Business">
-										<StackPanel Margin="10" BorderBrush="#88CC5E29" BorderThickness="1">
-											<TextBlock  Text="{x:Bind Name, Mode=OneWay}" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="5" Foreground="#FFCC5E29"/>
-											<Image Source="{x:Bind PhotoUrl, Mode=OneWay}" MaxWidth="140" MaxHeight="140" Stretch="UniformToFill" Margin="5"/>
-											<TextBlock Text="{x:Bind Description, Mode=OneWay}" Margin="5" />
-											<StackPanel Orientation="Horizontal" Margin="5">
-												<TextBlock Text="Distance" HorizontalAlignment="Left"/>
-												<TextBlock Text="{x:Bind Distance, Mode=OneWay}" TextAlignment="Right" HorizontalAlignment="Right" />
+					<ScrollViewer 
+						ViewChanged="OnScrollViewerViewChanged" 
+						Grid.Row="1" 
+						x:Name="yelp_scrollviewer" 
+						IsEnabled="True" 
+						IsScrollInertiaEnabled="True" 
+						IsVerticalRailEnabled="false"
+						HorizontalScrollMode="Enabled"
+						VerticalScrollMode="Disabled"
+						IsHorizontalRailEnabled="True"
+						HorizontalScrollBarVisibility="Auto"
+						VerticalScrollBarVisibility="Disabled"
+						>
+
+						<!-- ZOOM IN -->
+						<SemanticZoom>
+							<SemanticZoom.ZoomedInView>
+								<GridView 
+								x:Name="yelpGridView" 
+								SelectionMode="None" 
+								IsItemClickEnabled="True" 
+								SelectionChanged="yelpGridView_SelectionChanged" 
+								Margin="10" 
+								ItemsSource="{x:Bind CollectionBusiness}"
+								>
+									<GridView.ItemsPanel>
+										<ItemsPanelTemplate>
+											<ItemsWrapGrid 
+										Orientation="Vertical" 
+										MaximumRowsOrColumns="2"
+										/>
+										</ItemsPanelTemplate>
+									</GridView.ItemsPanel>
+
+									<GridView.ItemTemplate>
+										<DataTemplate x:DataType="local:Business">
+											<StackPanel 
+											Margin="10" 
+											BorderBrush="#88CC5E29" 
+											BorderThickness="1"
+											>
+												<TextBlock  
+												Text="{x:Bind Name, Mode=OneWay}" 
+												TextAlignment="Center" 
+												TextWrapping="Wrap" 
+												HorizontalAlignment="Center" 
+												Margin="5" 
+												Foreground="#FFCC5E29"
+												/>
+												<Image 
+												Source="{x:Bind PhotoUrl, Mode=OneWay}" 
+												MaxWidth="140" 
+												MaxHeight="140" 
+												Stretch="UniformToFill" 
+												Margin="5"
+												/>
+												<TextBlock 
+												Text="{x:Bind Description, Mode=OneWay}" 
+												Margin="5" 
+												/>
+												<StackPanel 
+												Orientation="Horizontal" 
+												Margin="5"
+												>
+													<TextBlock 
+													Text="Distance" 
+													HorizontalAlignment="Left"
+													/>
+													<TextBlock 
+													Text="{x:Bind Distance, Mode=OneWay}" 
+													TextAlignment="Right" 
+													HorizontalAlignment="Right" 
+													/>
+												</StackPanel>
+												<Image 
+												Source="{x:Bind Rating, Mode=OneWay}" 
+												MaxWidth="140" 
+												Margin="5" 
+												/>
 											</StackPanel>
-											<Image Source="{x:Bind Rating, Mode=OneWay}" MaxWidth="140" Margin="5" />
-										</StackPanel>
-									</DataTemplate>
-								</GridView.ItemTemplate>
-							</GridView>
+										</DataTemplate>
+									</GridView.ItemTemplate>
+								</GridView>
+							</SemanticZoom.ZoomedInView>
 
-						</StackPanel>
+							<!-- ZOOM OUT -->
+							<SemanticZoom.ZoomedOutView>
+								<ListView>
+									<TextBlock Text="Main" />
+								</ListView>
+							</SemanticZoom.ZoomedOutView>
+						</SemanticZoom>
 					</ScrollViewer>
 
-					<ProgressRing x:Name="ring2" Grid.Row="2" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
-
-					<Button x:Name="SaveYelpButton" Content="Save" Grid.Row="3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF47BCFF" Click="SaveYelpButton_Click"/>
+					<Button
+						x:Name="SaveYelpButton"
+						Content="Save" 
+						Grid.Row="3"
+						Visibility="Collapsed"
+						VerticalAlignment="Stretch" 
+						HorizontalAlignment="Stretch"
+						Background="#FF47BCFF" 
+						Click="SaveYelpButton_Click"
+						/>
 				</Grid>
 			</PivotItem>
 
@@ -250,7 +524,8 @@
                             Margin="0,3,0,0"
                             Glyph="&#xE725;"
                             FontSize="22"
-							Foreground="#CCCC5E29"/>
+							Foreground="#CCCC5E29"
+							/>
 						<TextBlock
                             FontFamily="Segoe UI"
                             Text="No sense"
@@ -262,8 +537,15 @@
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
                             Margin="2,3,2,0"
-							Foreground="#CCCC5E29"/>
-						<Rectangle x:Name="lineTab3" Fill="#FFCC5E29" Height="3" Stretch="Fill" Visibility="Collapsed"/>
+							Foreground="#CCCC5E29"
+							/>
+						<Rectangle 
+							x:Name="lineTab3" 
+							Fill="#FFCC5E29"
+							Height="3" 
+							Stretch="Fill"
+							Visibility="Collapsed"
+							/>
 					</StackPanel>
 				</PivotItem.Header>
 				<TextBlock Text="Content of pivot item 3."/>
