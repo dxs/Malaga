@@ -8,11 +8,31 @@
     xmlns:Collections="using:System.Collections"
     x:Class="Malaga.MainPage"
     mc:Ignorable="d">
-	
-	<Grid Background="WhiteSmoke" >
-		<Pivot x:Name="rootPivot" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
 
-			<PivotItem Header="Maps">
+	<Grid Background="WhiteSmoke" >
+		<Pivot x:Name="rootPivot" HorizontalContentAlignment="Center" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
+			<PivotItem >
+				<PivotItem.Header>
+					<StackPanel >
+						<FontIcon
+                            HorizontalAlignment="Center"
+                            Margin="0,5,0,0"
+                            Glyph="&#xE707;"
+                            FontSize="22" />
+						<TextBlock
+                            FontFamily="Segoe UI"
+                            Text="Map"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            LineStackingStrategy="BlockLineHeight"
+                            LineHeight="14"
+                            MaxLines="2"
+                            IsTextScaleFactorEnabled="False"
+                            TextAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="2,5,2,2" />
+					</StackPanel>
+				</PivotItem.Header>
+
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="2*"/>
@@ -80,7 +100,7 @@
 								</StackPanel>
 							</ScrollViewer>
 						</Grid>
-						
+
 						<ScrollViewer Background="White" x:Name="scrollview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True" Tapped="scrollview_Tapped">
 							<StackPanel>
 								<GridView Margin="10" x:Name="pointGrid" ItemsSource="{x:Bind CollectionMapPoint}">
@@ -97,30 +117,50 @@
 							</StackPanel>
 						</ScrollViewer>
 
-						
+
 					</Grid>
 				</Grid>
 			</PivotItem>
-			
-			
-			
-			
-			
-			<PivotItem Header="Points of Interest">
+
+
+
+
+
+			<PivotItem>
 				<!--Pivot content goes here-->
-				<Grid>
+				<PivotItem.Header>
+					<StackPanel >
+						<FontIcon
+                            HorizontalAlignment="Center"
+                            Margin="0,5,0,0"
+                            Glyph="&#xE753;"
+                            FontSize="22" />
+						<TextBlock
+                            FontFamily="Segoe UI"
+                            Text="Yelp"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            LineStackingStrategy="BlockLineHeight"
+                            LineHeight="14"
+                            MaxLines="2"
+                            IsTextScaleFactorEnabled="False"
+                            TextAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="2,5,2,2" />
+					</StackPanel>
+				</PivotItem.Header>
+				<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="*"/>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					
+
 					<ProgressRing x:Name="ring" Grid.Row="0" Grid.RowSpan="3" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
 
 					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
 						<StackPanel>
-							<GridView x:Name="yelpGridView" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" Margin="10" HorizontalAlignment="Center" ItemsSource="{x:Bind CollectionBusiness}">
+							<GridView x:Name="yelpGridView" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" Margin="10" ItemsSource="{x:Bind CollectionBusiness}">
 								<GridView.ItemTemplate>
 									<DataTemplate x:DataType="local:Business">
 										<StackPanel>
@@ -134,19 +174,39 @@
 
 						</StackPanel>
 					</ScrollViewer>
-					
+
 					<ProgressRing x:Name="ring2" Grid.Row="2" Visibility="Visible" IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30"/>
-					
+
 					<Button x:Name="SaveYelpButton" Content="Save" Grid.Row="3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF47BCFF" Click="SaveYelpButton_Click"/>
 				</Grid>
 			</PivotItem>
-			
-			
-			
-			
-			
-			<PivotItem Header="To buy">
+
+
+
+
+
+			<PivotItem >
 				<!--Pivot content goes here-->
+				<PivotItem.Header>
+					<StackPanel>
+						<FontIcon
+                            HorizontalAlignment="Center"
+                            Margin="0,5,0,0"
+                            Glyph="&#xE725;"
+                            FontSize="22" />
+						<TextBlock
+                            FontFamily="Segoe UI"
+                            Text="No sense"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            LineStackingStrategy="BlockLineHeight"
+                            LineHeight="14"
+                            MaxLines="2"
+                            IsTextScaleFactorEnabled="False"
+                            TextAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="2,5,2,2" />
+					</StackPanel>
+				</PivotItem.Header>
 				<TextBlock Text="Content of pivot item 3."/>
 			</PivotItem>
 		</Pivot>
@@ -156,7 +216,7 @@
 		<CommandBar x:Name="commandBar" Visibility="Visible">
 			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
 			<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets">
-				<FontIcon Glyph="&#xE7E7;"/>
+				<FontIcon Glyph="&#xE890;"/>
 			</AppBarToggleButton>
 			<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False">
 				<FontIcon Glyph="&#xE7EC;" />

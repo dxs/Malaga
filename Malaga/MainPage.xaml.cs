@@ -39,7 +39,6 @@ namespace Malaga
 		ObservableCollection<Business> collectionBusiness;
 		ObservableCollection<Business> CollectionBusiness { get { return collectionBusiness; } }
 		MapPoint SelectedPoint;
-
 		MapIcon mapIconMe = null, tmpIcon = null;
 		bool? follow;
 
@@ -168,9 +167,10 @@ namespace Malaga
 			string town = (await DB.GetAdressFromPoint(p)).Split(',')[2];
 			int offset = 20;
 			ring2.Visibility = Visibility.Visible;
-			await y.GetData(p, "Museum", 10000, offset, queryNb * offset, 0, town);
+			await y.GetData(p, "Food", 10000, offset, queryNb * offset, 0, town);
 			ring.Visibility = ring2.Visibility = Visibility.Collapsed;
 			collectionBusiness = y.GetAllBusiness();
+			this.Bindings.Update();
 			return true;
 		}
 
