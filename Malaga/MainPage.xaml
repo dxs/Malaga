@@ -11,17 +11,19 @@
 
 	<Grid Background="WhiteSmoke" >
 		<Pivot x:Name="rootPivot" HorizontalContentAlignment="Center" SelectionChanged="rootPivot_SelectionChanged" HeaderFocusVisualPlacement="ItemHeaders">
-			<PivotItem >
+			<PivotItem>
 				<PivotItem.Header>
-					<StackPanel >
+					<StackPanel>
 						<FontIcon
                             HorizontalAlignment="Center"
-                            Margin="0,5,0,0"
+                            Margin="0,3,0,0"
                             Glyph="&#xE707;"
+							Foreground="#CCCC5E29"
                             FontSize="22" />
 						<TextBlock
                             FontFamily="Segoe UI"
                             Text="Map"
+							Foreground="#CCCC5E29"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             LineStackingStrategy="BlockLineHeight"
                             LineHeight="14"
@@ -29,7 +31,8 @@
                             IsTextScaleFactorEnabled="False"
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
-                            Margin="2,5,2,2" />
+                            Margin="2,3,2,0" />
+						<Rectangle x:Name="lineTab1" Visibility="Visible" Fill="#FFCC5E29" Height="3" Stretch="Fill"/>
 					</StackPanel>
 				</PivotItem.Header>
 
@@ -37,13 +40,13 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="2*"/>
 						<RowDefinition Height="*"/>
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
 					<Maps:MapControl 
 						MapServiceToken="3IQ2MJ5gkciVn8b5xidm~M_LYV5JgnbcVjMwEYBgwGg~AldQ-QmPqd_8enTrQejIsh7RT6M1oSOvs7bW2j4TCnNJdrZ9QkrEVr6d8aDekv26"
 						Grid.Row="0" 
 						ColorScheme="Light" 
-						Margin="10" 
 						x:Name="mainMap" 
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
@@ -119,6 +122,51 @@
 
 
 					</Grid>
+
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Background="Transparent">
+						<ToggleButton x:Name="toggle" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" Background="Transparent">
+							<StackPanel>
+								<FontIcon Glyph="&#xE909;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
+								<TextBlock Text="Aerial view" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+							</StackPanel>
+						</ToggleButton>
+
+						<ToggleButton x:Name="followToggle" Click="followToggle_Click" IsChecked="False" Background="Transparent">
+							<StackPanel>
+								<FontIcon Glyph="&#xE81D;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
+								<TextBlock Text="Follow" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+							</StackPanel>
+						</ToggleButton>
+
+						<ToggleButton x:Name="trafficToggle" Click="trafficToggle_Click" IsChecked="False" Background="Transparent">
+							<StackPanel>
+								<FontIcon Glyph="&#xE7EC;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
+								<TextBlock Text="Trafic" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+							</StackPanel>
+						</ToggleButton>
+
+						<Button Background="Transparent">
+							<StackPanel>
+								<FontIcon Glyph="&#xE71C;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
+								<TextBlock Text="Filter by" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+							</StackPanel>
+							<Button.Flyout>
+								<MenuFlyout>
+									<MenuFlyoutItem Click="FlyoutSelectBar" Text="Bar" />
+									<MenuFlyoutItem Click="FlyoutSelectClub" Text="Club" />
+									<MenuFlyoutItem Click="FlyoutSelectRest" Text="Restaurant" />
+									<MenuFlyoutItem Click="FlyoutSelectAll" Text="All" />
+								</MenuFlyout>
+							</Button.Flyout>
+						</Button>
+
+						<Button x:Name="AddButton" Background="Transparent">
+							<StackPanel>
+								<FontIcon Glyph="&#xE710;" HorizontalAlignment="Center" Foreground="#BBCC5E29"/>
+								<TextBlock Text="Add" HorizontalAlignment="Center" FontSize="12" Foreground="#88CC5E29"/>
+							</StackPanel>
+						</Button>
+					</StackPanel>
 				</Grid>
 			</PivotItem>
 
@@ -129,12 +177,13 @@
 			<PivotItem>
 				<!--Pivot content goes here-->
 				<PivotItem.Header>
-					<StackPanel >
+					<StackPanel>
 						<FontIcon
                             HorizontalAlignment="Center"
-                            Margin="0,5,0,0"
+                            Margin="0,3,0,0"
                             Glyph="&#xE753;"
-                            FontSize="22" />
+                            FontSize="22" 
+							Foreground="#CCCC5E29"/>
 						<TextBlock
                             FontFamily="Segoe UI"
                             Text="Yelp"
@@ -145,7 +194,9 @@
                             IsTextScaleFactorEnabled="False"
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
-                            Margin="2,5,2,2" />
+                            Margin="2,3,2,0" 
+							Foreground="#CCCC5E29"/>
+						<Rectangle x:Name="lineTab2" Visibility="Collapsed" Fill="#FFCC5E29" Height="3" Stretch="Fill"/>
 					</StackPanel>
 				</PivotItem.Header>
 				<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -160,13 +211,18 @@
 
 					<ScrollViewer ViewChanged="OnScrollViewerViewChanged" Grid.Row="1" x:Name="yelp_scrollviewer" IsEnabled="True" IsScrollInertiaEnabled="True" IsVerticalRailEnabled="True">
 						<StackPanel>
-							<GridView x:Name="yelpGridView" SelectionMode="Multiple" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" Margin="10" ItemsSource="{x:Bind CollectionBusiness}">
+							<GridView x:Name="yelpGridView" SelectionMode="None" IsItemClickEnabled="True" SelectionChanged="yelpGridView_SelectionChanged" Margin="10" ItemsSource="{x:Bind CollectionBusiness}">
 								<GridView.ItemTemplate>
 									<DataTemplate x:DataType="local:Business">
-										<StackPanel>
-											<Image Source="{x:Bind PhotoUrl, Mode=OneWay}" MaxWidth="120" MaxHeight="120" Stretch="UniformToFill"/>
-											<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-											<TextBlock Text="{x:Bind Description, Mode=OneWay}" />
+										<StackPanel Margin="10" BorderBrush="#88CC5E29" BorderThickness="1">
+											<TextBlock  Text="{x:Bind Name, Mode=OneWay}" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="5" Foreground="#FFCC5E29"/>
+											<Image Source="{x:Bind PhotoUrl, Mode=OneWay}" MaxWidth="140" MaxHeight="140" Stretch="UniformToFill" Margin="5"/>
+											<TextBlock Text="{x:Bind Description, Mode=OneWay}" Margin="5" />
+											<StackPanel Orientation="Horizontal" Margin="5">
+												<TextBlock Text="Distance" HorizontalAlignment="Left"/>
+												<TextBlock Text="{x:Bind Distance, Mode=OneWay}" TextAlignment="Right" HorizontalAlignment="Right" />
+											</StackPanel>
+											<Image Source="{x:Bind Rating, Mode=OneWay}" MaxWidth="140" Margin="5" />
 										</StackPanel>
 									</DataTemplate>
 								</GridView.ItemTemplate>
@@ -191,9 +247,10 @@
 					<StackPanel>
 						<FontIcon
                             HorizontalAlignment="Center"
-                            Margin="0,5,0,0"
+                            Margin="0,3,0,0"
                             Glyph="&#xE725;"
-                            FontSize="22" />
+                            FontSize="22"
+							Foreground="#CCCC5E29"/>
 						<TextBlock
                             FontFamily="Segoe UI"
                             Text="No sense"
@@ -204,35 +261,13 @@
                             IsTextScaleFactorEnabled="False"
                             TextAlignment="Center"
                             HorizontalAlignment="Center"
-                            Margin="2,5,2,2" />
+                            Margin="2,3,2,0"
+							Foreground="#CCCC5E29"/>
+						<Rectangle x:Name="lineTab3" Fill="#FFCC5E29" Height="3" Stretch="Fill" Visibility="Collapsed"/>
 					</StackPanel>
 				</PivotItem.Header>
 				<TextBlock Text="Content of pivot item 3."/>
 			</PivotItem>
 		</Pivot>
 	</Grid>
-
-	<Page.BottomAppBar>
-		<CommandBar x:Name="commandBar" Visibility="Visible">
-			<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
-			<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets">
-				<FontIcon Glyph="&#xE890;"/>
-			</AppBarToggleButton>
-			<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False">
-				<FontIcon Glyph="&#xE7EC;" />
-			</AppBarToggleButton>
-			<AppBarSeparator/>
-			<AppBarButton Label="Filter by" Icon="Filter" >
-				<AppBarButton.Flyout>
-					<MenuFlyout>
-						<MenuFlyoutItem Click="FlyoutSelectBar" Text="Bar" />
-						<MenuFlyoutItem Click="FlyoutSelectClub" Text="Club" />
-						<MenuFlyoutItem Click="FlyoutSelectRest" Text="Restaurant" />
-						<MenuFlyoutItem Click="FlyoutSelectAll" Text="All" />
-					</MenuFlyout>
-				</AppBarButton.Flyout>
-			</AppBarButton>
-			<AppBarButton Label="Add item" x:Name="AddButton" Click="AddButton_Click" Icon="Add"/>
-		</CommandBar>
-	</Page.BottomAppBar>
 </Page>

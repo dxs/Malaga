@@ -42,6 +42,6 @@ namespace Malaga
 		/// <summary>
 		/// 
 		/// </summary>
-		public double Rating;
+		public string Rating;
 	}
 }

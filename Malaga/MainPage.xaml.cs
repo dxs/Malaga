@@ -154,8 +154,9 @@ namespace Malaga
 		/// </summary>
 		/// <param name="queryNb"></param>
 		/// <returns></returns>
-		private async Task<bool> LoadYelp(int queryNb = 0)
+		private async Task<bool> LoadYelp(int queryNb = 0, string query = "Food")
 		{
+			yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
 			if (mapIconMe == null)
 				return false;
 			Yelp y = new Yelp();
@@ -167,10 +168,11 @@ namespace Malaga
 			string town = (await DB.GetAdressFromPoint(p)).Split(',')[2];
 			int offset = 20;
 			ring2.Visibility = Visibility.Visible;
-			await y.GetData(p, "Food", 10000, offset, queryNb * offset, 0, town);
+			await y.GetData(p, query, 10000, offset, queryNb * offset, 0, town);
 			ring.Visibility = ring2.Visibility = Visibility.Collapsed;
 			collectionBusiness = y.GetAllBusiness();
 			this.Bindings.Update();
+			yelp_scrollviewer.ViewChanged += OnScrollViewerViewChanged;
 			return true;
 		}
 
@@ -301,8 +303,10 @@ namespace Malaga
 		/// Center the map to a given MapPoint
 		/// </summary>
 		/// <param name="point"></param>
-		private async void CenterMap(MapPoint point)
+		private async Task CenterMap(MapPoint point)
 		{
+			if (point == null)
+				return;
 			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.Latitude, Longitude = point.Longitude });
 			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
 		}
@@ -313,6 +317,8 @@ namespace Malaga
 		/// <param name="point"></param>
 		private async void CenterMap(Point point)
 		{
+			if (point == null)
+				return;
 			Geopoint loc = new Geopoint(new BasicGeoposition() { Latitude = point.X, Longitude = point.Y });
 			await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
 		}
@@ -323,12 +329,16 @@ namespace Malaga
 		/// <remarks>not implemented yet</remarks>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
+		private async void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
 		{
 			MapPoint point = DB.GetPointById(args.MapElements[0].ZIndex);
-			CenterMap(point);
+			if (point == null)
+				return;
 			UpdateButton.Content = "Update";
 			EditPointUI(point);
+			mainMap.MapElements.Remove(tmpIcon);
+			await CenterMap(point);
+			mainMap.MapElements.Remove(tmpIcon);
 		}
 
 		/// <summary>
@@ -717,6 +727,7 @@ namespace Malaga
 
 			if (maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset)// Scrolled to bottom
 			{
+				yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
 				numberOfQueryDone++;
 				await LoadYelp(numberOfQueryDone);
 			}
@@ -776,41 +787,18 @@ namespace Malaga
 			switch (a.SelectedIndex)
 			{
 				case 0:
-					SetCommandBarMap();
+					lineTab1.Visibility = Visibility.Visible;
+					lineTab2.Visibility = lineTab3.Visibility = Visibility.Collapsed;
 					break;
 				case 1:
-					SetCommandBarYelp();
+					lineTab2.Visibility = Visibility.Visible;
+					lineTab1.Visibility = lineTab3.Visibility = Visibility.Collapsed;
 					break;
 				case 2:
+					lineTab3.Visibility = Visibility.Visible;
+					lineTab1.Visibility = lineTab2.Visibility = Visibility.Collapsed;
 					break;
 			}
-		}
-
-		private void SetCommandBarMap()
-		{
-			//<AppBarToggleButton x:Name="toggle" Label="Aerial view" Icon="Globe" Checked="AppBarToggleButton_Checked" Unchecked="AppBarToggleButton_Checked" />
-			//<AppBarToggleButton x:Name="followToggle" Label="Follow me" Click="followToggle_Click" IsChecked="False" Icon="Bullets">
-			//	<FontIcon Glyph="&#xE7E7;"/>
-			//</AppBarToggleButton>
-			//<AppBarToggleButton x:Name="trafficToggle" Label="Traffic" Click="trafficToggle_Click" IsChecked="False">
-			//	<FontIcon Glyph="&#xE7EC;" />
-			//</AppBarToggleButton>
-			//<AppBarSeparator/>
-			//<AppBarButton Label="Filter by" Icon="Filter" >
-			//	<AppBarButton.Flyout>
-			//		<MenuFlyout>
-			//			<MenuFlyoutItem Click="FlyoutSelectBar" Text="Bar" />
-			//			<MenuFlyoutItem Click="FlyoutSelectClub" Text="Club" />
-			//			<MenuFlyoutItem Click="FlyoutSelectRest" Text="Restaurant" />
-			//			<MenuFlyoutItem Click="FlyoutSelectAll" Text="All" />
-			//		</MenuFlyout>
-			//	</AppBarButton.Flyout>
-			//</AppBarButton>
-		}
-
-		private void SetCommandBarYelp()
-		{
-
 		}
 
 		#endregion

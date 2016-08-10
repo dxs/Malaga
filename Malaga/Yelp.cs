@@ -123,7 +123,7 @@ namespace Malaga
 			if (!isValid(business))
 				return;
 			if (business.image_url == null)
-				business.image_url = "ms-appx:///Assets/barBig.png";
+				business.image_url = "ms-appx:///Assets/BigRestaurant.png";
 
 			collectionBusiness.Add(new Business()
 			{
@@ -134,8 +134,51 @@ namespace Malaga
 				Latitude = business.location.coordinate.Latitude,
 				Longitude = business.location.coordinate.Longitude,
 				PhotoUrl = business.image_url,
-				Rating = business.rating
+				Rating = GetRatingURI(business.rating)
 			});
+		}
+
+		private string GetRatingURI(double rating)
+		{
+			string URI = "ms-appx:///Assets/RATING/RATE_";
+			switch(rating.ToString())
+			{
+				case "0":
+					URI += "0";
+					break;
+				case "1":
+					URI += "1";
+					break;
+				case "1.5":
+					URI += "1_5";
+					break;
+				case "2":
+					URI += "2";
+					break;
+				case "2.5":
+					URI += "2_5";
+					break;
+				case "3":
+					URI += "3";
+					break;
+				case "3.5":
+					URI += "3_5";
+					break;
+				case "4":
+					URI += "4";
+					break;
+				case "4.5":
+					URI += "4_5";
+					break;
+				case "5":
+					URI += "5";
+					break;
+				default:
+					URI += "0";
+					break;
+			}
+			URI += ".png";
+			return URI;
 		}
 
 		/// <summary>

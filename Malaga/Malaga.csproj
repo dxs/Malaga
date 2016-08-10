@@ -122,12 +122,21 @@
   <ItemGroup>
     <Content Include="Assets\bar.png" />
     <Content Include="Assets\barBig.png" />
+    <Content Include="Assets\Bigrestaurant.png" />
     <Content Include="Assets\dj.png" />
     <Content Include="Assets\mapPin.png" />
-    <Content Include="Assets\running.gif" />
+    <Content Include="Assets\RATING\RATE_0.png" />
+    <Content Include="Assets\RATING\RATE_1.png" />
+    <Content Include="Assets\RATING\RATE_1_5.png" />
+    <Content Include="Assets\RATING\RATE_2.png" />
+    <Content Include="Assets\RATING\RATE_2_5.png" />
+    <Content Include="Assets\RATING\RATE_3.png" />
+    <Content Include="Assets\RATING\RATE_3_5.png" />
+    <Content Include="Assets\RATING\RATE_4.png" />
+    <Content Include="Assets\RATING\RATE_4_5.png" />
+    <Content Include="Assets\RATING\RATE_5.png" />
     <Content Include="Assets\restaurant.png" />
     <Content Include="Assets\loc.png" />
-    <Content Include="Assets\skeleton.gif" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square310x310Logo.scale-100.png" />
     <Content Include="Assets\Square310x310Logo.scale-200.png" />
