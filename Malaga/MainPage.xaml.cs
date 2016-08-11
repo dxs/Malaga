@@ -33,12 +33,13 @@ namespace Malaga
     public sealed partial class MainPage : Page
     {
 		Database DB;
-		DispatcherTimer yelpTimer;
+		DispatcherTimer yelpTimer, settingsTimer;
 		Yelp yelp = null;
 		ObservableCollection<MapPoint> collectionMapPoint;
 		ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
 		ObservableCollection<Business> collectionBusiness;
 		ObservableCollection<Business> CollectionBusiness { get { return collectionBusiness; } }
+		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
 		MapPoint SelectedPoint;
 		MapIcon mapIconMe = null, tmpIcon = null;
 		bool? follow;
@@ -60,10 +61,17 @@ namespace Malaga
 				Interval = new TimeSpan(0, 0, 1)
 			};
 			yelpTimer.Tick += YelpTimer_Tick;
-
+			settingsTimer = new DispatcherTimer()
+			{
+				Interval = new TimeSpan(0, 0, 20)
+			};
+			settingsTimer.Tick += SettingsTimer_Tick;
+			if (!Settings.FirstBoot)
+				DisplayFirstBoot();
+			Settings.ReadSettings();
 			setMap();
-
 			yelpTimer.Start();
+			settingsTimer.Start();
 		}
 
 		/// <summary>
@@ -255,6 +263,22 @@ namespace Malaga
 				// Add the MapIcon to the map.
 				mainMap.MapElements.Add(mapIcon1);
 			}
+		}
+
+		/// <summary>
+		/// Do stuff when the map finished loading
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mainMap_Loaded(object sender, RoutedEventArgs e)
+		{
+			var timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 1, 0) };
+			timer.Tick += (tick, args) =>
+			{
+				timer.Stop();
+				CenterMap(Settings.LastPosition);
+			};
+			timer.Start();
 		}
 
 		/// <summary>
@@ -731,7 +755,6 @@ namespace Malaga
 				await LoadYelp(++numberOfQueryDone);
 			else// Not scrolled to bottom
 			{
-
 			}
 		}
 
@@ -797,6 +820,27 @@ namespace Malaga
 					lineTab1.Visibility = lineTab2.Visibility = Visibility.Collapsed;
 					break;
 			}
+		}
+
+		#endregion
+
+		#region Settings
+
+		private void SettingsTimer_Tick(object sender, object e)
+		{
+			WriteSettings();
+		}
+
+		private void WriteSettings()
+		{
+			Settings.LastPosition = new Point(mapIconMe.Location.Position.Latitude, mapIconMe.Location.Position.Longitude);
+		}
+
+
+		private void DisplayFirstBoot()
+		{
+			if(rootGrid.Visibility == Visibility.Visible)
+				;
 		}
 
 		#endregion
