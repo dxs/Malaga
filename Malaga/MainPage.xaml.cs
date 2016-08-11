@@ -56,16 +56,6 @@ namespace Malaga
 			SelectedPoint = new MapPoint();
 			Setup();
 			
-			yelpTimer = new DispatcherTimer()
-			{
-				Interval = new TimeSpan(0, 0, 1)
-			};
-			yelpTimer.Tick += YelpTimer_Tick;
-			settingsTimer = new DispatcherTimer()
-			{
-				Interval = new TimeSpan(0, 0, 20)
-			};
-			settingsTimer.Tick += SettingsTimer_Tick;
 			if (!Settings.FirstBoot)
 				DisplayFirstBoot();
 			Settings.ReadSettings();
@@ -82,6 +72,17 @@ namespace Malaga
 			await DB.setDB();
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
+
+			yelpTimer = new DispatcherTimer()
+			{
+				Interval = new TimeSpan(0, 0, 1)
+			};
+			yelpTimer.Tick += YelpTimer_Tick;
+			settingsTimer = new DispatcherTimer()
+			{
+				Interval = new TimeSpan(0, 0, 20)
+			};
+			settingsTimer.Tick += SettingsTimer_Tick;
 		}
 
 		/// <summary>
@@ -120,8 +121,7 @@ namespace Malaga
 		/// Hide the UI that allows user to edit fields
 		/// </summary>
 		/// <param name="state">Closed of open</param>
-		/// <param name="create">Is it a creation?</param>
-		private void HideEditUI(bool state, bool create = false)
+		private void HideEditUI(bool state)
 		{
 			UpdateButton.Content = "Update";
 			latBox.TextChanged -= latBox_TextChanged;
@@ -130,26 +130,13 @@ namespace Malaga
 			townBox.TextChanged -= streetBox_TextChanged;
 			if (state)
 			{
-				Grid.SetColumnSpan(EditScrollView, 1);
-				Grid.SetColumn(EditScrollView, 1);
-				Grid.SetColumnSpan(scrollview, 2);
+				EditScrollView.Visibility = Visibility.Collapsed;
 				scrollview.Visibility = Visibility.Visible;
 			}
 			else
 			{
-				Grid.SetColumnSpan(scrollview, 1);
-				if (create)
-				{
-					scrollview.Visibility = Visibility.Collapsed;
-					Grid.SetColumnSpan(EditScrollView, 2);
-					Grid.SetColumn(EditScrollView, 0);
-				}
-				else
-				{
-					scrollview.Visibility = Visibility.Visible;
-					Grid.SetColumnSpan(EditScrollView, 1);
-					Grid.SetColumn(EditScrollView, 1);
-				}
+				EditScrollView.Visibility = Visibility.Visible;
+				scrollview.Visibility = Visibility.Collapsed;
 			}
 
 			collectionMapPoint = DB.GetAllPoints();
@@ -162,11 +149,12 @@ namespace Malaga
 		/// Perform Task to load Yelp
 		/// </summary>
 		/// <param name="queryNb"></param>
+		/// <param name="query"></param>
 		/// <returns></returns>
 		private async Task<bool> LoadYelp(int queryNb = 0, string query = "Food")
 		{
 			yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
-			ring.Visibility = Visibility.Collapsed;
+			ring.Visibility = Visibility.Visible;
 			if (mapIconMe == null)
 				return false;
 			if (yelp == null)
@@ -625,7 +613,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
-			HideEditUI(false, true);
+			HideEditUI(false);
 			latBox.Text = "";
 			LonBox.Text = "";
 			boxDesc.Text = "";
@@ -644,19 +632,6 @@ namespace Malaga
 			HideEditUI(true);
 		}
 
-
-		/// <summary>
-		/// Event called when user press select button
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SelectButton_Click(object sender, RoutedEventArgs e)
-		{
-			var select = sender as Button;
-			var point = DB.GetPointById(Convert.ToInt32(select.Tag));
-			CenterMap(point);
-		}
-
 		/// <summary>
 		/// Event called when user press edit button
 		/// </summary>
@@ -664,12 +639,15 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void EditButton_Click(object sender, RoutedEventArgs e)
 		{
-			var select = sender as Button;
-			var point = DB.GetPointById(Convert.ToInt32(select.Tag));
 			UpdateButton.Content = "Update";
-			EditPointUI(point);
+			EditPointUI(SelectedPoint);
 		}
 
+		/// <summary>
+		/// Event called to store to list
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
 		{
 			rootPivot.SelectedIndex = 0;
@@ -686,6 +664,10 @@ namespace Malaga
 			setPOI();
 		}
 
+		/// <summary>
+		/// Convert a Business class to a MapPoint class and Save it
+		/// </summary>
+		/// <param name="business"></param>
 		private async void ConvertBusinessToMapPoint(Business business)
 		{
 			MapPoint point = await DB.createMapPoint(Database.nextId++, business.Name, business.Description, business.Latitude, business.Longitude, "bar", business.PhotoUrl);
@@ -702,7 +684,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void AppBarToggleButton_Checked(object sender, RoutedEventArgs e)
 		{
-			var t = sender as AppBarToggleButton;
+			var t = sender as ToggleButton;
 			if (t.IsChecked == true)
 			{
 				if (mainMap.Is3DSupported)
@@ -711,7 +693,9 @@ namespace Malaga
 					toggle.IsChecked = false;
 			}
 			else
+			{
 				mainMap.Style = MapStyle.Road;
+			}
 		}
 
 		/// <summary>
@@ -820,6 +804,24 @@ namespace Malaga
 					lineTab1.Visibility = lineTab2.Visibility = Visibility.Collapsed;
 					break;
 			}
+		}
+
+		#endregion
+
+		#region GridView
+
+		private async void pointGrid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+		{
+			GridView listView = (GridView)sender;
+			var a = ((FrameworkElement)e.OriginalSource).DataContext as MapPoint;
+			await CenterMap(a);
+		}
+
+		private void pointGrid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+		{
+			var g = sender as GridView;
+			mapPointGridViewFlyout.ShowAt(g, e.GetPosition(g));
+			SelectedPoint = ((FrameworkElement)e.OriginalSource).DataContext as MapPoint;
 		}
 
 		#endregion
