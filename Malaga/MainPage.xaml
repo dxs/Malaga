@@ -283,17 +283,17 @@
 									>
 									<GridView.ItemTemplate>
 										<DataTemplate 
-											x:DataType="local:MapPoint"
+											
 											>
 											<StackPanel>
 												<Image 
-													Source="{x:Bind PhotoUrl, Mode=OneWay}" 
+													Source="{Binding PhotoUrl, Mode=OneWay}" 
 													MaxWidth="120" 
 													MaxHeight="120" 
 													Stretch="UniformToFill"
 													/>
-												<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-												<TextBlock Text="{x:Bind Description, Mode=OneWay}" />
+												<TextBlock Text="{Binding Name, Mode=OneWay}" />
+												<TextBlock Text="{Binding Description, Mode=OneWay}" />
 											</StackPanel>
 										</DataTemplate>
 									</GridView.ItemTemplate>
@@ -483,72 +483,77 @@
 						<!-- ZOOM IN -->
 						<SemanticZoom>
 							<SemanticZoom.ZoomedInView>
-								<GridView 
-									x:Name="yelpGridView" 
-									SelectionMode="None" 
-									IsItemClickEnabled="True" 
-									SelectionChanged="yelpGridView_SelectionChanged" 
-									Margin="10" 
-									ItemsSource="{x:Bind collectionBusinessFood}"
-									>
-									<GridView.ItemsPanel>
-										<ItemsPanelTemplate>
-											<ItemsWrapGrid 
-												Orientation="Vertical" 
-												MaximumRowsOrColumns="1"
-												/>
-										</ItemsPanelTemplate>
-									</GridView.ItemsPanel>
-
-									<GridView.ItemTemplate>
-										<DataTemplate x:DataType="local:Business">
-											<StackPanel 
+								<ListView ItemsSource="{Binding CollectionOfCollection}">
+									<ListView.ItemTemplate>
+										<DataTemplate>
+											<GridView 
+												SelectionMode="None" 
+												IsItemClickEnabled="True" 
+												SelectionChanged="yelpGridView_SelectionChanged" 
 												Margin="10" 
-												BorderBrush="#88CC5E29" 
-												BorderThickness="1"
+												ItemsSource="{Binding}"
 												>
-												<TextBlock  
-													Text="{x:Bind Name, Mode=OneWay}" 
-													TextAlignment="Center" 
-													TextWrapping="Wrap" 
-													HorizontalAlignment="Center" 
-													Margin="5" 
-													Foreground="#FFCC5E29"
-													/>
-												<Image 
-													Source="{x:Bind PhotoUrl, Mode=OneWay}" 
-													MaxWidth="140" 
-													MaxHeight="140" 
-													Stretch="UniformToFill" 
-													Margin="5"
-													/>
-												<TextBlock 
-													Text="{x:Bind Description, Mode=OneWay}" 
-													Margin="5" 
-													/>
-												<StackPanel 
-													Orientation="Horizontal" 
-													Margin="5"
-													>
-													<TextBlock 
-														Text="Distance" 
-														HorizontalAlignment="Left"
-														/>
-													<TextBlock 
-														Text="{x:Bind Distance, Mode=OneWay}" 
-														TextAlignment="Right" 
-														HorizontalAlignment="Right" 
-														/>
-												</StackPanel>
-												<Image 
-													Source="{x:Bind Rating, Mode=OneWay}" 
-													MaxWidth="140" 
-													Margin="5" 
-													/>
-											</StackPanel>
+												<GridView.ItemsPanel>
+													<ItemsPanelTemplate>
+														<ItemsWrapGrid 
+															Orientation="Vertical" 
+															MaximumRowsOrColumns="1"
+															/>
+													</ItemsPanelTemplate>
+												</GridView.ItemsPanel>
+
+												<GridView.ItemTemplate>
+													<DataTemplate>
+														<StackPanel 
+															Margin="10" 
+															BorderBrush="#88CC5E29" 
+															BorderThickness="1"
+															>
+															<TextBlock  
+																Text="{Binding Name, Mode=OneWay}" 
+																TextAlignment="Center" 
+																TextWrapping="Wrap" 
+																HorizontalAlignment="Center" 
+																Margin="5" 
+																Foreground="#FFCC5E29"
+																/>
+															<Image 
+																Source="{Binding PhotoUrl, Mode=OneWay}" 
+																MaxWidth="140" 
+																MaxHeight="140" 
+																Stretch="UniformToFill" 
+																Margin="5"
+																/>
+															<TextBlock 
+																Text="{Binding Description, Mode=OneWay}" 
+																Margin="5" 
+																/>
+															<StackPanel 
+																Orientation="Horizontal" 
+																Margin="5"
+																>
+																<TextBlock 
+																	Text="Distance" 
+																	HorizontalAlignment="Left"
+																	/>
+																<TextBlock 
+																	Text="{Binding Distance, Mode=OneWay}" 
+																	TextAlignment="Right" 
+																	HorizontalAlignment="Right" 
+																	/>
+															</StackPanel>
+															<Image 
+																Source="{Binding Rating, Mode=OneWay}" 
+																MaxWidth="140" 
+																Margin="5" 
+																/>
+														</StackPanel>
+													</DataTemplate>
+												</GridView.ItemTemplate>
+											</GridView>
 										</DataTemplate>
-									</GridView.ItemTemplate>
-								</GridView>
+									</ListView.ItemTemplate>
+								</ListView>
 							</SemanticZoom.ZoomedInView>
 
 							<!-- ZOOM OUT -->

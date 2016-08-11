@@ -49,6 +49,7 @@ namespace Malaga
 		ObservableCollection<Business> collectionBusinessBeauty;
 		ObservableCollection<Business> collectionBusinessEducation;
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
+		ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
 		List<int> numberOfQuery = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		MapPoint SelectedPoint;
@@ -117,7 +118,7 @@ namespace Malaga
 		{
 			yelpTimer.Stop();
 			bool? isConnected = false;
-			isConnected = await LoadYelp();
+			isConnected = LoadYelp();
 			if(isConnected == false)
 			{
 				yelpTimer.Interval = new TimeSpan(0, 0, 1);
@@ -174,7 +175,7 @@ namespace Malaga
 		/// <param name="queryNb"></param>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		private async Task<bool> LoadYelp(int queryNb = 0, string query = "Food")
+		private bool LoadYelp(int queryNb = 0, string query = "Food")
 		{
 			yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
 			ring.Visibility = Visibility.Visible;
@@ -249,10 +250,10 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void yelpGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (yelpGridView.SelectedItems.Count > 0)
-				SaveYelpButton.Visibility = Visibility.Visible;
-			else
-				SaveYelpButton.Visibility = Visibility.Collapsed;
+			//if (yelpGridView.SelectedItems.Count > 0)
+			//	SaveYelpButton.Visibility = Visibility.Visible;
+			//else
+			//	SaveYelpButton.Visibility = Visibility.Collapsed;
 		}
 
 		#endregion
@@ -718,16 +719,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
 		{
-			rootPivot.SelectedIndex = 0;
-			foreach (GridViewItem item in yelpGridView.Items)
-			{
-				if (item.IsSelected)
-				{
-					Business business = Yelp.FindBusinessById(item.Name);
-					if (business.Name != null)
-						ConvertBusinessToMapPoint(business);
-				}
-			}
+			
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
 		}
@@ -798,13 +790,13 @@ namespace Malaga
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private async void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+		private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
 			var HorizontalOffset = yelp_scrollviewer.HorizontalOffset;
 			var maxHorizontalOffset = yelp_scrollviewer.ScrollableWidth; //sv.ExtentHeight - sv.ViewportHeight;
 
 			if (HorizontalOffset < 0 || HorizontalOffset == maxHorizontalOffset)// Scrolled to bottom
-				await LoadYelp();
+				LoadYelp();
 			else// Not scrolled to bottom
 			{
 			}
