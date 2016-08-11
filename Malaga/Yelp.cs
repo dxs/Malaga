@@ -102,7 +102,7 @@ namespace Malaga
 					break;
 			}
 
-			YelpSearchOptionsGeneral genOptions = new YelpSharp.YelpSearchOptionsGeneral(query, nbToLoad, offset, sortMode, null, radius, null);
+			YelpSearchOptionsGeneral genOptions = new YelpSharp.YelpSearchOptionsGeneral(query, nbToLoad, offset, sortMode, null, null, null);//disabled radius
 			YelpCoordinates coord = new YelpSharp.YelpCoordinates() { Latitude = coordinate.X, Longitude = coordinate.Y };
 			YelpSearchOptionsLocation location = new YelpSharp.YelpSearchOptionsLocation(town, coord);
 			YelpSearchOptions options = new YelpSharp.YelpSearchOptions(genOptions, null, location);

@@ -20,6 +20,6 @@
     <CreateCleanLayout>false</CreateCleanLayout>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <CreateCleanLayout>false</CreateCleanLayout>
+    <CreateCleanLayout>true</CreateCleanLayout>
   </PropertyGroup>
 </Project>

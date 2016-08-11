@@ -458,18 +458,9 @@
 					</StackPanel>
 				</PivotItem.Header>
 				
-				<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="*"/>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-
+				<StackPanel>
 					<ProgressRing 
 						x:Name="ring" 
-						Grid.Row="0" 
-						Grid.RowSpan="3" 
 						Visibility="Visible" 
 						IsActive="True" 
 						VerticalAlignment="Center" 
@@ -477,10 +468,8 @@
 						Height="30" 
 						Width="30"
 						/>
-
 					<ScrollViewer 
 						ViewChanged="OnScrollViewerViewChanged" 
-						Grid.Row="1" 
 						x:Name="yelp_scrollviewer" 
 						IsScrollInertiaEnabled="True" 
 						IsVerticalRailEnabled="false"
@@ -500,7 +489,7 @@
 									IsItemClickEnabled="True" 
 									SelectionChanged="yelpGridView_SelectionChanged" 
 									Margin="10" 
-									ItemsSource="{x:Bind CollectionBusiness}"
+									ItemsSource="{x:Bind collectionBusinessFood}"
 									>
 									<GridView.ItemsPanel>
 										<ItemsPanelTemplate>
@@ -583,7 +572,7 @@
 						Background="#FF47BCFF" 
 						Click="SaveYelpButton_Click"
 					/>
-				</Grid>
+				</StackPanel>
 			</PivotItem>
 
 

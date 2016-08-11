@@ -37,14 +37,23 @@ namespace Malaga
 		Yelp yelp = null;
 		ObservableCollection<MapPoint> collectionMapPoint;
 		ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
-		ObservableCollection<Business> collectionBusiness;
-		ObservableCollection<Business> CollectionBusiness { get { return collectionBusiness; } }
+		ObservableCollection<Business> collectionBusinessFood;
+		ObservableCollection<Business> collectionBusinessDrinks;
+		ObservableCollection<Business> collectionBusinessRestaurant;
+		ObservableCollection<Business> collectionBusinessMuseum;
+		ObservableCollection<Business> collectionBusinessPub;
+		ObservableCollection<Business> collectionBusinessShopping;
+		ObservableCollection<Business> collectionBusinessLocal;
+		ObservableCollection<Business> collectionBusinessIceCream;
+		ObservableCollection<Business> collectionBusinessSport;
+		ObservableCollection<Business> collectionBusinessBeauty;
+		ObservableCollection<Business> collectionBusinessEducation;
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
+		List<int> numberOfQuery = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
 		MapPoint SelectedPoint;
 		MapIcon mapIconMe = null, tmpIcon = null;
 		bool? follow;
-
-		int numberOfQueryDone = 0;
 
 		/// <summary>
 		/// Point d'entrée
@@ -59,6 +68,7 @@ namespace Malaga
 			if (!Settings.FirstBoot)
 				DisplayFirstBoot();
 			Settings.ReadSettings();
+			SetupYelpCollection(Settings.YelpCode);
 			setMap();
 			yelpTimer.Start();
 			settingsTimer.Start();
@@ -83,6 +93,19 @@ namespace Malaga
 				Interval = new TimeSpan(0, 0, 20)
 			};
 			settingsTimer.Tick += SettingsTimer_Tick;
+
+			collectionOfCollection = new ObservableCollection<ObservableCollection<Business>>();
+			collectionBusinessFood = new ObservableCollection<Business>();
+			collectionBusinessDrinks = new ObservableCollection<Business>();
+			collectionBusinessRestaurant = new ObservableCollection<Business>();
+			collectionBusinessMuseum = new ObservableCollection<Business>();
+			collectionBusinessPub = new ObservableCollection<Business>();
+			collectionBusinessShopping = new ObservableCollection<Business>();
+			collectionBusinessLocal = new ObservableCollection<Business>();
+			collectionBusinessSport = new ObservableCollection<Business>();
+			collectionBusinessIceCream = new ObservableCollection<Business>();
+			collectionBusinessBeauty = new ObservableCollection<Business>();
+			collectionBusinessEducation = new ObservableCollection<Business>();
 		}
 
 		/// <summary>
@@ -164,14 +187,59 @@ namespace Malaga
 				X = mapIconMe.Location.Position.Latitude,
 				Y = mapIconMe.Location.Position.Longitude
 			};
-			string town = (await DB.GetAdressFromPoint(p)).Split(',')[2];
 			int offset = 20;
-			await yelp.GetData(p, query, 10000, offset, queryNb * offset, 0, town);
+			FillYelpCollection(p, offset);
 			ring.Visibility = Visibility.Collapsed;
-			collectionBusiness = yelp.GetAllBusiness();
+			yelp.GetAllBusiness();
 			this.Bindings.Update();
 			yelp_scrollviewer.ViewChanged += OnScrollViewerViewChanged;
 			return true;
+		}
+
+		private async void FillYelpCollection(Point location, int offset)
+		{
+			string town = (await DB.GetAdressFromPoint(location)).Split(',')[2];
+			List<char> key = new List<char>();
+			foreach (char c in Settings.YelpCode)
+				key.Add(c);
+
+			List<string> list = new List<string>();
+			list.Add("Food");
+			list.Add("Drinks");
+			list.Add("Restaurant");
+			list.Add("Museum");
+			list.Add("Pub");
+			list.Add("Shopping");
+			list.Add("Local Flavour");
+			list.Add("Ice cream");
+			list.Add("Sport");
+			list.Add("Beauty");
+			list.Add("Education");
+			int i = 0;
+			foreach(ObservableCollection<Business> collection in collectionOfCollection)
+			{
+				while (key[i] != '1')
+					i++;
+				await yelp.GetData(location, list[i], 100000, offset, 0, 0, town);
+				ObservableCollection<Business> tmp = yelp.GetAllBusiness();
+				foreach (Business b in tmp)
+					collection.Add(b);
+			}
+		}
+
+		private void SetupYelpCollection(string yelpCode)
+		{
+			if (yelpCode[0] == '1') collectionOfCollection.Add(collectionBusinessFood);
+			if (yelpCode[1] == '1') collectionOfCollection.Add(collectionBusinessDrinks);
+			if (yelpCode[2] == '1') collectionOfCollection.Add(collectionBusinessRestaurant);
+			if (yelpCode[3] == '1') collectionOfCollection.Add(collectionBusinessMuseum);
+			if (yelpCode[4] == '1') collectionOfCollection.Add(collectionBusinessPub);
+			if (yelpCode[5] == '1') collectionOfCollection.Add(collectionBusinessShopping);
+			if (yelpCode[6] == '1') collectionOfCollection.Add(collectionBusinessLocal);
+			if (yelpCode[7] == '1') collectionOfCollection.Add(collectionBusinessIceCream);
+			if (yelpCode[8] == '1') collectionOfCollection.Add(collectionBusinessSport);
+			if (yelpCode[9] == '1') collectionOfCollection.Add(collectionBusinessBeauty);
+			if (yelpCode[10] == '1') collectionOfCollection.Add(collectionBusinessEducation);
 		}
 
 		/// <summary>
@@ -736,7 +804,7 @@ namespace Malaga
 			var maxHorizontalOffset = yelp_scrollviewer.ScrollableWidth; //sv.ExtentHeight - sv.ViewportHeight;
 
 			if (HorizontalOffset < 0 || HorizontalOffset == maxHorizontalOffset)// Scrolled to bottom
-				await LoadYelp(++numberOfQueryDone);
+				await LoadYelp();
 			else// Not scrolled to bottom
 			{
 			}
@@ -835,7 +903,12 @@ namespace Malaga
 
 		private void WriteSettings()
 		{
-			Settings.LastPosition = new Point(mapIconMe.Location.Position.Latitude, mapIconMe.Location.Position.Longitude);
+			if(mapIconMe != null)
+				Settings.LastPosition = new Point
+					(
+						mapIconMe.Location.Position.Latitude,
+						mapIconMe.Location.Position.Longitude
+					);
 		}
 
 
