@@ -9,89 +9,110 @@
     x:Class="Malaga.MainPage"
     mc:Ignorable="d">
 
-	<Grid x:Name="rootGrid" Background="WhiteSmoke" Visibility="Visible">
-		<!--<Grid>
-			<StackPanel>
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Food" />
-					</StackPanel>
-				</CheckBox>
+	<Grid x:Name="rootGrid" Background="WhiteSmoke" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Popup x:Name="popupChooseCategories" Margin="30" HorizontalAlignment="Left" MaxWidth="400">
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Drinks" />
-					</StackPanel>
-				</CheckBox>
+			<Border 
+                BorderBrush="#CCCC5E29"
+				Background="#DDFFFFFF"
+                BorderThickness="2"
+				>
+				<StackPanel>
+					<TextBlock Text="Please choose categories you like" FontSize="38" Foreground="#EECC5E29" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="20"/>
+					<TextBlock Text="In order to provide the best experience to you, please take a second to select what field you want to have for your trip" Foreground="#AACC5E29" TextAlignment="Justify" TextWrapping="Wrap" Margin="10"/>
+					<Grid Margin="30">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0" Margin="10">
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Food" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Restaurant" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox Foreground="#CCCC5E29">
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Drinks" Foreground="#CCCC5E29" />
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE114;" Margin="14,0" />
-						<TextBlock Text="Museum" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox Foreground="#CCCC5E29">
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Restaurant" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Pub" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox Foreground="#CCCC5E29">
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE114;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Museum" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE14D;" Margin="14,0" />
-						<TextBlock Text="Shopping" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Pub" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE1C4;" Margin="14,0" />
-						<TextBlock Text="Local Flavour" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE14D;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Shopping" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Ice Cream" />
-					</StackPanel>
-				</CheckBox>
+						</StackPanel>
+						<StackPanel Grid.Column="1" Margin="10">
+							
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE1C4;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Local Flavour" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Sport" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Ice Cream" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Beauty Spas" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29" />
+									<TextBlock Text="Sport" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-				<CheckBox Width="{Binding OpenPaneLength, ElementName=splitview}">
-					<StackPanel Orientation="Horizontal">
-						<FontIcon Glyph="&#xE170;" Margin="14,0" />
-						<TextBlock Text="Education" />
-					</StackPanel>
-				</CheckBox>
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Beauty Spas" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
-			</StackPanel>-->
-		<!--</Grid>-->
+							<CheckBox>
+								<StackPanel Orientation="Horizontal">
+									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Education" Foreground="#CCCC5E29"/>
+								</StackPanel>
+							</CheckBox>
 
+						</StackPanel>
+					</Grid>
+					<Button x:Name="FirstBootSaveButton" 
+							Margin="10" Content="Save"  HorizontalAlignment="Center" Foreground="#CCCC5E29" Background="#44CC5E29"/>
+				</StackPanel>
+			</Border>
+		</Popup>
 		<Pivot 
 			x:Name="rootPivot" 
 			HorizontalContentAlignment="Center" 
@@ -458,7 +479,7 @@
 					</StackPanel>
 				</PivotItem.Header>
 				
-				<StackPanel>
+				<StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 					<ProgressRing 
 						x:Name="ring" 
 						Visibility="Visible" 
@@ -468,13 +489,15 @@
 						Height="30" 
 						Width="30"
 						/>
-						<!-- ZOOM IN -->
-					<SemanticZoom>
-						<SemanticZoom.ZoomedInView>
-							<ListView ItemsSource="{x:Bind CollectionOfCollection}">
-								<ListView.ItemTemplate>
-									<DataTemplate>
-										<ScrollViewer 
+					<Grid>
+						<ScrollViewer IsScrollInertiaEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible">
+							<!-- ZOOM IN -->
+							<SemanticZoom ScrollViewer.ZoomMode="Enabled" ViewChangeStarted="SemanticZoom_ViewChangeStarted" VerticalAlignment="Stretch">
+								<SemanticZoom.ZoomedInView>
+									<ListView ItemsSource="{x:Bind CollectionOfCollection}" SelectionMode="None">
+										<ListView.ItemTemplate>
+											<DataTemplate>
+												<ScrollViewer 
 											ViewChanged="OnScrollViewerViewChanged" 
 											x:Name="yelp_scrollviewer" 
 											HorizontalAlignment="Stretch"
@@ -487,30 +510,30 @@
 											HorizontalScrollBarVisibility="Visible"
 											VerticalScrollBarVisibility="Disabled"
 											>
-											<GridView 
+													<GridView 
 												SelectionMode="Multiple" 
 												IsItemClickEnabled="True" 
 												SelectionChanged="yelpGridView_SelectionChanged" 
 												Margin="10" 
 												ItemsSource="{Binding}"
 												>
-												<GridView.ItemsPanel>
-													<ItemsPanelTemplate>
-														<ItemsWrapGrid 
+														<GridView.ItemsPanel>
+															<ItemsPanelTemplate>
+																<ItemsWrapGrid 
 															Orientation="Vertical" 
 															MaximumRowsOrColumns="1"
 															/>
-													</ItemsPanelTemplate>
-												</GridView.ItemsPanel>
+															</ItemsPanelTemplate>
+														</GridView.ItemsPanel>
 
-												<GridView.ItemTemplate>
-													<DataTemplate x:DataType="local:Business">
-														<StackPanel 
+														<GridView.ItemTemplate>
+															<DataTemplate x:DataType="local:Business">
+																<StackPanel 
 															Margin="10" 
 															BorderBrush="#88CC5E29" 
 															BorderThickness="1"
 															>
-															<TextBlock  
+																	<TextBlock  
 																Text="{x:Bind Name, Mode=OneWay}" 
 																TextAlignment="Center" 
 																TextWrapping="Wrap" 
@@ -518,58 +541,45 @@
 																Margin="5" 
 																Foreground="#FFCC5E29"
 																/>
-															<Image 
+																	<Image 
 																Source="{x:Bind PhotoUrl, Mode=OneWay}" 
 																MaxWidth="140" 
 																MaxHeight="140" 
 																Stretch="UniformToFill" 
 																Margin="5"
 																/>
-															<TextBlock 
+																	<TextBlock 
 																Text="{x:Bind Description, Mode=OneWay}" 
 																Margin="5" 
 																/>
-															<StackPanel 
-																Orientation="Horizontal" 
-																Margin="5"
-																>
-																<TextBlock 
-																	Text="Distance" 
-																	HorizontalAlignment="Left"
-																	/>
-																<TextBlock 
-																	Text="{x:Bind Distance, Mode=OneWay}" 
-																	TextAlignment="Right" 
-																	HorizontalAlignment="Right" 
-																	/>
-															</StackPanel>
-															<Image 
+																	<Image 
 																Source="{x:Bind Rating, Mode=OneWay}" 
 																MaxWidth="140" 
 																Margin="5" 
 																/>
-														</StackPanel>
-													</DataTemplate>
-												</GridView.ItemTemplate>
-											</GridView>
-										</ScrollViewer>
-									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
-						</SemanticZoom.ZoomedInView>
+																</StackPanel>
+															</DataTemplate>
+														</GridView.ItemTemplate>
+													</GridView>
+												</ScrollViewer>
+											</DataTemplate>
+										</ListView.ItemTemplate>
+									</ListView>
+								</SemanticZoom.ZoomedInView>
 
-						<!-- ZOOM OUT -->
-						<SemanticZoom.ZoomedOutView>
-							<ListView ItemsSource="{Binding}">
-								<ListViewItem>
-									<DataTemplate x:DataType="local:Categories">
-										<TextBlock Text="{x:Bind Categorie}" />
-									</DataTemplate>
-								</ListViewItem>
-							</ListView>
-						</SemanticZoom.ZoomedOutView>
-					</SemanticZoom>
-
+								<!-- ZOOM OUT -->
+								<SemanticZoom.ZoomedOutView>
+									<ListView ItemsSource="{x:Bind ListOfCategories}">
+										<ListView.ItemTemplate>
+											<DataTemplate x:DataType="local:Categories">
+												<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+											</DataTemplate>
+										</ListView.ItemTemplate>
+									</ListView>
+								</SemanticZoom.ZoomedOutView>
+							</SemanticZoom>
+						</ScrollViewer>
+					</Grid>
 					<Button
 						x:Name="SaveYelpButton"
 						Content="Save" 

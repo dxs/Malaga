@@ -35,6 +35,7 @@ namespace Malaga
 		Database DB;
 		DispatcherTimer yelpTimer, settingsTimer;
 		Yelp yelp = null;
+		List<GridViewItem> selectedItems;
 		ObservableCollection<Categories> listOfCategories;
 		public ObservableCollection<Categories> ListOfCategories { get { return listOfCategories; } }
 		ObservableCollection<MapPoint> collectionMapPoint;
@@ -68,7 +69,7 @@ namespace Malaga
 			SelectedPoint = new MapPoint();
 			Setup();
 			
-			if (!Settings.FirstBoot)
+			if (Settings.FirstBoot)
 				DisplayFirstBoot();
 			Settings.ReadSettings();
 			SetupYelpCollection(Settings.YelpCode);
@@ -205,23 +206,23 @@ namespace Malaga
 				key.Add(c);
 
 			listOfCategories = new ObservableCollection<Categories>();
-			listOfCategories.Add(new Categories() { Categorie = "Food" });
-			listOfCategories.Add(new Categories() { Categorie = "Drinks" });
-			listOfCategories.Add(new Categories() { Categorie = "Restaurant" });
-			listOfCategories.Add(new Categories() { Categorie = "Museum" });
-			listOfCategories.Add(new Categories() { Categorie = "Pub" });
-			listOfCategories.Add(new Categories() { Categorie = "Shopping" });
-			listOfCategories.Add(new Categories() { Categorie = "Local Flavour" });
-			listOfCategories.Add(new Categories() { Categorie = "Ice cream" });
-			listOfCategories.Add(new Categories() { Categorie = "Sport" });
-			listOfCategories.Add(new Categories() { Categorie = "Beauty" });
-			listOfCategories.Add(new Categories() { Categorie = "Education" });
+			listOfCategories.Add(new Categories() { Name = "Food" });
+			listOfCategories.Add(new Categories() { Name = "Drinks" });
+			listOfCategories.Add(new Categories() { Name = "Restaurant" });
+			listOfCategories.Add(new Categories() { Name = "Museum" });
+			listOfCategories.Add(new Categories() { Name = "Pub" });
+			listOfCategories.Add(new Categories() { Name = "Shopping" });
+			listOfCategories.Add(new Categories() { Name = "Local Flavour" });
+			listOfCategories.Add(new Categories() { Name = "Ice cream" });
+			listOfCategories.Add(new Categories() { Name = "Sport" });
+			listOfCategories.Add(new Categories() { Name = "Beauty" });
+			listOfCategories.Add(new Categories() { Name = "Education" });
 			int i = 0;
 			foreach(ObservableCollection<Business> collection in collectionOfCollection)
 			{
 				while (key[i] != '1')
 					i++;
-				await yelp.GetData(location, listOfCategories[i].Categorie, 100000, offset, 0, 0, town);
+				await yelp.GetData(location, listOfCategories[i].Name, 100000, offset, 0, 0, town);
 				ObservableCollection<Business> tmp = yelp.GetAllBusiness();
 				foreach (Business b in tmp)
 					collection.Add(b);
@@ -244,19 +245,6 @@ namespace Malaga
 			if (yelpCode[8] == '1') collectionOfCollection.Add(collectionBusinessSport);
 			if (yelpCode[9] == '1') collectionOfCollection.Add(collectionBusinessBeauty);
 			if (yelpCode[10] == '1') collectionOfCollection.Add(collectionBusinessEducation);
-		}
-
-		/// <summary>
-		/// Event called to show or not the save button
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void yelpGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			//if (yelpGridView.SelectedItems.Count > 0)
-			//	SaveYelpButton.Visibility = Visibility.Visible;
-			//else
-			//	SaveYelpButton.Visibility = Visibility.Collapsed;
 		}
 
 		#endregion
@@ -722,9 +710,17 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
 		{
-			
+			foreach(GridViewItem item in selectedItems)
+			{
+				StackPanel stack = item.Content as StackPanel;
+				TextBlock text = stack.Children[0] as TextBlock;
+				ConvertBusinessToMapPoint(Yelp.FindBusinessByName(text.Text, collectionOfCollection));
+
+			}
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
+			Bindings.Update();
+			rootPivot.SelectedIndex = 0;
 		}
 
 		/// <summary>
@@ -873,6 +869,24 @@ namespace Malaga
 
 		#region GridView
 
+		/// <summary>
+		/// Event called to show or not the save button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void yelpGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (selectedItems == null)
+				selectedItems = new List<GridViewItem>();
+			selectedItems.Add(e.AddedItems as GridViewItem);
+			selectedItems.Remove(e.RemovedItems as GridViewItem);
+			rootPivot.Title = selectedItems.Count.ToString();
+			if (selectedItems != null)
+				SaveYelpButton.Visibility = Visibility.Visible;
+			else
+				SaveYelpButton.Visibility = Visibility.Collapsed;
+		}
+
 		private async void pointGrid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
 		{
 			GridView listView = (GridView)sender;
@@ -897,6 +911,7 @@ namespace Malaga
 			this.Bindings.Update();
 		}
 
+
 		private void WriteSettings()
 		{
 			if(mapIconMe != null)
@@ -910,8 +925,21 @@ namespace Malaga
 
 		private void DisplayFirstBoot()
 		{
-			if(rootGrid.Visibility == Visibility.Visible)
-				;
+			if (!popupChooseCategories.IsOpen) { popupChooseCategories.IsOpen = true; }
+		}
+
+		#endregion
+
+		#region SementicZoom
+
+
+		private void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+		{
+			if (e.IsSourceZoomedInView == false)
+			{
+				e.DestinationItem.Item = e.SourceItem.Item;
+			}
+
 		}
 
 		#endregion

@@ -238,5 +238,20 @@ namespace Malaga
 					return business;
 			return new Business();
 		}
+
+		/// <summary>
+		/// Find a business given a name in a collection of collection of business
+		/// </summary>
+		/// <param name="Name"></param>
+		/// <param name="collection"></param>
+		/// <returns></returns>
+		public static Business FindBusinessByName(string Name, ObservableCollection<ObservableCollection<Business>> collection)
+		{
+			foreach (ObservableCollection<Business> item in collection)
+				foreach (Business business in item)
+					if (business.Name == Name)
+						return business;
+			return null;
+		}
 	}
 }

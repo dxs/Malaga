@@ -14,6 +14,6 @@ namespace Malaga
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Categorie;
+		public string Name { get; set; }
 	}
 }

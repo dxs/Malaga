@@ -12,7 +12,7 @@ namespace Malaga
 	public class Business
 	{
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		public string ID;
 		/// <summary>
