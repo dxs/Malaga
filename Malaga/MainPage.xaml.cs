@@ -35,6 +35,8 @@ namespace Malaga
 		Database DB;
 		DispatcherTimer yelpTimer, settingsTimer;
 		Yelp yelp = null;
+		ObservableCollection<Categories> listOfCategories;
+		public ObservableCollection<Categories> ListOfCategories { get { return listOfCategories; } }
 		ObservableCollection<MapPoint> collectionMapPoint;
 		ObservableCollection<MapPoint> CollectionMapPoint { get { return collectionMapPoint; } }
 		ObservableCollection<Business> collectionBusinessFood;
@@ -49,7 +51,7 @@ namespace Malaga
 		ObservableCollection<Business> collectionBusinessBeauty;
 		ObservableCollection<Business> collectionBusinessEducation;
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
-		ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
+		public ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
 		List<int> numberOfQuery = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		MapPoint SelectedPoint;
@@ -114,7 +116,7 @@ namespace Malaga
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private async void YelpTimer_Tick(object sender, object e)
+		private void YelpTimer_Tick(object sender, object e)
 		{
 			yelpTimer.Stop();
 			bool? isConnected = false;
@@ -176,8 +178,7 @@ namespace Malaga
 		/// <param name="query"></param>
 		/// <returns></returns>
 		private bool LoadYelp(int queryNb = 0, string query = "Food")
-		{
-			yelp_scrollviewer.ViewChanged -= OnScrollViewerViewChanged;
+		{ 
 			ring.Visibility = Visibility.Visible;
 			if (mapIconMe == null)
 				return false;
@@ -193,7 +194,6 @@ namespace Malaga
 			ring.Visibility = Visibility.Collapsed;
 			yelp.GetAllBusiness();
 			this.Bindings.Update();
-			yelp_scrollviewer.ViewChanged += OnScrollViewerViewChanged;
 			return true;
 		}
 
@@ -204,27 +204,30 @@ namespace Malaga
 			foreach (char c in Settings.YelpCode)
 				key.Add(c);
 
-			List<string> list = new List<string>();
-			list.Add("Food");
-			list.Add("Drinks");
-			list.Add("Restaurant");
-			list.Add("Museum");
-			list.Add("Pub");
-			list.Add("Shopping");
-			list.Add("Local Flavour");
-			list.Add("Ice cream");
-			list.Add("Sport");
-			list.Add("Beauty");
-			list.Add("Education");
+			listOfCategories = new ObservableCollection<Categories>();
+			listOfCategories.Add(new Categories() { Categorie = "Food" });
+			listOfCategories.Add(new Categories() { Categorie = "Drinks" });
+			listOfCategories.Add(new Categories() { Categorie = "Restaurant" });
+			listOfCategories.Add(new Categories() { Categorie = "Museum" });
+			listOfCategories.Add(new Categories() { Categorie = "Pub" });
+			listOfCategories.Add(new Categories() { Categorie = "Shopping" });
+			listOfCategories.Add(new Categories() { Categorie = "Local Flavour" });
+			listOfCategories.Add(new Categories() { Categorie = "Ice cream" });
+			listOfCategories.Add(new Categories() { Categorie = "Sport" });
+			listOfCategories.Add(new Categories() { Categorie = "Beauty" });
+			listOfCategories.Add(new Categories() { Categorie = "Education" });
 			int i = 0;
 			foreach(ObservableCollection<Business> collection in collectionOfCollection)
 			{
 				while (key[i] != '1')
 					i++;
-				await yelp.GetData(location, list[i], 100000, offset, 0, 0, town);
+				await yelp.GetData(location, listOfCategories[i].Categorie, 100000, offset, 0, 0, town);
 				ObservableCollection<Business> tmp = yelp.GetAllBusiness();
 				foreach (Business b in tmp)
 					collection.Add(b);
+				yelp.ClearCollection();
+				i++;
+				Bindings.Update();
 			}
 		}
 
@@ -792,14 +795,14 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
-			var HorizontalOffset = yelp_scrollviewer.HorizontalOffset;
-			var maxHorizontalOffset = yelp_scrollviewer.ScrollableWidth; //sv.ExtentHeight - sv.ViewportHeight;
+			//var HorizontalOffset = yelp_scrollviewer.HorizontalOffset;
+			//var maxHorizontalOffset = yelp_scrollviewer.ScrollableWidth; //sv.ExtentHeight - sv.ViewportHeight;
 
-			if (HorizontalOffset < 0 || HorizontalOffset == maxHorizontalOffset)// Scrolled to bottom
-				LoadYelp();
-			else// Not scrolled to bottom
-			{
-			}
+			//if (HorizontalOffset < 0 || HorizontalOffset == maxHorizontalOffset)// Scrolled to bottom
+			//	LoadYelp();
+			//else// Not scrolled to bottom
+			//{
+			//}
 		}
 
 		/// <summary>
@@ -891,6 +894,7 @@ namespace Malaga
 		private void SettingsTimer_Tick(object sender, object e)
 		{
 			WriteSettings();
+			this.Bindings.Update();
 		}
 
 		private void WriteSettings()

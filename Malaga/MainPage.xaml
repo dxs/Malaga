@@ -468,26 +468,27 @@
 						Height="30" 
 						Width="30"
 						/>
-					<ScrollViewer 
-						ViewChanged="OnScrollViewerViewChanged" 
-						x:Name="yelp_scrollviewer" 
-						IsScrollInertiaEnabled="True" 
-						IsVerticalRailEnabled="false"
-						HorizontalScrollMode="Enabled"
-						VerticalScrollMode="Disabled"
-						IsHorizontalRailEnabled="True"
-						HorizontalScrollBarVisibility="Visible"
-						VerticalScrollBarVisibility="Disabled"
-						>
-
 						<!-- ZOOM IN -->
-						<SemanticZoom>
-							<SemanticZoom.ZoomedInView>
-								<ListView ItemsSource="{Binding CollectionOfCollection}">
-									<ListView.ItemTemplate>
-										<DataTemplate>
+					<SemanticZoom>
+						<SemanticZoom.ZoomedInView>
+							<ListView ItemsSource="{x:Bind CollectionOfCollection}">
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<ScrollViewer 
+											ViewChanged="OnScrollViewerViewChanged" 
+											x:Name="yelp_scrollviewer" 
+											HorizontalAlignment="Stretch"
+											VerticalAlignment="Stretch"
+											IsScrollInertiaEnabled="True" 
+											IsVerticalRailEnabled="false"
+											HorizontalScrollMode="Enabled"
+											VerticalScrollMode="Disabled"
+											IsHorizontalRailEnabled="True"
+											HorizontalScrollBarVisibility="Visible"
+											VerticalScrollBarVisibility="Disabled"
+											>
 											<GridView 
-												SelectionMode="None" 
+												SelectionMode="Multiple" 
 												IsItemClickEnabled="True" 
 												SelectionChanged="yelpGridView_SelectionChanged" 
 												Margin="10" 
@@ -503,14 +504,14 @@
 												</GridView.ItemsPanel>
 
 												<GridView.ItemTemplate>
-													<DataTemplate>
+													<DataTemplate x:DataType="local:Business">
 														<StackPanel 
 															Margin="10" 
 															BorderBrush="#88CC5E29" 
 															BorderThickness="1"
 															>
 															<TextBlock  
-																Text="{Binding Name, Mode=OneWay}" 
+																Text="{x:Bind Name, Mode=OneWay}" 
 																TextAlignment="Center" 
 																TextWrapping="Wrap" 
 																HorizontalAlignment="Center" 
@@ -518,14 +519,14 @@
 																Foreground="#FFCC5E29"
 																/>
 															<Image 
-																Source="{Binding PhotoUrl, Mode=OneWay}" 
+																Source="{x:Bind PhotoUrl, Mode=OneWay}" 
 																MaxWidth="140" 
 																MaxHeight="140" 
 																Stretch="UniformToFill" 
 																Margin="5"
 																/>
 															<TextBlock 
-																Text="{Binding Description, Mode=OneWay}" 
+																Text="{x:Bind Description, Mode=OneWay}" 
 																Margin="5" 
 																/>
 															<StackPanel 
@@ -537,13 +538,13 @@
 																	HorizontalAlignment="Left"
 																	/>
 																<TextBlock 
-																	Text="{Binding Distance, Mode=OneWay}" 
+																	Text="{x:Bind Distance, Mode=OneWay}" 
 																	TextAlignment="Right" 
 																	HorizontalAlignment="Right" 
 																	/>
 															</StackPanel>
 															<Image 
-																Source="{Binding Rating, Mode=OneWay}" 
+																Source="{x:Bind Rating, Mode=OneWay}" 
 																MaxWidth="140" 
 																Margin="5" 
 																/>
@@ -551,21 +552,23 @@
 													</DataTemplate>
 												</GridView.ItemTemplate>
 											</GridView>
-										</DataTemplate>
-									</ListView.ItemTemplate>
-								</ListView>
-							</SemanticZoom.ZoomedInView>
+										</ScrollViewer>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</SemanticZoom.ZoomedInView>
 
-							<!-- ZOOM OUT -->
-							<SemanticZoom.ZoomedOutView>
-								<ListView>
-									<ListViewItem>
-										<TextBlock Text="Main"/>
-									</ListViewItem>
-								</ListView>
-							</SemanticZoom.ZoomedOutView>
-						</SemanticZoom>
-					</ScrollViewer>
+						<!-- ZOOM OUT -->
+						<SemanticZoom.ZoomedOutView>
+							<ListView ItemsSource="{Binding}">
+								<ListViewItem>
+									<DataTemplate x:DataType="local:Categories">
+										<TextBlock Text="{x:Bind Categorie}" />
+									</DataTemplate>
+								</ListViewItem>
+							</ListView>
+						</SemanticZoom.ZoomedOutView>
+					</SemanticZoom>
 
 					<Button
 						x:Name="SaveYelpButton"

@@ -221,6 +221,11 @@ namespace Malaga
 			return collectionBusiness;
 		}
 
+		public void ClearCollection()
+		{
+			collectionBusiness.Clear();
+		}
+
 		/// <summary>
 		/// Search a Business by his Id
 		/// </summary>
