@@ -26,42 +26,42 @@
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
 						<StackPanel Grid.Column="0" Margin="10">
-							<CheckBox>
+							<CheckBox Foreground="#CCCC5E29" x:Name="checkBoxFood">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Food" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox Foreground="#CCCC5E29">
+							<CheckBox x:Name="checkBoxDrinks" Foreground="#CCCC5E29">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Drinks" Foreground="#CCCC5E29" />
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox Foreground="#CCCC5E29">
+							<CheckBox x:Name="checkBoxRestaurant" Foreground="#CCCC5E29">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Restaurant" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox Foreground="#CCCC5E29">
+							<CheckBox x:Name="checkBoxMuseum" Foreground="#CCCC5E29">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE114;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Museum" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox>
+							<CheckBox x:Name="checkBoxPub">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Pub" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox>
+							<CheckBox x:Name="checkBoxShopping">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE14D;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Shopping" Foreground="#CCCC5E29"/>
@@ -70,36 +70,36 @@
 
 						</StackPanel>
 						<StackPanel Grid.Column="1" Margin="10">
-							
-							<CheckBox>
+
+							<CheckBox x:Name="checkBoxLocal">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE1C4;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Local Flavour" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox>
+							<CheckBox x:Name="checkBoxIce">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Ice Cream" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox>
+							<CheckBox x:Name="checkBoxSport">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29" />
 									<TextBlock Text="Sport" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox>
+							<CheckBox x:Name="checkBoxBeauty">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Beauty Spas" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
-							<CheckBox>
+							<CheckBox x:Name="checkBoxEducation">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
 									<TextBlock Text="Education" Foreground="#CCCC5E29"/>
@@ -109,6 +109,7 @@
 						</StackPanel>
 					</Grid>
 					<Button x:Name="FirstBootSaveButton" 
+							Click="FirstBootSaveButton_Click"
 							Margin="10" Content="Save"  HorizontalAlignment="Center" Foreground="#CCCC5E29" Background="#44CC5E29"/>
 				</StackPanel>
 			</Border>
@@ -492,7 +493,7 @@
 					<Grid>
 						<ScrollViewer IsScrollInertiaEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible">
 							<!-- ZOOM IN -->
-							<SemanticZoom ScrollViewer.ZoomMode="Enabled" ViewChangeStarted="SemanticZoom_ViewChangeStarted" VerticalAlignment="Stretch">
+							<SemanticZoom ScrollViewer.ZoomMode="Enabled" ViewChangeStarted="SemanticZoom_ViewChangeStarted" VerticalAlignment="Stretch" IsZoomOutButtonEnabled="True">
 								<SemanticZoom.ZoomedInView>
 									<ListView ItemsSource="{x:Bind CollectionOfCollection}" SelectionMode="None">
 										<ListView.ItemTemplate>

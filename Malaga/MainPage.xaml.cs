@@ -69,7 +69,7 @@ namespace Malaga
 			SelectedPoint = new MapPoint();
 			Setup();
 			
-			if (Settings.FirstBoot)
+			if (!Settings.FirstBoot)//To change debugging purposes
 				DisplayFirstBoot();
 			Settings.ReadSettings();
 			SetupYelpCollection(Settings.YelpCode);
@@ -558,6 +558,73 @@ namespace Malaga
 		#endregion
 
 		#region buttonEvent
+
+
+		private void FirstBootSaveButton_Click(object sender, RoutedEventArgs e)
+		{
+			string setting = "";
+
+			if (checkBoxFood.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxDrinks.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxRestaurant.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxMuseum.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxPub.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxShopping.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxLocal.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxIce.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxSport.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxBeauty.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			if (checkBoxEducation.IsChecked == true)
+				setting += "1";
+			else
+				setting += "0";
+
+			Settings.YelpCode = setting;
+			SetupYelpCollection(Settings.YelpCode);
+			yelpTimer.Start();
+			popupChooseCategories.IsOpen = false;
+		}
+
 		/// <summary>
 		/// Event called when user presses DeleteButton
 		/// </summary>
@@ -922,9 +989,63 @@ namespace Malaga
 					);
 		}
 
-
 		private void DisplayFirstBoot()
 		{
+			if (Settings.YelpCode[0] == '1')
+				checkBoxFood.IsChecked = true;
+			else
+				checkBoxFood.IsChecked = false;
+
+			if (Settings.YelpCode[1] == '1')
+				checkBoxDrinks.IsChecked = true;
+			else
+				checkBoxDrinks.IsChecked = false;
+
+			if (Settings.YelpCode[2] == '1')
+				checkBoxRestaurant.IsChecked = true;
+			else
+				checkBoxRestaurant.IsChecked = false;
+
+			if (Settings.YelpCode[3] == '1')
+				checkBoxMuseum.IsChecked = true;
+			else
+				checkBoxMuseum.IsChecked = false;
+
+			if (Settings.YelpCode[4] == '1')
+				checkBoxPub.IsChecked = true;
+			else
+				checkBoxPub.IsChecked = false;
+
+			if (Settings.YelpCode[5] == '1')
+				checkBoxShopping.IsChecked = true;
+			else
+				checkBoxShopping.IsChecked = false;
+
+			if (Settings.YelpCode[6] == '1')
+				checkBoxLocal.IsChecked = true;
+			else
+				checkBoxLocal.IsChecked = false;
+
+			if (Settings.YelpCode[7] == '1')
+				checkBoxIce.IsChecked = true;
+			else
+				checkBoxIce.IsChecked = false;
+
+			if (Settings.YelpCode[8] == '1')
+				checkBoxSport.IsChecked = true;
+			else
+				checkBoxSport.IsChecked = false;
+
+			if (Settings.YelpCode[9] == '1')
+				checkBoxBeauty.IsChecked = true;
+			else
+				checkBoxBeauty.IsChecked = false;
+
+			if (Settings.YelpCode[10] == '1')
+				checkBoxEducation.IsChecked = true;
+			else
+				checkBoxEducation.IsChecked = false;
+
 			if (!popupChooseCategories.IsOpen) { popupChooseCategories.IsOpen = true; }
 		}
 
