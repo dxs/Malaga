@@ -1357,5 +1357,13 @@ namespace Malaga
 		//}
 
 		#endregion
+
+		#region TMP_TODELETE
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			popupChooseCategories.IsOpen = true;
+			rootPivot.SelectedIndex = 0;
+		}
+		#endregion
 	}
 }

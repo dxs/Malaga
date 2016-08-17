@@ -102,7 +102,7 @@
 							<CheckBox x:Name="checkBoxEducation">
 								<StackPanel Orientation="Horizontal">
 									<FontIcon Glyph="&#xE170;" Margin="14,0" Foreground="#CCCC5E29"/>
-									<TextBlock Text="Education" Foreground="#CCCC5E29"/>
+									<TextBlock Text="Club" Foreground="#CCCC5E29"/>
 								</StackPanel>
 							</CheckBox>
 
@@ -660,8 +660,8 @@
 					</StackPanel>
 				</PivotItem.Header>
 				<StackPanel>
-				<TextBlock Text="Content of pivot item 3."/>
-					<Button Content="Popup" 
+					<TextBlock Text="Content of pivot item 3."/>
+					<Button Content="Popup" Click="Button_Click" />
 				</StackPanel>
 			</PivotItem>
 		</Pivot>
