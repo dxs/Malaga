@@ -10,13 +10,13 @@ using System.Collections.ObjectModel;
 using Windows.Foundation;
 using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
+using Windows.Storage;
 
 namespace Malaga
 {
 	class Database
 	{
 
-		public static int nextId { get; set; }
 		public static double CurrentLatitude { get; set; }
 		public static double CurrentLongitude { get; set; }
 		private static string dbPath = string.Empty;
@@ -31,7 +31,6 @@ namespace Malaga
 		{
 			if(string.IsNullOrEmpty(dbPath))
 				dbPath = System.IO.Path.Combine(path, "MapPoint.sqlite");
-			nextId = 0;
 			CurrentLatitude = 0.00;
 			CurrentLongitude = 0.0;
 		}
@@ -47,7 +46,7 @@ namespace Malaga
 		/// <summary>
 		/// Setup Database and create table if not already exist
 		/// </summary>
-		public async Task<bool> setDB()
+		public bool setDB()
 		{
 			if(!string.IsNullOrEmpty(dbPath))
 			using (var DB = DbConnection)
@@ -60,11 +59,16 @@ namespace Malaga
 		}
 
 		/// <summary>
-		/// Delete an entry in Databas
+		/// Delete an entry in Database
 		/// </summary>
 		/// <param name="point">MapPoint to Delete</param>
-		public void DeleteMapPoint(MapPoint point)
+		public async void DeleteMapPoint(MapPoint point)
 		{
+			StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Photos", CreationCollisionOption.OpenIfExists);
+			StorageFile file = await folder.CreateFileAsync(point.Id + ".jpg", CreationCollisionOption.OpenIfExists);
+			await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+			file = await folder.CreateFileAsync("Thumbnail-" + point.Id + ".jpg", CreationCollisionOption.OpenIfExists);
+			await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
 			using (var DB = DbConnection)
 				DB.Execute("DELETE FROM MapPoint WHERE Id = ?", point.Id);
 		}
@@ -93,8 +97,6 @@ namespace Malaga
 				list = (from m in DB.Table<MapPoint>() select m).ToList();
 			foreach (MapPoint item in list)
 				pointList.Add(item);
-			if (pointList.Count > 0)
-				nextId = pointList[pointList.Count - 1].Id + 1;
 			return pointList;
 		}
 
@@ -103,7 +105,7 @@ namespace Malaga
 		/// </summary>
 		/// <param name="_Id"></param>
 		/// <returns>MapPoint</returns>
-		public MapPoint GetPointById(int _Id)
+		public MapPoint GetPointById(string _Id)
 		{
 			using (var DB = DbConnection)
 			{
@@ -164,7 +166,7 @@ namespace Malaga
 		/// <param name="_Type">Type d'endroit</param>
 		/// <param name="_PhotoUrl">URL de la photo</param>
 		/// <returns>MapPoint</returns>
-		public async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type, string _PhotoUrl)
+		public async Task<MapPoint> createMapPoint(string _Id, string _Name, string _Description, double _Latitude, double _Longitude, string _Type, string _PhotoUrl, string _ThumbnailUrl)
 		{
 			MapPoint _point = new MapPoint();
 			_point.Id = _Id;
@@ -178,6 +180,7 @@ namespace Malaga
 			_point.Type = _Type;
 			_point.Description = _Description;
 			_point.PhotoUrl = _PhotoUrl;
+			_point.ThumbnailUrl = _ThumbnailUrl;
 			return _point;
 		}
 
@@ -192,7 +195,7 @@ namespace Malaga
 		/// <param name="_Type">Type d'endroits</param>
 		/// <param name="_PhotoUrl">URL de la photo</param>
 		/// <returns>MapPoint</returns>
-		public async Task<MapPoint> createMapPoint(int _Id, string _Name, string _Description, string _Street, string _Town, string _Type, string _PhotoUrl)
+		public async Task<MapPoint> createMapPoint(string _Id, string _Name, string _Description, string _Street, string _Town, string _Type, string _PhotoUrl, string _Thumbnail)
 		{
 			MapPoint _point = new MapPoint();
 			_point.Id = _Id;
@@ -205,6 +208,7 @@ namespace Malaga
 			_point.Type = _Type;
 			_point.Description = _Description;
 			_point.PhotoUrl = _PhotoUrl;
+			_point.ThumbnailUrl = _Thumbnail;
 			return _point;
 		}
 

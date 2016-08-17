@@ -50,7 +50,7 @@ namespace Malaga
 		ObservableCollection<Business> collectionBusinessIceCream;
 		ObservableCollection<Business> collectionBusinessSport;
 		ObservableCollection<Business> collectionBusinessBeauty;
-		ObservableCollection<Business> collectionBusinessEducation;
+		ObservableCollection<Business> collectionBusinessClub;
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
 		public ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
 		List<int> numberOfQuery = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -81,9 +81,9 @@ namespace Malaga
 		/// <summary>
 		/// Setup de base pour le lancement de l'app
 		/// </summary>
-		private async void Setup()
+		private void Setup()
 		{
-			await DB.setDB();
+			DB.setDB();
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
 
@@ -109,7 +109,7 @@ namespace Malaga
 			collectionBusinessSport = new ObservableCollection<Business>();
 			collectionBusinessIceCream = new ObservableCollection<Business>();
 			collectionBusinessBeauty = new ObservableCollection<Business>();
-			collectionBusinessEducation = new ObservableCollection<Business>();
+			collectionBusinessClub = new ObservableCollection<Business>();
 		}
 
 		/// <summary>
@@ -216,7 +216,7 @@ namespace Malaga
 			listOfCategories.Add(new Categories() { Name = "Ice cream" });
 			listOfCategories.Add(new Categories() { Name = "Sport" });
 			listOfCategories.Add(new Categories() { Name = "Beauty" });
-			listOfCategories.Add(new Categories() { Name = "Education" });
+			listOfCategories.Add(new Categories() { Name = "Club" });
 			int i = 0;
 			foreach(ObservableCollection<Business> collection in collectionOfCollection)
 			{
@@ -246,7 +246,7 @@ namespace Malaga
 			if (yelpCode[7] == '1') collectionOfCollection.Add(collectionBusinessIceCream);
 			if (yelpCode[8] == '1') collectionOfCollection.Add(collectionBusinessSport);
 			if (yelpCode[9] == '1') collectionOfCollection.Add(collectionBusinessBeauty);
-			if (yelpCode[10] == '1') collectionOfCollection.Add(collectionBusinessEducation);
+			if (yelpCode[10] == '1') collectionOfCollection.Add(collectionBusinessClub);
 		}
 
 		#endregion
@@ -289,7 +289,6 @@ namespace Malaga
 				mapIcon1.Location = loc;
 				mapIcon1.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
 				mapIcon1.Title = point.Name;
-				mapIcon1.ZIndex = point.Id;
 				mapIcon1.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
 				Uri picPath = new Uri("ms-appx:///Assets/bar.png");
 				switch (point.Type)
@@ -307,6 +306,7 @@ namespace Malaga
 						picPath = new Uri("ms-appx:///Assets/visit.png");
 						break;
 					default:
+						picPath = new Uri("ms-appdata:///local/Photos/Thumbnail-"+point.Id+".jpg");
 						break;
 				}
 				mapIcon1.Image = RandomAccessStreamReference.CreateFromUri(picPath);
@@ -407,14 +407,14 @@ namespace Malaga
 		/// <param name="args"></param>
 		private async void mainMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
 		{
-			MapPoint point = DB.GetPointById(args.MapElements[0].ZIndex);
-			if (point == null)
-				return;
-			UpdateButton.Content = "Update";
-			EditPointUI(point);
-			mainMap.MapElements.Remove(tmpIcon);
-			await CenterMap(point);
-			mainMap.MapElements.Remove(tmpIcon);
+			//MapPoint point = DB.GetPointByName(args.MapElements[0].);
+			//if (point == null)
+			//	return;
+			//UpdateButton.Content = "Update";
+			//EditPointUI(point);
+			//mainMap.MapElements.Remove(tmpIcon);
+			//await CenterMap(point);
+			//mainMap.MapElements.Remove(tmpIcon);
 		}
 
 		/// <summary>
@@ -562,6 +562,13 @@ namespace Malaga
 		#region buttonEvent
 
 
+		private void refreshButton_Click(object sender, RoutedEventArgs e)
+		{
+			collectionMapPoint = DB.GetAllPoints();
+			setPOI();
+			this.Bindings.Update();
+		}
+
 		private void FirstBootSaveButton_Click(object sender, RoutedEventArgs e)
 		{
 			string setting = "";
@@ -636,6 +643,7 @@ namespace Malaga
 		{
 			DB.DeleteMapPoint(SelectedPoint);
 			HideEditUI(true);
+			Bindings.Update();
 		}
 
 		/// <summary>
@@ -662,6 +670,7 @@ namespace Malaga
 			}
 
 			UpdateCall();
+			Bindings.Update();
 		}
 
 		private async void UpdateCall()
@@ -726,12 +735,11 @@ namespace Malaga
 			SelectedPoint.PhotoUrl = "ms-appx:///Assets/barBig.png";
 			if (UpdateButton.Content.ToString() == "Create")
 			{
-				SelectedPoint.Id = Database.nextId++;
+				SelectedPoint.Id = Business.RandomId();
 				mainMap.MapElements.Remove(tmpIcon);
 			}
 			DB.SaveMapPoint(SelectedPoint);
 			collectionMapPoint = DB.GetAllPoints();
-			Bindings.Update();
 			HideEditUI(true);
 		}
 
@@ -758,6 +766,7 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void HideButton_Click(object sender, RoutedEventArgs e)
 		{
+			Bindings.Update();
 			HideEditUI(true);
 		}
 
@@ -777,8 +786,9 @@ namespace Malaga
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
+		private async void SaveYelpButton_Click(object sender, RoutedEventArgs e)
 		{
+			selectedItems = await Business.SaveAndTransformImage(selectedItems);
 			foreach(Business item in selectedItems)
 				ConvertBusinessToMapPoint(item);
 
@@ -795,7 +805,7 @@ namespace Malaga
 		/// <param name="business"></param>
 		private async void ConvertBusinessToMapPoint(Business business)
 		{
-			MapPoint point = await DB.createMapPoint(Database.nextId++, business.Name, business.Description, business.Latitude, business.Longitude, "bar", business.PhotoUrl);
+			MapPoint point = await DB.createMapPoint(business.ID, business.Name, business.Description, business.Latitude, business.Longitude, "Yelp", business.PhotoUrl, business.ThumbnailUrl);
 			DB.SaveMapPoint(point);
 		}
 		#endregion
@@ -990,8 +1000,6 @@ namespace Malaga
 						mapIconMe.Location.Position.Longitude
 					);
 		}
-
-
 
 		private void DisplayFirstBoot()
 		{

@@ -291,7 +291,8 @@
 							Background="WhiteSmoke"
 							IsEnabled="True" 
 							IsScrollInertiaEnabled="True" 
-							IsVerticalRailEnabled="True" 
+							IsVerticalRailEnabled="True"
+							Margin="10"
 							Tapped="scrollview_Tapped"
 							>
 							<StackPanel>
@@ -300,21 +301,33 @@
 									x:Name="pointGrid" 
 									Tapped="pointGrid_Tapped"
 									RightTapped="pointGrid_RightTapped"
-									ItemsSource="{x:Bind CollectionMapPoint}"
+									IsRightTapEnabled="True"
+									ItemsSource="{x:Bind CollectionMapPoint}"						FocusVisualSecondaryBrush="#33CC5E29"
 									>
 									<GridView.ItemTemplate>
-										<DataTemplate 
-											
-											>
-											<StackPanel>
+										<DataTemplate >
+											<StackPanel 
+												Margin="10"
+												BorderBrush="#88CC5E29" 
+												BorderThickness="1"
+												>
 												<Image 
 													Source="{Binding PhotoUrl, Mode=OneWay}" 
 													MaxWidth="120" 
 													MaxHeight="120" 
 													Stretch="UniformToFill"
+													Margin="10"
 													/>
-												<TextBlock Text="{Binding Name, Mode=OneWay}" />
-												<TextBlock Text="{Binding Description, Mode=OneWay}" />
+												<TextBlock 
+													Foreground="#CCCC5E29" 
+													Text="{Binding Name, Mode=OneWay}" 
+													Margin="5"
+													/>
+												<TextBlock 
+													Foreground="#CCCC5E29"
+													Text="{Binding Description, Mode=OneWay}"
+													Margin="5"
+													/>
 											</StackPanel>
 										</DataTemplate>
 									</GridView.ItemTemplate>
@@ -438,6 +451,24 @@
 									/>
 							</StackPanel>
 						</Button>
+						<Button
+							x:Name="refreshButton"
+							Background="Transparent"
+							Click="refreshButton_Click"
+							Foreground="#BBCC5E29"
+							>
+							<StackPanel>
+								<FontIcon
+									Glyph="&#xE117;"
+									HorizontalAlignment="Center"
+									/>
+								<TextBlock
+									Text="Refresh"
+									HorizontalAlignment="Center"
+									FontSize="12"
+									/>
+							</StackPanel>
+						</Button>
 					</StackPanel>
 				</Grid>
 			</PivotItem>
@@ -492,16 +523,14 @@
 					<Grid>
 						<ScrollViewer IsScrollInertiaEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible">
 							<!-- ZOOM IN -->
-							<SemanticZoom ScrollViewer.ZoomMode="Enabled" ViewChangeStarted="SemanticZoom_ViewChangeStarted" VerticalAlignment="Stretch" IsZoomOutButtonEnabled="True">
+							<SemanticZoom ScrollViewer.ZoomMode="Enabled" ViewChangeStarted="SemanticZoom_ViewChangeStarted" IsZoomOutButtonEnabled="True">
 								<SemanticZoom.ZoomedInView>
 									<ListView ItemsSource="{x:Bind CollectionOfCollection}" SelectionMode="None">
 										<ListView.ItemTemplate>
 											<DataTemplate>
 												<ScrollViewer 
 											ViewChanged="OnScrollViewerViewChanged" 
-											x:Name="yelp_scrollviewer" 
-											HorizontalAlignment="Stretch"
-											VerticalAlignment="Stretch"
+											x:Name="yelp_scrollviewer"
 											IsScrollInertiaEnabled="True" 
 											IsVerticalRailEnabled="false"
 											HorizontalScrollMode="Enabled"
@@ -630,7 +659,10 @@
 							/>
 					</StackPanel>
 				</PivotItem.Header>
+				<StackPanel>
 				<TextBlock Text="Content of pivot item 3."/>
+					<Button Content="Popup" 
+				</StackPanel>
 			</PivotItem>
 		</Pivot>
 	</Grid>

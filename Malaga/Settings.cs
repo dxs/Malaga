@@ -18,7 +18,7 @@ namespace Malaga
 		private static Point lastPosition = new Point(0.00,0.00);
 		public static Point LastPosition { get { return lastPosition; } set { lastPosition = value; WriteGPS(); } }
 		/*[Food,Drinks,Restaurant,Museum,Pub,Shopping,LocalFlavour,IceCream,Sport,Beauty,Education]*/
-		private static string yelpCode = "11010110010"; 
+		private static string yelpCode = "11010110011"; 
 		public static string YelpCode { get { return yelpCode; } set { yelpCode = value;  WriteYelp(); } }
 
 		/// <summary>

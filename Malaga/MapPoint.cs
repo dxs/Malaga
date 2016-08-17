@@ -16,8 +16,8 @@ namespace Malaga
 		/// <summary>
 		/// Gets or sets the identifier.
 		/// </summary>
-		[PrimaryKey, AutoIncrement]
-		public int Id { get; set; }
+		[PrimaryKey]
+		public string Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.
@@ -59,5 +59,10 @@ namespace Malaga
 		/// Gets or sets the url of the image
 		/// </summary>
 		public string PhotoUrl { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Thumbnail url of the image
+		/// </summary>
+		public string ThumbnailUrl { get; set; }
 	}
 }
