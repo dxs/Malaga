@@ -119,7 +119,6 @@
 			HorizontalContentAlignment="Center" 
 			SelectionChanged="rootPivot_SelectionChanged" 
 			HeaderFocusVisualPlacement="ItemHeaders"
-			Title="Malaga"
 			>
 			<!--Page One, Map Page-->
 			<PivotItem>
@@ -514,7 +513,7 @@
 													<GridView 
 												SelectionMode="Multiple" 
 												IsItemClickEnabled="True" 
-												SelectionChanged="yelpGridView_SelectionChanged" 
+												ItemClick="GridView_ItemClick"
 												Margin="10" 
 												ItemsSource="{Binding}"
 												>

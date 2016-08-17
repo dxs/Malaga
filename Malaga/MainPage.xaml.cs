@@ -35,7 +35,7 @@ namespace Malaga
 		Database DB;
 		DispatcherTimer yelpTimer, settingsTimer;
 		Yelp yelp = null;
-		List<GridViewItem> selectedItems;
+		List<Business> selectedItems;
 		ObservableCollection<Categories> listOfCategories;
 		public ObservableCollection<Categories> ListOfCategories { get { return listOfCategories; } }
 		ObservableCollection<MapPoint> collectionMapPoint;
@@ -69,7 +69,7 @@ namespace Malaga
 			SelectedPoint = new MapPoint();
 			Setup();
 			
-			if (!Settings.FirstBoot)//To change debugging purposes
+			if (Settings.FirstBoot)
 				DisplayFirstBoot();
 			Settings.ReadSettings();
 			SetupYelpCollection(Settings.YelpCode);
@@ -220,6 +220,8 @@ namespace Malaga
 			int i = 0;
 			foreach(ObservableCollection<Business> collection in collectionOfCollection)
 			{
+				if (i >= key.Count - 1)
+					return;
 				while (key[i] != '1')
 					i++;
 				await yelp.GetData(location, listOfCategories[i].Name, 100000, offset, 0, 0, town);
@@ -777,13 +779,10 @@ namespace Malaga
 		/// <param name="e"></param>
 		private void SaveYelpButton_Click(object sender, RoutedEventArgs e)
 		{
-			foreach(GridViewItem item in selectedItems)
-			{
-				StackPanel stack = item.Content as StackPanel;
-				TextBlock text = stack.Children[0] as TextBlock;
-				ConvertBusinessToMapPoint(Yelp.FindBusinessByName(text.Text, collectionOfCollection));
+			foreach(Business item in selectedItems)
+				ConvertBusinessToMapPoint(item);
 
-			}
+			SaveYelpButton.Visibility = Visibility.Collapsed;
 			collectionMapPoint = DB.GetAllPoints();
 			setPOI();
 			Bindings.Update();
@@ -941,14 +940,17 @@ namespace Malaga
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void yelpGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void GridView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (selectedItems == null)
-				selectedItems = new List<GridViewItem>();
-			selectedItems.Add(e.AddedItems as GridViewItem);
-			selectedItems.Remove(e.RemovedItems as GridViewItem);
-			rootPivot.Title = selectedItems.Count.ToString();
-			if (selectedItems != null)
+				selectedItems = new List<Business>();
+			Business read = e.ClickedItem as Business;
+			if (selectedItems.Contains(read))
+				selectedItems.Remove(read);
+			else
+				selectedItems.Add(e.ClickedItem as Business);
+
+			if (selectedItems.Count > 0)
 				SaveYelpButton.Visibility = Visibility.Visible;
 			else
 				SaveYelpButton.Visibility = Visibility.Collapsed;
@@ -989,8 +991,11 @@ namespace Malaga
 					);
 		}
 
+
+
 		private void DisplayFirstBoot()
 		{
+			yelpTimer.Stop();
 			if (Settings.YelpCode[0] == '1')
 				checkBoxFood.IsChecked = true;
 			else
