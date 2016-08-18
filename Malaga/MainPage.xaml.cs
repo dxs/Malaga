@@ -8,7 +8,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
+using Windows.Devices.Geolocation.Geofencing;
 using Windows.Foundation;
 using Windows.Networking.Connectivity;
 using Windows.Services.Maps;
@@ -23,6 +26,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
 namespace Malaga
@@ -53,6 +57,10 @@ namespace Malaga
 		ObservableCollection<Business> collectionBusinessClub;
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
 		public ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
+		Geolocator GPS;
+		private MainPage _rootPage = MainPage.Current;
+		public IList<Geofence> geofences { get; private set; }
+
 		List<int> numberOfQuery = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 		MapPoint SelectedPoint;
@@ -65,6 +73,8 @@ namespace Malaga
 		public MainPage()
 		{
 			this.InitializeComponent();
+			_geofenceBackgroundEvents = new ObservableCollection<string>();
+
 			DB = new Database(ApplicationData.Current.LocalFolder.Path);
 			SelectedPoint = new MapPoint();
 			Setup();
@@ -476,14 +486,14 @@ namespace Malaga
 			switch (accessStatus)
 			{
 				case GeolocationAccessStatus.Allowed:
-					var myPosition = new Geolocator { ReportInterval = 500 };
-					myPosition.DesiredAccuracy = PositionAccuracy.High;
-					Geoposition pos = await myPosition.GetGeopositionAsync();
+					GPS = new Geolocator { ReportInterval = 500 };
+					GPS.DesiredAccuracy = PositionAccuracy.High;
+					Geoposition pos = await GPS.GetGeopositionAsync();
 					Geopoint loc = new Geopoint(new BasicGeoposition()
 					{ Latitude = pos.Coordinate.Point.Position.Latitude, Longitude = pos.Coordinate.Point.Position.Longitude });
 					await mainMap.TrySetViewAsync(loc, 19, 0, 0, Windows.UI.Xaml.Controls.Maps.MapAnimationKind.Bow);
 					// Subscribe to the PositionChanged event to get location updates.
-					myPosition.PositionChanged += MyPosition_PositionChanged;
+					GPS.PositionChanged += MyPosition_PositionChanged;
 					break;
 
 				case GeolocationAccessStatus.Denied:
@@ -1064,6 +1074,94 @@ namespace Malaga
 
 		#endregion
 
+		#region GEOFence
+		private const string SampleBackgroundTaskName = "SampleGeofenceBackgroundTask";
+		private const string SampleBackgroundTaskEntryPoint = "BackgroundTask.GeofenceBackgroundTask";
+		private const long oneHundredNanosecondsPerSecond = 10000000;    // conversion from 100 nano-second resolution to seconds
+		private IBackgroundTaskRegistration _geofenceTask = null;
+		private ObservableCollection<string> _geofenceBackgroundEvents = null;
+			
+		private void SetupGeoFence()
+		{
+			// Loop through all background tasks to see if SampleGeofenceBackgroundTask is already registered
+			foreach (var cur in BackgroundTaskRegistration.AllTasks)
+			{
+				if (cur.Value.Name == SampleBackgroundTaskName)
+				{
+					_geofenceTask = cur.Value;
+					break;
+				}
+			}
+			if (_geofenceTask != null)
+
+			{
+				FillEventListBoxWithExistingEvents();
+				// Associate an event handler with the existing background task
+				_geofenceTask.Completed += OnCompleted;
+				try
+				{
+					BackgroundAccessStatus backgroundAccessStatus = BackgroundExecutionManager.GetAccessStatus();
+					switch (backgroundAccessStatus)
+					{
+						case BackgroundAccessStatus.AlwaysAllowed:
+						case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
+							break;
+						default:
+							break;
+					}
+				}
+				catch (Exception ex)
+				{ }
+			}
+		}
+
+		async private void OnCompleted(IBackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs e)
+		{
+			if (sender != null)
+			{
+				// Update the UI with progress reported by the background task
+				await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+				{
+					try
+					{
+						// If the background task threw an exception, display the exception in
+						// the error text box.
+						e.CheckResult();
+						// Update the UI with the completion status of the background task
+						// The Run method of the background task sets the LocalSettings. 
+						var settings = ApplicationData.Current.LocalSettings;
+						// get status
+					}
+					catch (Exception ex)
+					{
+					}
+				});
+			}
+		}
+
+		private void FillRegisteredGeofenceListBoxWithExistingGeofences()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void FillEventListBoxWithExistingEvents()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void OnGeofenceStatusChanged(GeofenceMonitor sender, object args)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void OnGeofenceStateChanged(GeofenceMonitor sender, object args)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+
 		#region SementicZoom
 
 
@@ -1358,10 +1456,39 @@ namespace Malaga
 
 		#endregion
 
+		#region NAVIGATION
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			STOP();
+			base.OnNavigatingFrom(e);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		protected void OnSuspending(object sender, SuspendingEventArgs args)
+		{
+			SuspendingDeferral deferral = args.SuspendingOperation.GetDeferral();
+			STOP();
+			deferral.Complete();
+		}
+
+		private void STOP()
+		{
+			GeofenceMonitor.Current.GeofenceStateChanged -= OnGeofenceStateChanged;
+			GeofenceMonitor.Current.StatusChanged -= OnGeofenceStatusChanged;
+			GPS.PositionChanged -= MyPosition_PositionChanged;
+
+		}
+		#endregion
+
 		#region TMP_TODELETE
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			popupChooseCategories.IsOpen = true;
+			DisplayFirstBoot();
 			rootPivot.SelectedIndex = 0;
 		}
 		#endregion
