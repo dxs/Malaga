@@ -1,40 +1,30 @@
-using Newtonsoft.Json.Linq;
-using SQLite.Net;
-using SQLite.Net.Attributes;
-using SQLite.Net.Platform.WinRT;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
-using Windows.Devices.Geolocation.Geofencing;
 using Windows.Foundation;
-using Windows.Networking.Connectivity;
-using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Shapes;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
 
 namespace Malaga
 {
 	/// <summary>
 	/// 
 	/// </summary>
-    public sealed partial class MainPage : Page
+	public sealed partial class MainPage : Page
     {
 		Database DB;
 		DispatcherTimer yelpTimer, settingsTimer;
@@ -58,8 +48,6 @@ namespace Malaga
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
 		public ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
 		Geolocator GPS;
-		private MainPage _rootPage = MainPage.Current;
-		public IList<Geofence> geofences { get; private set; }
 
 		List<int> numberOfQuery = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -73,7 +61,6 @@ namespace Malaga
 		public MainPage()
 		{
 			this.InitializeComponent();
-			_geofenceBackgroundEvents = new ObservableCollection<string>();
 
 			DB = new Database(ApplicationData.Current.LocalFolder.Path);
 			SelectedPoint = new MapPoint();
@@ -120,6 +107,8 @@ namespace Malaga
 			collectionBusinessIceCream = new ObservableCollection<Business>();
 			collectionBusinessBeauty = new ObservableCollection<Business>();
 			collectionBusinessClub = new ObservableCollection<Business>();
+
+			RegisterBackgroundTask();
 		}
 
 		/// <summary>
@@ -1370,9 +1359,200 @@ namespace Malaga
 		#endregion
 
 		#region NAVIGATION
+
+		private const string BackgroundTaskName = "SampleLocationBackgroundTask";
+		private const string BackgroundTaskEntryPoint = "BackgroundTask.LocationBackgroundTask";
+		private IBackgroundTaskRegistration _geolocTask = null;
+
+		async private void RegisterBackgroundTask()
+		{
+			try
+			{
+				// Get permission for a background task from the user. If the user has already answered once,
+				// this does nothing and the user must manually update their preference via PC Settings.
+				BackgroundAccessStatus backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+				// Regardless of the answer, register the background task. If the user later adds this application
+				// to the lock screen, the background task will be ready to run.
+				// Create a new background task builder
+				BackgroundTaskBuilder geolocTaskBuilder = new BackgroundTaskBuilder();
+				geolocTaskBuilder.Name = BackgroundTaskName;
+				geolocTaskBuilder.TaskEntryPoint = BackgroundTaskEntryPoint;
+				// Create a new timer triggering at a 15 minute interval
+				var trigger = new TimeTrigger(15, false);
+				// Associate the timer trigger with the background task builder
+				geolocTaskBuilder.SetTrigger(trigger);
+				// Register the background task
+				_geolocTask = geolocTaskBuilder.Register();
+				// Associate an event handler with the new background task
+				_geolocTask.Completed += OnCompleted;
+				switch (backgroundAccessStatus)
+				{
+					case BackgroundAccessStatus.AlwaysAllowed:
+					case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
+						// BackgroundTask is allowed
+						// Need to request access to location
+						// This must be done with the background task registration
+						// because the background task cannot display UI.
+						RequestLocationAccess();
+						break;
+					default:
+						break;
+				}
+			}
+			catch (Exception ex)
+			{ }
+		}
+
+		private async void RequestLocationAccess()
+		{ 
+			// Request permission to access location
+			var accessStatus = await Geolocator.RequestAccessAsync();
+			switch (accessStatus)
+			{
+				case GeolocationAccessStatus.Allowed:
+					break;
+				case GeolocationAccessStatus.Denied:
+				case GeolocationAccessStatus.Unspecified:
+					break;
+			}
+		}
+
+		private async void OnCompleted(IBackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs e)
+		{
+			if (sender != null)
+			{
+				// Update the UI with progress reported by the background task
+				await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+				{ 
+					try
+					{
+						// If the background task threw an exception, display the exception in
+						// the error text box.
+						e.CheckResult();
+						// Update the UI with the completion status of the background task
+						// The Run method of the background task sets this status. 
+						var settings = ApplicationData.Current.LocalSettings;
+						// Extract and display location data set by the background task if not null
+						string latitude = (settings.Values["Latitude"] == null) ? "No data" : settings.Values["Latitude"].ToString();
+
+						string longitude = (settings.Values["Longitude"] == null) ? "No data" : settings.Values["Longitude"].ToString();
+
+						string accuracy = (settings.Values["Accuracy"] == null) ? "No data" : settings.Values["Accuracy"].ToString();
+						DoToast(latitude, longitude, accuracy);
+					}
+					catch (Exception ex)
+					{ 
+					}
+				});
+			}
+		}
+
+		private void DoToast(string latitude, string longitude, string accuracy)
+		{
+			mapIconMe.Location = new Geopoint(new BasicGeoposition()
+			{ Latitude = Convert.ToDouble(latitude), Longitude = Convert.ToDouble(longitude)});
+
+			ToastContent content = GenerateToastContent();
+			ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
+		}
+
+		private ToastContent GenerateToastContent()
+		{
+			return new ToastContent()
+			{
+				Launch = "action=viewEvent&eventId=1983",
+				Scenario = ToastScenario.Default,
+				Visual = new ToastVisual()
+				{
+					BindingGeneric = new ToastBindingGeneric()
+					{
+						Children =
+						{
+							new AdaptiveText()
+							{
+								Text = "We have trigger a new location"
+							},
+							new AdaptiveText()
+							{
+								Text = "Your position is : "
+							},
+
+							new AdaptiveText()
+							{
+								Text = mapIconMe.Location.Position.Latitude + " and " + mapIconMe.Location.Position.Longitude
+							}
+						}
+					}
+				},
+				Actions = new ToastActionsCustom()
+				{
+					Inputs =
+					{
+					new ToastSelectionBox("snoozeTime")
+					{
+						DefaultSelectionBoxItemId = "15",
+						Items =
+						{
+							new ToastSelectionBoxItem("1", "1 minute"),
+							new ToastSelectionBoxItem("15", "15 minutes"),
+							new ToastSelectionBoxItem("60", "1 hour"),
+							new ToastSelectionBoxItem("240", "4 hours"),
+							new ToastSelectionBoxItem("1440", "1 day")
+						}
+					}
+				},
+				Buttons =
+				{
+					new ToastButtonSnooze()
+					{
+						SelectionBoxId = "snoozeTime"
+					},
+
+					new ToastButtonDismiss()
+				}
+				}
+			};
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			// Loop through all background tasks to see if SampleBackgroundTaskName is already registered
+			foreach (var cur in BackgroundTaskRegistration.AllTasks)
+				if (cur.Value.Name == BackgroundTaskName)
+				{
+					_geolocTask = cur.Value;
+					break;
+				}
+			if (_geolocTask != null)
+			{ 
+				// Associate an event handler with the existing background task
+				_geolocTask.Completed += OnCompleted;
+				try
+				{
+					BackgroundAccessStatus backgroundAccessStatus = BackgroundExecutionManager.GetAccessStatus();
+					switch (backgroundAccessStatus)
+					{
+						case BackgroundAccessStatus.AlwaysAllowed:
+						case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
+							break;
+						default:
+							break;
+					}
+				}
+				catch (Exception ex)
+				{ }
+			}
+			base.OnNavigatedTo(e);
+		}
+
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			STOP();
+			if (_geolocTask != null)
+			{ 
+				// Remove the event handler
+				_geolocTask.Completed -= OnCompleted;
+			}
 			base.OnNavigatingFrom(e);
 		}
 

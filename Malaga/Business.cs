@@ -50,6 +50,9 @@ namespace Malaga
 		/// </summary>
 		public string Rating;
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public string ThumbnailUrl;
 
 		internal async static Task<List<Business>> SaveAndTransformImage(List<Business> selectedItems)
@@ -62,6 +65,8 @@ namespace Malaga
 			for (int i = 0; i < selectedItems.Count; i++)
 			{
 				business = selectedItems[i];
+				if (!business.PhotoUrl.Contains("http"))
+					continue;
 				try
 				{
 					HttpClient client = new HttpClient();
