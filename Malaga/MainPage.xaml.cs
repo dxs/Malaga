@@ -1074,93 +1074,6 @@ namespace Malaga
 
 		#endregion
 
-		#region GEOFence
-		private const string SampleBackgroundTaskName = "SampleGeofenceBackgroundTask";
-		private const string SampleBackgroundTaskEntryPoint = "BackgroundTask.GeofenceBackgroundTask";
-		private const long oneHundredNanosecondsPerSecond = 10000000;    // conversion from 100 nano-second resolution to seconds
-		private IBackgroundTaskRegistration _geofenceTask = null;
-		private ObservableCollection<string> _geofenceBackgroundEvents = null;
-			
-		private void SetupGeoFence()
-		{
-			// Loop through all background tasks to see if SampleGeofenceBackgroundTask is already registered
-			foreach (var cur in BackgroundTaskRegistration.AllTasks)
-			{
-				if (cur.Value.Name == SampleBackgroundTaskName)
-				{
-					_geofenceTask = cur.Value;
-					break;
-				}
-			}
-			if (_geofenceTask != null)
-
-			{
-				FillEventListBoxWithExistingEvents();
-				// Associate an event handler with the existing background task
-				_geofenceTask.Completed += OnCompleted;
-				try
-				{
-					BackgroundAccessStatus backgroundAccessStatus = BackgroundExecutionManager.GetAccessStatus();
-					switch (backgroundAccessStatus)
-					{
-						case BackgroundAccessStatus.AlwaysAllowed:
-						case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
-							break;
-						default:
-							break;
-					}
-				}
-				catch (Exception ex)
-				{ }
-			}
-		}
-
-		async private void OnCompleted(IBackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs e)
-		{
-			if (sender != null)
-			{
-				// Update the UI with progress reported by the background task
-				await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-				{
-					try
-					{
-						// If the background task threw an exception, display the exception in
-						// the error text box.
-						e.CheckResult();
-						// Update the UI with the completion status of the background task
-						// The Run method of the background task sets the LocalSettings. 
-						var settings = ApplicationData.Current.LocalSettings;
-						// get status
-					}
-					catch (Exception ex)
-					{
-					}
-				});
-			}
-		}
-
-		private void FillRegisteredGeofenceListBoxWithExistingGeofences()
-		{
-			throw new NotImplementedException();
-		}
-
-		private void FillEventListBoxWithExistingEvents()
-		{
-			throw new NotImplementedException();
-		}
-
-		private void OnGeofenceStatusChanged(GeofenceMonitor sender, object args)
-		{
-			throw new NotImplementedException();
-		}
-
-		private void OnGeofenceStateChanged(GeofenceMonitor sender, object args)
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
 
 		#region SementicZoom
 
@@ -1477,10 +1390,7 @@ namespace Malaga
 
 		private void STOP()
 		{
-			GeofenceMonitor.Current.GeofenceStateChanged -= OnGeofenceStateChanged;
-			GeofenceMonitor.Current.StatusChanged -= OnGeofenceStatusChanged;
 			GPS.PositionChanged -= MyPosition_PositionChanged;
-
 		}
 		#endregion
 
