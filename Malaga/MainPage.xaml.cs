@@ -177,18 +177,23 @@ namespace Malaga
 		/// <param name="queryNb"></param>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		private bool LoadYelp(int queryNb = 0, string query = "Food")
+		private bool LoadYelp(int queryNb = 0, string query = "Food", double latitude = 0, double longitude = 0)
 		{ 
 			ring.Visibility = Visibility.Visible;
 			if (mapIconMe == null)
 				return false;
 			if (yelp == null)
 				yelp = new Yelp();
-			Point p = new Point()
-			{
-				X = mapIconMe.Location.Position.Latitude,
-				Y = mapIconMe.Location.Position.Longitude
-			};
+			Point p;
+			if (latitude == 0 && longitude == 0)
+				p = new Point()
+				{
+					X = mapIconMe.Location.Position.Latitude,
+					Y = mapIconMe.Location.Position.Longitude
+				};
+			else
+				p = new Point() { X = latitude, Y = longitude };
+
 			int offset = 20;
 			FillYelpCollection(p, offset);
 			ring.Visibility = Visibility.Collapsed;
@@ -204,7 +209,10 @@ namespace Malaga
 			foreach (char c in Settings.YelpCode)
 				key.Add(c);
 
-			listOfCategories = new ObservableCollection<Categories>();
+			if(listOfCategories == null)
+				listOfCategories = new ObservableCollection<Categories>();
+			if (listOfCategories.Count > 0)
+				listOfCategories.Clear();
 			listOfCategories.Add(new Categories() { Name = "Food" });
 			listOfCategories.Add(new Categories() { Name = "Drinks" });
 			listOfCategories.Add(new Categories() { Name = "Restaurant" });
@@ -219,6 +227,7 @@ namespace Malaga
 			int i = 0;
 			foreach(ObservableCollection<Business> collection in collectionOfCollection)
 			{
+				collection.Clear();
 				if (i >= key.Count - 1)
 					return;
 				while (key[i] != '1')
@@ -246,6 +255,15 @@ namespace Malaga
 			if (yelpCode[8] == '1') collectionOfCollection.Add(collectionBusinessSport);
 			if (yelpCode[9] == '1') collectionOfCollection.Add(collectionBusinessBeauty);
 			if (yelpCode[10] == '1') collectionOfCollection.Add(collectionBusinessClub);
+		}
+
+
+		private async void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			string town = researchBox.Text;
+			researchBox.Text = "";
+			Point p = await DB.GetPointFromAddress(town);
+			LoadYelp(0, "Food", p.X, p.Y);
 		}
 
 		#endregion
@@ -1063,7 +1081,6 @@ namespace Malaga
 
 		#endregion
 
-
 		#region SementicZoom
 
 
@@ -1548,11 +1565,11 @@ namespace Malaga
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			STOP();
-			if (_geolocTask != null)
-			{ 
-				// Remove the event handler
-				_geolocTask.Completed -= OnCompleted;
-			}
+			//if (_geolocTask != null)
+			//{ 
+			//	// Remove the event handler
+			//	_geolocTask.Completed -= OnCompleted;
+			//}
 			base.OnNavigatingFrom(e);
 		}
 

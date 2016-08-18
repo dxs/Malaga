@@ -511,15 +511,23 @@
 				</PivotItem.Header>
 				
 				<StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-					<ProgressRing 
-						x:Name="ring" 
-						Visibility="Visible" 
-						IsActive="True" 
-						VerticalAlignment="Center" 
-						HorizontalAlignment="Center" 
-						Height="30" 
-						Width="30"
-						/>
+					<Grid>
+						<ProgressRing 
+							x:Name="ring" 
+							Visibility="Visible" 
+							IsActive="True" 
+							VerticalAlignment="Center" 
+							HorizontalAlignment="Center" 
+							Height="30" 
+							Width="30"
+							/>
+						<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+							<TextBox PlaceholderText="ex: Malaga" x:Name="researchBox" Margin="5"/>
+							<Button Background="#FFCC5E29" Click="Button_Click_1" Margin="5" MinWidth="100">
+								<FontIcon Glyph="&#xE0AD;" />
+							</Button>
+						</StackPanel>
+					</Grid>
 					<Grid>
 						<ScrollViewer IsScrollInertiaEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible">
 							<!-- ZOOM IN -->
