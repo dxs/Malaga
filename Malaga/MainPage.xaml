@@ -669,10 +669,10 @@
 				</PivotItem.Header>
 				<StackPanel>
 					<TextBlock Text="Content of pivot item 3."/>
-					<Button Content="Popup" Click="Button_Click" />
-					<StackPanel Orientation="Horizontal">
-						<TextBox PlaceholderText="Term of search" x:Name="manualbox" />
-						<Button Content="Search around me" Click="Button_Click_2"/>
+					<Button Content="Popup" Click="Button_Click" Foreground="#FFCC5E29" Background="#33CC5E29"/>
+					<StackPanel Orientation="Horizontal" Margin="10">
+						<TextBox PlaceholderText="Term of search" x:Name="manualbox" Margin="5" Foreground="#FFCC5E29" Background="#33CC5E29"/>
+						<Button Content="Search around me" Click="Button_Click_2" Margin="5" Foreground="#FFCC5E29" Background="#33CC5E29"/>
 					</StackPanel>
 					<ScrollViewer 
 							Visibility="Visible"
