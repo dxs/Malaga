@@ -15,5 +15,18 @@ namespace Malaga
 		/// 
 		/// </summary>
 		public string Name { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int offset { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public Categories()
+		{
+			offset = 0;
+		}
 	}
 }

@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
+using Windows.Networking.Connectivity;
 
 namespace Malaga
 {
@@ -45,6 +46,8 @@ namespace Malaga
 		ObservableCollection<Business> collectionBusinessSport;
 		ObservableCollection<Business> collectionBusinessBeauty;
 		ObservableCollection<Business> collectionBusinessClub;
+		ObservableCollection<Business> collectionBusinessManual;
+		public ObservableCollection<Business> CollectionBusinessManual { get { return collectionBusinessManual; } }
 		ObservableCollection<ObservableCollection<Business>> collectionOfCollection;
 		public ObservableCollection<ObservableCollection<Business>> CollectionOfCollection { get { return collectionOfCollection; } }
 		Geolocator GPS;
@@ -177,11 +180,13 @@ namespace Malaga
 		/// <param name="queryNb"></param>
 		/// <param name="query"></param>
 		/// <returns></returns>
-		private bool LoadYelp(int queryNb = 0, string query = "Food", double latitude = 0, double longitude = 0)
+		private bool? LoadYelp(int queryNb = 0, string query = "Food", double latitude = 0, double longitude = 0)
 		{ 
 			ring.Visibility = Visibility.Visible;
 			if (mapIconMe == null)
 				return false;
+			if (!isInternetConnection())
+				return null;
 			if (yelp == null)
 				yelp = new Yelp();
 			Point p;
@@ -200,6 +205,14 @@ namespace Malaga
 			yelp.GetAllBusiness();
 			this.Bindings.Update();
 			return true;
+		}
+
+		private bool isInternetConnection()
+		{
+			ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
+			bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+			return internet;
+
 		}
 
 		private async void FillYelpCollection(Point location, int offset)
@@ -264,6 +277,17 @@ namespace Malaga
 			researchBox.Text = "";
 			Point p = await DB.GetPointFromAddress(town);
 			LoadYelp(0, "Food", p.X, p.Y);
+		}
+
+
+		private async void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			string query = manualbox.Text;
+			Point location = new Point(mapIconMe.Location.Position.Latitude, mapIconMe.Location.Position.Longitude);
+			string town = (await DB.GetAdressFromPoint(location)).Split(',')[2];
+			await yelp.GetData(location, query, 100000, 20, 0, 0, town);
+			collectionBusinessManual = yelp.GetAllBusiness();
+			Bindings.Update();
 		}
 
 		#endregion

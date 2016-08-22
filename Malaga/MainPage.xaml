@@ -521,9 +521,9 @@
 							Height="30" 
 							Width="30"
 							/>
-						<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
-							<TextBox PlaceholderText="ex: Malaga" x:Name="researchBox" Margin="5"/>
-							<Button Background="#FFCC5E29" Click="Button_Click_1" Margin="5" MinWidth="100">
+						<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right" MaxWidth="350">
+							<TextBox PlaceholderText="ex: Malaga" x:Name="researchBox" Margin="5" MinWidth="300"/>
+							<Button Background="#FFCC5E29" Click="Button_Click_1" Margin="5">
 								<FontIcon Glyph="&#xE0AD;" />
 							</Button>
 						</StackPanel>
@@ -670,6 +670,75 @@
 				<StackPanel>
 					<TextBlock Text="Content of pivot item 3."/>
 					<Button Content="Popup" Click="Button_Click" />
+					<StackPanel Orientation="Horizontal">
+						<TextBox PlaceholderText="Term of search" x:Name="manualbox" />
+						<Button Content="Search around me" Click="Button_Click_2"/>
+					</StackPanel>
+					<ScrollViewer 
+							Visibility="Visible"
+							Background="WhiteSmoke"
+							IsEnabled="True" 
+							IsScrollInertiaEnabled="True" 
+							IsVerticalRailEnabled="True"
+						VerticalScrollBarVisibility="Visible"
+							Margin="10"
+							>
+						<StackPanel>
+							<GridView 
+								x:Name="searchGrid"
+								Margin="10" 
+								ItemsSource="{x:Bind CollectionBusinessManual}"
+								FocusVisualSecondaryBrush="#33CC5E29"
+								SelectionMode="Multiple" 
+								IsItemClickEnabled="True" 
+								ItemClick="GridView_ItemClick"
+									>
+								<GridView.ItemsPanel>
+									<ItemsPanelTemplate>
+										<ItemsWrapGrid 
+											Orientation="Horizontal" 
+											MaximumRowsOrColumns="3"
+											/>
+									</ItemsPanelTemplate>
+								</GridView.ItemsPanel>
+
+								<GridView.ItemTemplate>
+									<DataTemplate x:DataType="local:Business">
+										<StackPanel 
+											Margin="10" 
+											BorderBrush="#88CC5E29" 
+											BorderThickness="1"
+											>
+											<TextBlock  
+												Text="{x:Bind Name, Mode=OneWay}" 
+												TextAlignment="Center" 
+												TextWrapping="Wrap" 
+												HorizontalAlignment="Center" 
+												Margin="5" 
+												Foreground="#FFCC5E29"
+												/>
+											<Image 
+												Source="{x:Bind PhotoUrl, Mode=OneWay}" 
+																MaxWidth="140" 
+																MaxHeight="140" 
+																Stretch="UniformToFill" 
+																Margin="5"
+																/>
+											<TextBlock 
+																Text="{x:Bind Description, Mode=OneWay}" 
+																Margin="5" 
+																/>
+											<Image 
+																Source="{x:Bind Rating, Mode=OneWay}" 
+																MaxWidth="140" 
+																Margin="5" 
+																/>
+										</StackPanel>
+									</DataTemplate>
+								</GridView.ItemTemplate>
+							</GridView>
+						</StackPanel>
+					</ScrollViewer>
 				</StackPanel>
 			</PivotItem>
 		</Pivot>
