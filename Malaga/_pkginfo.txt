@@ -1,1 +1,1 @@
-C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\AppPackages\Malaga_0.9.15.0\Malaga_0.9.15.0_x86_x64_arm.appxbundle
+C:\Users\glagl\documents\visual studio 2017\Projects\Malaga\Malaga\AppPackages\Malaga_1.1.0.0\Malaga_1.1.0.0_x86_x64_arm.appxbundle

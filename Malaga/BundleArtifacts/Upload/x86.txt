@@ -1,2 +1,2 @@
-MainPackage=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\bin\x86\Release\Upload\Malaga_0.9.15.0_x86.appx
-SymbolPackage=C:\Users\glagl\documents\visual studio 2015\Projects\Malaga\Malaga\AppPackages\Malaga_0.9.15.0\Malaga_0.9.15.0_x86.appxsym
+MainPackage=C:\Users\glagl\documents\visual studio 2017\Projects\Malaga\Malaga\bin\x86\Release\Upload\Malaga_1.1.0.0_x86.appx
+SymbolPackage=C:\Users\glagl\documents\visual studio 2017\Projects\Malaga\Malaga\AppPackages\Malaga_1.1.0.0\Malaga_1.1.0.0_x86.appxsym

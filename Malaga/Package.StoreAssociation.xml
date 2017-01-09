@@ -358,19 +358,18 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>62394glaglasven.Malagatrip</MainPackageIdentityName>
+    <MainPackageIdentityName>62394glaglasven.Malagueta</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>Malaga trip</ReservedName>
+      <ReservedName>Malagueta</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
     <MainPackageIdentityName>62394glaglasven.AnatomieUNIL</MainPackageIdentityName>
-    <MainPackageIdentityName>62394glaglasven.BeOne</MainPackageIdentityName>
     <MainPackageIdentityName>62394glaglasven.BuyAware</MainPackageIdentityName>
-    <MainPackageIdentityName>62394glaglasven.Rlksclock</MainPackageIdentityName>
+    <MainPackageIdentityName>62394glaglasven.Malagatrip</MainPackageIdentityName>
     <MainPackageIdentityName>62394glaglasven.Salt</MainPackageIdentityName>
+    <MainPackageIdentityName>62394glaglasven.SJCAM</MainPackageIdentityName>
     <MainPackageIdentityName>62394glaglasven.UNIL</MainPackageIdentityName>
-    <MainPackageIdentityName>62394glaglasven.Whatsappwebapp</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9NBLGGH4TKTF" />
+  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9NVLXL772G32" />
 </StoreAssociation>

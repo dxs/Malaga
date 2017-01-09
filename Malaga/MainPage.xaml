@@ -302,7 +302,8 @@
 									Tapped="pointGrid_Tapped"
 									RightTapped="pointGrid_RightTapped"
 									IsRightTapEnabled="True"
-									ItemsSource="{x:Bind CollectionMapPoint}"						FocusVisualSecondaryBrush="#33CC5E29"
+									ItemsSource="{x:Bind CollectionMapPoint}"
+									FocusVisualSecondaryBrush="#33CC5E29"
 									>
 									<GridView.ItemTemplate>
 										<DataTemplate >
